@@ -1,0 +1,69 @@
+package zuhlke.command;
+
+import org.junit.Before;
+import org.junit.Test;
+import zuhlke.model.Canvas;
+
+import static org.junit.Assert.*;
+
+
+public class SetCanvasTest {
+
+    Canvas canvas;
+    Character[][] testbase;
+    SetCanvas subject;
+
+    @Before
+    public void setUp() {
+        Canvas canvas = new Canvas(20, 4);
+        subject = new SetCanvas();
+    }
+
+    @Test
+    public void SetCanvasExpect44HorizontalBorderlines() {
+        String command = "C 20 4";
+        try {
+            canvas = subject.Execute(command.split(" "), canvas);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        testbase = canvas.getBase();
+
+        int count = 0;
+
+        for (Character[] array : testbase) {
+            for (Character c : array) {
+                if (c == '-') count++;
+            }
+        }
+
+        assertEquals(44, count);
+
+    }
+
+    @Test
+    public void SetCanvasExpect8VerticalBorderlines() {
+        String command = "C 20 4";
+        try {
+            canvas = subject.Execute(command.split(" "), canvas);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        testbase = canvas.getBase();
+
+        int count = 0;
+
+        for (Character[] array : testbase) {
+            for (Character c : array) {
+                if (c == '|') count++;
+            }
+        }
+
+        assertEquals(8, count);
+
+    }
+}
