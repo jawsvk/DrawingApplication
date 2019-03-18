@@ -17,6 +17,7 @@ public class DrawLineTest {
     private Character[][] testbase;
     private DrawLine subject;
     private String linebreak;
+    private String ans;
 
     @Before
     public void setUp() {
@@ -24,6 +25,13 @@ public class DrawLineTest {
         testbase = canvas.getBase();
         subject = new DrawLine();
         linebreak = System.getProperty("line.separator");
+        ans = linebreak +
+                "----------------------" + linebreak +
+                "|                    |" + linebreak +
+                "|xxxxxx              |" + linebreak +
+                "|                    |" + linebreak +
+                "|                    |" + linebreak +
+                "----------------------" + linebreak;
 
     }
 
@@ -41,14 +49,6 @@ public class DrawLineTest {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
-        String ans = linebreak +
-                "----------------------" + linebreak +
-                "|                    |" + linebreak +
-                "|xxxxxx              |" + linebreak +
-                "|                    |" + linebreak +
-                "|                    |" + linebreak +
-                "----------------------" + linebreak;
 
         assertEquals(ans, os.toString());
     }
@@ -68,14 +68,6 @@ public class DrawLineTest {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
-        String ans = linebreak +
-                "----------------------" + linebreak +
-                "|                    |" + linebreak +
-                "|xxxxxx              |" + linebreak +
-                "|                    |" + linebreak +
-                "|                    |" + linebreak +
-                "----------------------" + linebreak;
 
         assertEquals(ans, os.toString());
     }

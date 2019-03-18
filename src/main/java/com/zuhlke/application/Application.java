@@ -39,7 +39,7 @@ public class Application {
                 System.out.println("Error in command parameters: " + e.getMessage());
                 System.out.println("Please try again");
             }
-        } while (input[0] != null);
+        } while (!input[0].toUpperCase().equals("Q"));
 
         scanner.close();
 

@@ -16,12 +16,30 @@ public class BucketFillTest {
     private Character[][] testbase;
     private BucketFill subject;
     private String linebreak;
+    private String ans1;
+    private String ans2;
 
     @Before
     public void setUp() {
         subject = new BucketFill();
         canvas = new Canvas(20, 4);
         linebreak = System.getProperty("line.separator");
+        ans1 = linebreak +
+                "----------------------" + linebreak +
+                "|oooooooooooooxxxxxoo|" + linebreak +
+                "|ooooooooooooox   xoo|" + linebreak +
+                "|oooooooooooooxxxxxoo|" + linebreak +
+                "|oooooooooooooooooooo|" + linebreak +
+                "----------------------" + linebreak;
+
+        ans2 = linebreak +
+                "----------------------" + linebreak +
+                "|             ooooo  |" + linebreak +
+                "|             o   o  |" + linebreak +
+                "|             ooooo  |" + linebreak +
+                "|                    |" + linebreak +
+                "----------------------" + linebreak;
+
     }
 
     @Test
@@ -46,15 +64,7 @@ public class BucketFillTest {
             System.out.println(e.getMessage());
         }
 
-        String ans = linebreak +
-                "----------------------" + linebreak +
-                "|oooooooooooooxxxxxoo|" + linebreak +
-                "|ooooooooooooox   xoo|" + linebreak +
-                "|oooooooooooooxxxxxoo|" + linebreak +
-                "|oooooooooooooooooooo|" + linebreak +
-                "----------------------" + linebreak;
-
-        assertEquals(ans, os.toString());
+        assertEquals(ans1, os.toString());
 
     }
 
@@ -79,14 +89,6 @@ public class BucketFillTest {
             System.out.println(e.getMessage());
         }
 
-        String ans = linebreak +
-                "----------------------" + linebreak +
-                "|             ooooo  |" + linebreak +
-                "|             o   o  |" + linebreak +
-                "|             ooooo  |" + linebreak +
-                "|                    |" + linebreak +
-                "----------------------" + linebreak;
-
-        assertEquals(ans, os.toString());
+        assertEquals(ans2, os.toString());
     }
 }
