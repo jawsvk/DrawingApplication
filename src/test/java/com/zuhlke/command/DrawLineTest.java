@@ -1,9 +1,9 @@
-package zuhlke.command;
+package com.zuhlke.command;
 
+import com.zuhlke.model.Canvas;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import zuhlke.model.Canvas;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
@@ -13,21 +13,30 @@ import static org.junit.Assert.*;
 
 public class DrawLineTest {
 
-    Canvas canvas;
-    Character[][] testbase;
-    DrawLine subject;
+    private Canvas canvas;
+    private Character[][] testbase;
+    private DrawLine subject;
+    private String linebreak;
+    private String ans;
 
     @Before
     public void setUp() {
-        Canvas canvas = new Canvas(20, 4);
+        canvas = new Canvas(20, 4);
         testbase = canvas.getBase();
         subject = new DrawLine();
+        linebreak = System.getProperty("line.separator");
+        ans = linebreak +
+                "----------------------" + linebreak +
+                "|                    |" + linebreak +
+                "|xxxxxx              |" + linebreak +
+                "|                    |" + linebreak +
+                "|                    |" + linebreak +
+                "----------------------" + linebreak;
 
     }
 
     @Test
     public void drawLineImageTest() {
-        Canvas testCanvas = new Canvas(20, 4);
         String command = "L 1 2 6 2";
 
         //prepare to redirect output
@@ -36,18 +45,10 @@ public class DrawLineTest {
         System.setOut(ps);
 
         try {
-            canvas = subject.Execute(command.split(" "), testCanvas);
+            canvas = subject.Execute(command.split(" "), canvas);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
-        String ans = System.getProperty("line.separator") +
-                "----------------------" + System.getProperty("line.separator") +
-                "|                    |" + System.getProperty("line.separator") +
-                "|xxxxxx              |" + System.getProperty("line.separator") +
-                "|                    |" + System.getProperty("line.separator") +
-                "|                    |" + System.getProperty("line.separator") +
-                "----------------------" + System.getProperty("line.separator");
 
         assertEquals(ans, os.toString());
     }
@@ -67,14 +68,6 @@ public class DrawLineTest {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
-        String ans = System.getProperty("line.separator") +
-                "----------------------" + System.getProperty("line.separator") +
-                "|                    |" + System.getProperty("line.separator") +
-                "|xxxxxx              |" + System.getProperty("line.separator") +
-                "|                    |" + System.getProperty("line.separator") +
-                "|                    |" + System.getProperty("line.separator") +
-                "----------------------" + System.getProperty("line.separator");
 
         assertEquals(ans, os.toString());
     }

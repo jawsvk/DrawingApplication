@@ -1,4 +1,4 @@
-package zuhlke.model;
+package com.zuhlke.model;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -7,8 +7,8 @@ import static org.junit.Assert.*;
 
 public class CoordinateTest {
 
-    Coordinate start;
-    Coordinate end;
+    private Coordinate start;
+    private Coordinate end;
 
     @Before
     public void setUp() {
@@ -19,13 +19,13 @@ public class CoordinateTest {
     @Test
     public void ExpectGetDistanceOf3and9() {
         Coordinate answer = new Coordinate(5-2,12-3);
-        assertEquals(answer.x,end.getDistance(start).x);
-        assertEquals(answer.y,end.getDistance(start).y);
+        assertEquals(answer.getX(),end.getDistance(start).getX());
+        assertEquals(answer.getY(),end.getDistance(start).getY());
     }
 
     @Test
     public void ExpectStartLinearDistance5() {
-        int ans = start.x + start.y;
+        int ans = start.getX() + start.getY();
         assertEquals(ans,start.linearDistance());
     }
 
@@ -38,7 +38,7 @@ public class CoordinateTest {
     @Test
     public void ExpectTestEqualsStart() {
         Coordinate test = new Coordinate(2,3);
-        assertEquals(true,test.equals(start));
+        assertTrue(test.equals(start));
     }
 
 }

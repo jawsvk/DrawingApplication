@@ -1,4 +1,4 @@
-package zuhlke.model;
+package com.zuhlke.model;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -7,8 +7,8 @@ import static org.junit.Assert.*;
 
 public class CanvasTest {
 
-    Canvas canvas;
-    Character[][] testbase;
+    private Canvas canvas;
+    private Character[][] testbase;
 
     @Before
     public void setUp() {
@@ -67,7 +67,7 @@ public class CanvasTest {
     public void positiveCoordinateReturnTrue() {
         Coordinate coordinate = new Coordinate(2, 2);
 
-        assertEquals(true, canvas.isValidPoint(coordinate));
+        assertTrue(canvas.isValidPoint(coordinate));
 
     }
 

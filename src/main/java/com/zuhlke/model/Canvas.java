@@ -1,10 +1,10 @@
-package zuhlke.model;
+package com.zuhlke.model;
 
 public class Canvas {
 
-    Character[][] base;
-    int row;
-    int column;
+    private Character[][] base;
+    private int row;
+    private int column;
 
     public Canvas() {
     }
@@ -29,7 +29,7 @@ public class Canvas {
     }
 
     //draw outline of the canvas
-    void makeOutline() {
+    private void makeOutline() {
         //loop to draw horizontal borders
         for (int i = 0; i < base[0].length; i++) {
             base[0][i] = '-';
@@ -53,20 +53,20 @@ public class Canvas {
 
     //plot a single point in the canvas
     public Character[][] plot(Coordinate point, Character x) {
-        base[point.y][point.x] = x;
+        base[point.getY()][point.getX()] = x;
         return getBase();
     }
 
     //retrieve character at a single point in the canvas
     public Character getCell(Coordinate point) {
 
-        return base[point.y][point.x];
+        return base[point.getY()][point.getX()];
 
     }
 
     //check if a coordinate lies within canvas
     public boolean isValidPoint(Coordinate point) {
-        return (point.x >= 1 && point.x <= column && point.y >= 1 && point.y <= row);
+        return (point.getX() >= 1 && point.getX() <= column && point.getY() >= 1 && point.getY() <= row);
     }
 
     public void print() {

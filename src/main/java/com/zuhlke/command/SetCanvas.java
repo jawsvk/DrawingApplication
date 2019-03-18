@@ -1,6 +1,6 @@
-package zuhlke.command;
+package com.zuhlke.command;
 
-import zuhlke.model.Canvas;
+import com.zuhlke.model.Canvas;
 
 public class SetCanvas implements Command {
 

@@ -1,8 +1,8 @@
-package zuhlke.command;
+package com.zuhlke.command;
 
+import com.zuhlke.model.Canvas;
 import org.junit.Before;
 import org.junit.Test;
-import zuhlke.model.Canvas;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
@@ -12,19 +12,39 @@ import static org.junit.Assert.*;
 
 public class BucketFillTest {
 
-    Canvas canvas;
-    Character[][] testbase;
-    BucketFill subject;
+    private Canvas canvas;
+    private Character[][] testbase;
+    private BucketFill subject;
+    private String linebreak;
+    private String ans1;
+    private String ans2;
 
     @Before
     public void setUp() {
         subject = new BucketFill();
         canvas = new Canvas(20, 4);
+        linebreak = System.getProperty("line.separator");
+        ans1 = linebreak +
+                "----------------------" + linebreak +
+                "|oooooooooooooxxxxxoo|" + linebreak +
+                "|ooooooooooooox   xoo|" + linebreak +
+                "|oooooooooooooxxxxxoo|" + linebreak +
+                "|oooooooooooooooooooo|" + linebreak +
+                "----------------------" + linebreak;
+
+        ans2 = linebreak +
+                "----------------------" + linebreak +
+                "|             ooooo  |" + linebreak +
+                "|             o   o  |" + linebreak +
+                "|             ooooo  |" + linebreak +
+                "|                    |" + linebreak +
+                "----------------------" + linebreak;
+
     }
 
     @Test
     public void bucketFillImageTest() {
-        String command = "B 10 3 o";
+        String command = "B 10 1 o";
         String setupCommand = "R 14 1 18 3";
 
         OutputStream os = new ByteArrayOutputStream();
@@ -39,19 +59,12 @@ public class BucketFillTest {
 
             canvas = subject.Execute(command.split(" "), canvas);
 
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
-        String ans = System.getProperty("line.separator") +
-                "----------------------" + System.getProperty("line.separator") +
-                "|oooooooooooooxxxxxoo|" + System.getProperty("line.separator") +
-                "|ooooooooooooox   xoo|" + System.getProperty("line.separator") +
-                "|oooooooooooooxxxxxoo|" + System.getProperty("line.separator") +
-                "|oooooooooooooooooooo|" + System.getProperty("line.separator") +
-                "----------------------" + System.getProperty("line.separator");
-
-        assertEquals(ans, os.toString());
+        assertEquals(ans1, os.toString());
 
     }
 
@@ -76,14 +89,6 @@ public class BucketFillTest {
             System.out.println(e.getMessage());
         }
 
-        String ans = System.getProperty("line.separator") +
-                "----------------------" + System.getProperty("line.separator") +
-                "|             ooooo  |" + System.getProperty("line.separator") +
-                "|             o   o  |" + System.getProperty("line.separator") +
-                "|             ooooo  |" + System.getProperty("line.separator") +
-                "|                    |" + System.getProperty("line.separator") +
-                "----------------------" + System.getProperty("line.separator");
-
-        assertEquals(ans, os.toString());
+        assertEquals(ans2, os.toString());
     }
 }

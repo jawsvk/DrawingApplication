@@ -1,8 +1,8 @@
-package zuhlke.command;
+package com.zuhlke.command;
 
+import com.zuhlke.model.Canvas;
 import org.junit.Before;
 import org.junit.Test;
-import zuhlke.model.Canvas;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
@@ -12,13 +12,23 @@ import static org.junit.Assert.*;
 
 public class DrawRectangleTest {
 
-    Canvas canvas;
-    DrawRectangle subject;
+    private Canvas canvas;
+    private DrawRectangle subject;
+    private String linebreak;
+    private String ans;
 
     @Before
     public void setUp() {
         subject = new DrawRectangle();
         canvas = new Canvas(20, 4);
+        linebreak = System.getProperty("line.separator");
+        ans = linebreak +
+                "----------------------" + linebreak +
+                "|             xxxxx  |" + linebreak +
+                "|             x   x  |" + linebreak +
+                "|             xxxxx  |" + linebreak +
+                "|                    |" + linebreak +
+                "----------------------" + linebreak;
     }
 
     @Test
@@ -35,14 +45,6 @@ public class DrawRectangleTest {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
-        String ans = System.getProperty("line.separator") +
-                "----------------------" + System.getProperty("line.separator") +
-                "|             xxxxx  |" + System.getProperty("line.separator") +
-                "|             x   x  |" + System.getProperty("line.separator") +
-                "|             xxxxx  |" + System.getProperty("line.separator") +
-                "|                    |" + System.getProperty("line.separator") +
-                "----------------------" + System.getProperty("line.separator");
 
         assertEquals(ans, os.toString());
 
