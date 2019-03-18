@@ -1,21 +1,21 @@
-package zuhlke.command;
+package com.zuhlke.command;
 
+import com.zuhlke.model.Canvas;
 import org.junit.Before;
 import org.junit.Test;
-import zuhlke.model.Canvas;
 
 import static org.junit.Assert.*;
 
 
 public class SetCanvasTest {
 
-    Canvas canvas;
-    Character[][] testbase;
-    SetCanvas subject;
+    private Canvas canvas;
+    private Character[][] testbase;
+    private SetCanvas subject;
 
     @Before
     public void setUp() {
-        Canvas canvas = new Canvas(20, 4);
+        canvas = new Canvas(20, 4);
         subject = new SetCanvas();
     }
 

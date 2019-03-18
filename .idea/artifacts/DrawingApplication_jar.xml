@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="DrawingApplication:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/DrawingApplication_jar</output-path>
-    <root id="archive" name="DrawingApplication.jar">
-      <element id="module-output" name="DrawingApplication" />
-    </root>
-  </artifact>
-</component>

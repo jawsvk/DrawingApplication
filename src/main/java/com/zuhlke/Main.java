@@ -1,6 +1,6 @@
-package zuhlke;
+package com.zuhlke;
 
-import zuhlke.application.Application;
+import com.zuhlke.application.Application;
 
 public class Main
 {

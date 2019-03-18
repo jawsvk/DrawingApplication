@@ -1,8 +1,8 @@
-package zuhlke.command;
+package com.zuhlke.command;
 
+import com.zuhlke.model.Canvas;
 import org.junit.Before;
 import org.junit.Test;
-import zuhlke.model.Canvas;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
@@ -12,19 +12,21 @@ import static org.junit.Assert.*;
 
 public class BucketFillTest {
 
-    Canvas canvas;
-    Character[][] testbase;
-    BucketFill subject;
+    private Canvas canvas;
+    private Character[][] testbase;
+    private BucketFill subject;
+    private String linebreak;
 
     @Before
     public void setUp() {
         subject = new BucketFill();
         canvas = new Canvas(20, 4);
+        linebreak = System.getProperty("line.separator");
     }
 
     @Test
     public void bucketFillImageTest() {
-        String command = "B 10 3 o";
+        String command = "B 10 1 o";
         String setupCommand = "R 14 1 18 3";
 
         OutputStream os = new ByteArrayOutputStream();
@@ -39,17 +41,18 @@ public class BucketFillTest {
 
             canvas = subject.Execute(command.split(" "), canvas);
 
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
-        String ans = System.getProperty("line.separator") +
-                "----------------------" + System.getProperty("line.separator") +
-                "|oooooooooooooxxxxxoo|" + System.getProperty("line.separator") +
-                "|ooooooooooooox   xoo|" + System.getProperty("line.separator") +
-                "|oooooooooooooxxxxxoo|" + System.getProperty("line.separator") +
-                "|oooooooooooooooooooo|" + System.getProperty("line.separator") +
-                "----------------------" + System.getProperty("line.separator");
+        String ans = linebreak +
+                "----------------------" + linebreak +
+                "|oooooooooooooxxxxxoo|" + linebreak +
+                "|ooooooooooooox   xoo|" + linebreak +
+                "|oooooooooooooxxxxxoo|" + linebreak +
+                "|oooooooooooooooooooo|" + linebreak +
+                "----------------------" + linebreak;
 
         assertEquals(ans, os.toString());
 
@@ -76,13 +79,13 @@ public class BucketFillTest {
             System.out.println(e.getMessage());
         }
 
-        String ans = System.getProperty("line.separator") +
-                "----------------------" + System.getProperty("line.separator") +
-                "|             ooooo  |" + System.getProperty("line.separator") +
-                "|             o   o  |" + System.getProperty("line.separator") +
-                "|             ooooo  |" + System.getProperty("line.separator") +
-                "|                    |" + System.getProperty("line.separator") +
-                "----------------------" + System.getProperty("line.separator");
+        String ans = linebreak +
+                "----------------------" + linebreak +
+                "|             ooooo  |" + linebreak +
+                "|             o   o  |" + linebreak +
+                "|             ooooo  |" + linebreak +
+                "|                    |" + linebreak +
+                "----------------------" + linebreak;
 
         assertEquals(ans, os.toString());
     }

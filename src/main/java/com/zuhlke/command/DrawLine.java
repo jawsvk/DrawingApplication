@@ -1,13 +1,15 @@
-package zuhlke.command;
+package com.zuhlke.command;
 
-import zuhlke.model.Canvas;
-import zuhlke.model.Coordinate;
+import com.zuhlke.model.Canvas;
+import com.zuhlke.model.Coordinate;
+
+import java.security.InvalidParameterException;
 
 public class DrawLine implements Command {
 
-    Coordinate startPt;
-    Coordinate endPt;
-    Canvas canvas;
+    private Coordinate startPt;
+    private Coordinate endPt;
+    private Canvas canvas;
 
     @Override
     public Canvas Execute(String[] input, Canvas base) throws Exception {
@@ -25,13 +27,13 @@ public class DrawLine implements Command {
         return canvas;
     }
 
-    public void checkCoordinates(Coordinate start, Coordinate end, Canvas source) throws Exception {
+    protected void checkCoordinates(Coordinate start, Coordinate end, Canvas source) {
         if (!source.isValidPoint(start) || !source.isValidPoint(end)) {
-            throw new Exception("Invalid Parameters >> Either Start Point or End Point (or both) are out of bounds");
+            throw new InvalidParameterException("Invalid Parameters >> Either Start Point or End Point (or both) are out of bounds");
         }
     }
 
-    public Canvas drawLine(Coordinate start, Coordinate end, Canvas source) {
+    protected Canvas drawLine(Coordinate start, Coordinate end, Canvas source) {
         //returns difference between start and end in coordinate form
         Coordinate diff = end.getDistance(start);
 
@@ -41,20 +43,20 @@ public class DrawLine implements Command {
             source.plot(end, 'x');
 
             //if else statements to move coordinates of end and start closer to each other
-            if (diff.x > 0) {
-                start.x++;
-                end.x--;
-            } else if (diff.x < 0) {
-                end.x++;
-                start.x--;
+            if (diff.getX() > 0) {
+                start.addX(1);
+                end.addX(-1);
+            } else if (diff.getX() < 0) {
+                end.addX(1);
+                start.addX(-1);
             }
 
-            if (diff.y > 0) {
-                start.y++;
-                end.y--;
-            } else if (diff.y < 0) {
-                end.y++;
-                start.y--;
+            if (diff.getY() > 0) {
+                start.addY(1);
+                end.addY(-1);
+            } else if (diff.getY() < 0) {
+                end.addY(1);
+                start.addY(-1);
             }
 
         }

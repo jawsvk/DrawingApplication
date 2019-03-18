@@ -1,9 +1,27 @@
-package zuhlke.model;
+package com.zuhlke.model;
 
 public class Coordinate {
 
-    public int x;
-    public int y;
+    private int x;
+    private int y;
+
+    public int getX() {
+        return x;
+    }
+
+
+    public int getY() {
+        return y;
+    }
+
+
+    public int addX(int i) {
+        return this.x = this.x + i;
+    }
+
+    public int addY(int i) {
+        return this.y = this.y + i;
+    }
 
     public Coordinate() {
         this.x = 0;
