@@ -18,7 +18,6 @@ public class BucketFill implements Command {
         }
 
         Character newColor = input[3].charAt(0);
-
         flood(origin, newColor, canvas);
 
         canvas.print();
