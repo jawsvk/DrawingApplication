@@ -2,7 +2,6 @@ package com.zuhlke.application;
 
 import com.zuhlke.command.*;
 import com.zuhlke.model.Canvas;
-
 import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.Scanner;

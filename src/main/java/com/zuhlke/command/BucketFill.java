@@ -4,6 +4,8 @@ import com.zuhlke.model.Canvas;
 import com.zuhlke.model.Coordinate;
 
 import java.security.InvalidParameterException;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class BucketFill implements Command {
 
@@ -26,13 +28,14 @@ public class BucketFill implements Command {
     private void fillLeftRight(Coordinate origin, Character newColor, Canvas canvas, String ref) {
 
         Coordinate point = new Coordinate(origin.addX(1), origin.getY());
+        Queue<Coordinate> queue = new LinkedList<>();
 
         while (ref.indexOf(canvas.getCell(point)) < 0) {
             //plot new color
             canvas.plot(point, newColor);
             point = new Coordinate(point.addX(1), point.getY());
 
-            if(ref.indexOf(canvas.getCell(point)) < 0) fillUpDown(point,newColor,canvas,ref);
+            if (ref.indexOf(canvas.getCell(point)) < 0) queue.add(point);
         }
 
         point = new Coordinate(origin.addX(-1), origin.getY());
@@ -42,7 +45,13 @@ public class BucketFill implements Command {
             canvas.plot(point, newColor);
             point = new Coordinate(point.addX(-1), point.getY());
 
-            if(ref.indexOf(canvas.getCell(point)) < 0) fillUpDown(point,newColor,canvas,ref);
+            if (ref.indexOf(canvas.getCell(point)) < 0) queue.add(point);
+        }
+
+        // queue for replace recursion of vertical fill
+        while (!queue.isEmpty()) {
+            Coordinate p = queue.remove();
+            fillUpDown(p, newColor, canvas, ref);
         }
     }
 
@@ -61,9 +70,6 @@ public class BucketFill implements Command {
             point = new Coordinate(point.getX(), point.addY(-1));
 
         }
-
-
-
     }
 
     private void flood(Coordinate point, Character newColor, Canvas canvas) {
