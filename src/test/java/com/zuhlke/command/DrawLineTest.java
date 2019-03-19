@@ -14,7 +14,6 @@ import static org.junit.Assert.*;
 public class DrawLineTest {
 
     private Canvas canvas;
-    private Character[][] testbase;
     private DrawLine subject;
     private String br;
     private String ans;
@@ -22,7 +21,6 @@ public class DrawLineTest {
     @Before
     public void setUp() {
         canvas = new Canvas(20, 4);
-        testbase = canvas.getBase();
         subject = new DrawLine();
         br = System.getProperty("line.separator");
         ans = br +
