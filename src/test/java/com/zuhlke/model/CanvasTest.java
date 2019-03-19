@@ -13,21 +13,21 @@ public class CanvasTest {
 
     private Canvas canvas;
     private Character[][] testbase;
-    String ans;
-    String linebreak;
+    private String ans;
+    private String br;
 
     @Before
     public void setUp() {
         canvas = new Canvas(10, 4);
         testbase = canvas.getBase();
-        linebreak = System.getProperty("line.separator");
-        ans = linebreak +
-                "------------" + linebreak +
-                "|          |" + linebreak +
-                "|          |" + linebreak +
-                "|          |" + linebreak +
-                "|          |" + linebreak +
-                "------------" + linebreak;
+        br = System.getProperty("line.separator");
+        ans = br +
+                "------------" + br +
+                "|          |" + br +
+                "|          |" + br +
+                "|          |" + br +
+                "|          |" + br +
+                "------------" + br;
     }
 
     @Test

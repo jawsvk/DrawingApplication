@@ -15,21 +15,21 @@ public class DrawRectangleTest {
 
     private Canvas canvas;
     private DrawRectangle subject;
-    private String linebreak;
+    private String br;
     private String ans;
 
     @Before
     public void setUp() {
         subject = new DrawRectangle();
         canvas = new Canvas(20, 4);
-        linebreak = System.getProperty("line.separator");
-        ans = linebreak +
-                "----------------------" + linebreak +
-                "|             xxxxx  |" + linebreak +
-                "|             x   x  |" + linebreak +
-                "|             xxxxx  |" + linebreak +
-                "|                    |" + linebreak +
-                "----------------------" + linebreak;
+        br = System.getProperty("line.separator");
+        ans = br +
+                "----------------------" + br +
+                "|             xxxxx  |" + br +
+                "|             x   x  |" + br +
+                "|             xxxxx  |" + br +
+                "|                    |" + br +
+                "----------------------" + br;
     }
 
     @Test

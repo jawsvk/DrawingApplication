@@ -17,7 +17,7 @@ public class BucketFillTest {
     private Canvas canvas;
     private Character[][] testbase;
     private BucketFill subject;
-    private String linebreak;
+    private String br;
     private String ans1;
     private String ans2;
     private String ans3;
@@ -26,29 +26,29 @@ public class BucketFillTest {
     public void setUp() {
         subject = new BucketFill();
         canvas = new Canvas(20, 4);
-        linebreak = System.getProperty("line.separator");
-        ans1 = linebreak +
-                "----------------------" + linebreak +
-                "|oooooooooooooxxxxxoo|" + linebreak +
-                "|ooooooooooooox   xoo|" + linebreak +
-                "|oooooooooooooxxxxxoo|" + linebreak +
-                "|oooooooooooooooooooo|" + linebreak +
-                "----------------------" + linebreak;
+        br = System.getProperty("line.separator");
+        ans1 = br +
+                "----------------------" + br +
+                "|oooooooooooooxxxxxoo|" + br +
+                "|ooooooooooooox   xoo|" + br +
+                "|oooooooooooooxxxxxoo|" + br +
+                "|oooooooooooooooooooo|" + br +
+                "----------------------" + br;
 
-        ans2 = linebreak +
-                "----------------------" + linebreak +
-                "|             ooooo  |" + linebreak +
-                "|             o   o  |" + linebreak +
-                "|             ooooo  |" + linebreak +
-                "|                    |" + linebreak +
-                "----------------------" + linebreak;
+        ans2 = br +
+                "----------------------" + br +
+                "|             ooooo  |" + br +
+                "|             o   o  |" + br +
+                "|             ooooo  |" + br +
+                "|                    |" + br +
+                "----------------------" + br;
 
-        ans3 = linebreak +
-                "-------" + linebreak +
-                "|ooooo|" + linebreak +
-                "|xoooo|" + linebreak +
-                "|ooooo|" + linebreak +
-                "-------" + linebreak;
+        ans3 = br +
+                "-------" + br +
+                "|ooooo|" + br +
+                "|xoooo|" + br +
+                "|ooooo|" + br +
+                "-------" + br;
     }
 
     @Test

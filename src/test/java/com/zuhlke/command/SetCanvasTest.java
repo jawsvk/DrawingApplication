@@ -17,21 +17,21 @@ public class SetCanvasTest {
     private Canvas canvas;
     private Character[][] testbase;
     private SetCanvas subject;
-    private String linebreak;
+    private String br;
     private String ans;
 
     @Before
     public void setUp() {
         canvas = new Canvas(20, 4);
         subject = new SetCanvas();
-        linebreak = System.getProperty("line.separator");
-        ans = linebreak +
-                "----------------------" + linebreak +
-                "|                    |" + linebreak +
-                "|                    |" + linebreak +
-                "|                    |" + linebreak +
-                "|                    |" + linebreak +
-                "----------------------" + linebreak;
+        br = System.getProperty("line.separator");
+        ans = br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br;
     }
 
     @Test

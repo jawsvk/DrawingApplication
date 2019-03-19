@@ -11,7 +11,7 @@ public class DrawRectangle extends DrawLine {
     private Coordinate corner4;
 
     @Override
-    public Canvas Execute(String[] input, Canvas base) throws Exception {
+    public Canvas Execute(String[] input, Canvas base) {
         corner1 = new Coordinate(Integer.parseInt(input[1]), Integer.parseInt(input[2]));
         corner4 = new Coordinate(Integer.parseInt(input[3]), Integer.parseInt(input[4]));
         corner2 = new Coordinate(corner4.getX(), corner1.getY());
