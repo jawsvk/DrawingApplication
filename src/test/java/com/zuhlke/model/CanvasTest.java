@@ -3,17 +3,31 @@ package com.zuhlke.model;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
+
 import static org.junit.Assert.*;
 
 public class CanvasTest {
 
     private Canvas canvas;
     private Character[][] testbase;
+    String ans;
+    String linebreak;
 
     @Before
     public void setUp() {
         canvas = new Canvas(10, 4);
         testbase = canvas.getBase();
+        linebreak = System.getProperty("line.separator");
+        ans = linebreak +
+                "------------" + linebreak +
+                "|          |" + linebreak +
+                "|          |" + linebreak +
+                "|          |" + linebreak +
+                "|          |" + linebreak +
+                "------------" + linebreak;
     }
 
     @Test
@@ -71,4 +85,15 @@ public class CanvasTest {
 
     }
 
+    @Test
+    public void ExpectCorrectPrintOut() {
+        //redirect output
+        OutputStream os = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(os);
+        System.setOut(ps);
+
+        canvas.print();
+
+        assertEquals(ans, os.toString());
+    }
 }

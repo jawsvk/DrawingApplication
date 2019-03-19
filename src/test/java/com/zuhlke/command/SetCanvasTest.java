@@ -90,6 +90,7 @@ public class SetCanvasTest {
         PrintStream ps = new PrintStream(os);
         System.setOut(ps);
 
+
         try {
             canvas = subject.Execute(command.split(" "), canvas);
         } catch (Exception e) {
