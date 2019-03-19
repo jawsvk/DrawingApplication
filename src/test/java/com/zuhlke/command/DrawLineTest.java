@@ -16,7 +16,7 @@ public class DrawLineTest {
     private Canvas canvas;
     private Character[][] testbase;
     private DrawLine subject;
-    private String linebreak;
+    private String br;
     private String ans;
 
     @Before
@@ -24,14 +24,14 @@ public class DrawLineTest {
         canvas = new Canvas(20, 4);
         testbase = canvas.getBase();
         subject = new DrawLine();
-        linebreak = System.getProperty("line.separator");
-        ans = linebreak +
-                "----------------------" + linebreak +
-                "|                    |" + linebreak +
-                "|xxxxxx              |" + linebreak +
-                "|                    |" + linebreak +
-                "|                    |" + linebreak +
-                "----------------------" + linebreak;
+        br = System.getProperty("line.separator");
+        ans = br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|xxxxxx              |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br;
 
     }
 

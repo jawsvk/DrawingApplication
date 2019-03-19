@@ -3,7 +3,6 @@ package com.zuhlke.command;
 import com.zuhlke.model.Canvas;
 import com.zuhlke.model.Coordinate;
 
-import java.security.InvalidParameterException;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -18,7 +17,7 @@ public class BucketFill implements Command {
         Coordinate origin = new Coordinate(Integer.parseInt(input[1]), Integer.parseInt(input[2]));
 
         if (input[3].length() > 1) {
-            throw new InvalidParameterException("New color can only be ONE character");
+            throw new IllegalArgumentException("Invalid Parameters >> New color can only be ONE character");
         }
 
         this.canvas = canvas;
@@ -60,7 +59,7 @@ public class BucketFill implements Command {
 
         while (ref.indexOf(canvas.getCell(point)) < 0 && canvas.getCell(point) == targetColor) {
             //check up down
-            queue = checkUpDown(queue, point);
+            checkUpDown(queue, point);
 
             //plot new color
             canvas.plot(point, newColor);
@@ -71,7 +70,7 @@ public class BucketFill implements Command {
 
         while (ref.indexOf(canvas.getCell(point)) < 0 && canvas.getCell(point) == targetColor) {
             //check up down
-            queue = checkUpDown(queue, point);
+            checkUpDown(queue, point);
 
             //plot new color
             canvas.plot(point, newColor);
@@ -95,7 +94,7 @@ public class BucketFill implements Command {
 
         while (ref.indexOf(canvas.getCell(point)) < 0 && canvas.getCell(point) == targetColor) {
             //check left right
-            queue = checkLeftRight(queue, point);
+            checkLeftRight(queue, point);
 
             //plot new color
             canvas.plot(point, newColor);
@@ -107,7 +106,7 @@ public class BucketFill implements Command {
 
         while (ref.indexOf(canvas.getCell(point)) < 0 && canvas.getCell(point) == targetColor) {
             //check left right
-            queue = checkLeftRight(queue, point);
+            checkLeftRight(queue, point);
 
             //plot new color
             canvas.plot(point, newColor);

@@ -11,19 +11,19 @@ import static org.junit.Assert.assertTrue;
 
 public class ApplicationTest {
 
-    Application app;
-    String linebreak;
+    private Application app;
+    private String br;
 
     @Before
     public void setUp() {
         app = new Application();
-        linebreak = System.getProperty("line.separator");
+        br = System.getProperty("line.separator");
     }
 
     @Test
     public void checkForNoCanvasError() {
         //set input stream
-        String command = "WrongCommand" + linebreak + "Q";
+        String command = "WrongCommand" + br + "Q";
         InputStream is = new ByteArrayInputStream(command.getBytes());
         System.setIn(is);
 
@@ -39,7 +39,7 @@ public class ApplicationTest {
     @Test
     public void checkForInvalidCommandError() {
         //set input stream
-        String command = "C 20 4" + linebreak + "WrongCommand" + linebreak + "Q";
+        String command = "C 20 4" + br + "WrongCommand" + br + "Q";
         InputStream is = new ByteArrayInputStream(command.getBytes());
         System.setIn(is);
 
@@ -55,7 +55,7 @@ public class ApplicationTest {
     @Test
     public void checkForInvalidParameters() {
         //set input stream
-        String command = "C 20 4" + linebreak + "L -1 2 6 2" + linebreak + "Q";
+        String command = "C 20 4" + br + "L -1 2 6 2" + br + "Q";
         InputStream is = new ByteArrayInputStream(command.getBytes());
         System.setIn(is);
 

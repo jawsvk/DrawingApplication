@@ -3,7 +3,6 @@ package com.zuhlke.command;
 import com.zuhlke.model.Canvas;
 import com.zuhlke.model.Coordinate;
 
-import java.security.InvalidParameterException;
 
 public class DrawLine implements Command {
 
@@ -12,7 +11,7 @@ public class DrawLine implements Command {
     private Canvas canvas;
 
     @Override
-    public Canvas Execute(String[] input, Canvas base) throws Exception {
+    public Canvas Execute(String[] input, Canvas base) {
         startPt = new Coordinate(Integer.parseInt((input[1])), Integer.parseInt((input[2])));
         endPt = new Coordinate(Integer.parseInt((input[3])), Integer.parseInt((input[4])));
         Coordinate diff = endPt.getDistance(startPt);
@@ -23,7 +22,7 @@ public class DrawLine implements Command {
 
         //check that end points form a vertical/horizontal line
         if (diff.getX() > 0 && diff.getY() > 0) {
-            throw new InvalidParameterException("Invalid Parameters >> Coordinates do not form a vertical or horizontal line");
+            throw new IllegalArgumentException("Invalid Parameters >> Coordinates do not form a vertical or horizontal line");
         }
 
         drawLine(startPt, endPt, canvas);
@@ -32,15 +31,17 @@ public class DrawLine implements Command {
         return canvas;
     }
 
-    protected void checkCoordinates(Coordinate start, Coordinate end, Canvas source) {
+    //package private method to be used in child class
+     void checkCoordinates(Coordinate start, Coordinate end, Canvas source) {
 
         //check that start point and end point is within the canvas
         if (!source.isValidPoint(start) || !source.isValidPoint(end)) {
-            throw new InvalidParameterException("Invalid Parameters >> Either Start Point or End Point (or both) are out of bounds");
+            throw new IllegalArgumentException("Invalid Parameters >> Either Start Point or End Point (or both) are out of bounds");
         }
     }
 
-    protected Canvas drawLine(Coordinate start, Coordinate end, Canvas source) {
+    //package private method to be used in child class
+     Canvas drawLine(Coordinate start, Coordinate end, Canvas source) {
         //returns difference between start and end in coordinate form
         Coordinate diff = end.getDistance(start);
 
