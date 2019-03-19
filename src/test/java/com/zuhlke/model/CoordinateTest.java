@@ -60,4 +60,20 @@ public class CoordinateTest {
         assertEquals(ans, os.toString());
 
     }
+
+    @Test
+    public void addOneToX() {
+        Coordinate test = new Coordinate(3,4);
+
+        assertEquals(4, test.addX(1));
+        assertEquals(3, test.addX(-1));
+
+    }
+
+    @Test
+    public void addOneToY() {
+        Coordinate test = new Coordinate(3,4);
+        assertEquals(5, test.addY(1));
+        assertEquals(4, test.addY(-1));
+    }
 }

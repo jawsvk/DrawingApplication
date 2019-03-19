@@ -14,7 +14,6 @@ public class Coordinate {
         return y;
     }
 
-
     public int addX(int i) {
         return this.x = this.x + i;
     }
