@@ -2,11 +2,11 @@
 
 ##Instructions
 1. Import into an IDE as Maven Project
-2. Navigate to the executable jar file in the "target" folder or search for DrawingApplication.jar
+2. Navigate to the executable jar file in the "target" folder or search for DrawingApplication-1.0.jar
 3. Launch a CLI such as Git Bash or Windows PowerShell and execute the following
 command at the file location.
 `
-java -jar DrawingApp.jar
+java -jar DrawingApp-1.0.jar
 `
 
 ##Assumptions

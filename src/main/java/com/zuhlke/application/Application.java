@@ -32,7 +32,8 @@ public class Application {
                 currentCommand = CommandLibrary.get(input[0].toUpperCase());
                 canvas = currentCommand.Execute(input, canvas);
             } catch (NullPointerException e) {
-                System.out.println("Invalid Command. Please try again.");
+                if(canvas == null) System.out.println("Please create a canvas with C command");
+                 else System.out.println("Invalid Command. Please try again.");
             } catch (InvalidParameterException e) {
                 System.out.println(e.getMessage());
             } catch (Exception e) {
