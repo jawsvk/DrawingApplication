@@ -1,6 +1,7 @@
 package com.zuhlke.command;
 
 import com.zuhlke.model.Canvas;
+import com.zuhlke.model.Coordinate;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,6 +19,7 @@ public class BucketFillTest {
     private String linebreak;
     private String ans1;
     private String ans2;
+    private String ans3;
 
     @Before
     public void setUp() {
@@ -40,11 +42,17 @@ public class BucketFillTest {
                 "|                    |" + linebreak +
                 "----------------------" + linebreak;
 
+        ans3 = linebreak +
+                "-------" + linebreak +
+                "|ooooo|" + linebreak +
+                "|xoooo|" + linebreak +
+                "|ooooo|" + linebreak +
+                "-------" + linebreak;
     }
 
     @Test
     public void bucketFillImageTest() {
-        String command = "B 10 1 o";
+        String command = "B 1 1 o";
         String setupCommand = "R 14 1 18 3";
 
         OutputStream os = new ByteArrayOutputStream();
@@ -90,5 +98,26 @@ public class BucketFillTest {
         }
 
         assertEquals(ans2, os.toString());
+    }
+
+    @Test
+    public void SimpleTestCase() {
+
+        Canvas testCanvas = new Canvas(5, 3);
+        testCanvas.plot(new Coordinate(1, 2), 'x');
+        String command = "B 1 1 o";
+
+        OutputStream os = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(os);
+        System.setOut(ps);
+
+        try {
+            canvas = subject.Execute(command.split(" "), testCanvas);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        assertEquals(ans3, os.toString());
     }
 }
