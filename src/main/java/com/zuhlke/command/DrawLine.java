@@ -15,19 +15,26 @@ public class DrawLine implements Command {
     public Canvas Execute(String[] input, Canvas base) throws Exception {
         startPt = new Coordinate(Integer.parseInt((input[1])), Integer.parseInt((input[2])));
         endPt = new Coordinate(Integer.parseInt((input[3])), Integer.parseInt((input[4])));
+        Coordinate diff = endPt.getDistance(startPt);
         canvas = base;
 
         //check that coordinates are valid
         checkCoordinates(startPt, endPt, canvas);
 
-        drawLine(startPt, endPt, canvas);
+        //check that end points form a vertical/horizontal line
+        if (diff.getX() > 0 && diff.getY() > 0) {
+            throw new InvalidParameterException("Invalid Parameters >> Coordinates do not form a vertical or horizontal line");
+        }
 
+        drawLine(startPt, endPt, canvas);
         canvas.print();
 
         return canvas;
     }
 
     protected void checkCoordinates(Coordinate start, Coordinate end, Canvas source) {
+
+        //check that start point and end point is within the canvas
         if (!source.isValidPoint(start) || !source.isValidPoint(end)) {
             throw new InvalidParameterException("Invalid Parameters >> Either Start Point or End Point (or both) are out of bounds");
         }
@@ -58,7 +65,6 @@ public class DrawLine implements Command {
                 end.addY(1);
                 start.addY(-1);
             }
-
         }
 
         return source;
