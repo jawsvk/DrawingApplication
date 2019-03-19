@@ -2,6 +2,7 @@ package com.zuhlke.application;
 
 import com.zuhlke.command.*;
 import com.zuhlke.model.Canvas;
+
 import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -32,8 +33,8 @@ public class Application {
                 currentCommand = CommandLibrary.get(input[0].toUpperCase());
                 canvas = currentCommand.Execute(input, canvas);
             } catch (NullPointerException e) {
-                if(canvas == null) System.out.println("Please create a canvas with C command");
-                 else System.out.println("Invalid Command. Please try again.");
+                if (canvas == null) System.out.println("No canvas found. Please create a canvas with C command");
+                else System.out.println("Invalid Command. Please try again.");
             } catch (InvalidParameterException e) {
                 System.out.println(e.getMessage());
             } catch (Exception e) {

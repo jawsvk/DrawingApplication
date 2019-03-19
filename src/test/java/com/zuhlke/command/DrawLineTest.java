@@ -75,7 +75,6 @@ public class DrawLineTest {
     @After
     public void tearDown() {
         //Restore normal output
-        PrintStream originalOut = System.out;
-        System.setOut(originalOut);
+        System.setOut(System.out);
     }
 }

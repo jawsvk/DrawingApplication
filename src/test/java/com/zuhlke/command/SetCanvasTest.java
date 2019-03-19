@@ -1,6 +1,7 @@
 package com.zuhlke.command;
 
 import com.zuhlke.model.Canvas;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -98,5 +99,11 @@ public class SetCanvasTest {
         }
 
         assertEquals(ans, os.toString());
+    }
+
+    @After
+    public void tearDown() {
+        //Restore normal output
+        System.setOut(System.out);
     }
 }

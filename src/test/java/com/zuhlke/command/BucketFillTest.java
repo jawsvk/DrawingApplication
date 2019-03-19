@@ -2,6 +2,7 @@ package com.zuhlke.command;
 
 import com.zuhlke.model.Canvas;
 import com.zuhlke.model.Coordinate;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -119,5 +120,11 @@ public class BucketFillTest {
         }
 
         assertEquals(ans3, os.toString());
+    }
+
+    @After
+    public void tearDown() {
+        System.setOut(System.out);
+        System.setIn(System.in);
     }
 }

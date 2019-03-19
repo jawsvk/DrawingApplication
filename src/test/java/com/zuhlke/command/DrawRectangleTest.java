@@ -1,6 +1,7 @@
 package com.zuhlke.command;
 
 import com.zuhlke.model.Canvas;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -50,4 +51,9 @@ public class DrawRectangleTest {
 
     }
 
+    @After
+    public void tearDown() {
+        //Restore normal output
+        System.setOut(System.out);
+    }
 }
