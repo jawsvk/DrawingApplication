@@ -6,136 +6,68 @@ import com.zuhlke.model.Canvas;
 import com.zuhlke.model.Coordinate;
 
 import java.util.LinkedList;
-import java.util.Queue;
 
 public class BucketFill implements Command {
-    private Canvas canvas;
-    private String ref;
-    private Character targetColor;
 
+    private Canvas canvas;
 
     @Override
-    public Canvas execute(String[] input, Canvas source) throws NoCanvasException, InvalidInputException {
+    public Canvas execute(String[] input, Canvas base) throws NoCanvasException, InvalidInputException {
+
+        if (base == null) throw new NoCanvasException();
         Coordinate origin = new Coordinate(Integer.parseInt(input[1]), Integer.parseInt(input[2]));
+        canvas = base;
 
-        if (source == null) throw new NoCanvasException();
-        canvas = source;
-
-        if (input[3].length() > 1) {
-            throw new InvalidInputException("New color can only be ONE character");
+        if (input[3].length() > 1 || "-|".contains(input[3])) {
+            throw new InvalidInputException("Invalid color.");
         }
 
+        Character targetColor = canvas.getCell(origin);
         Character newColor = input[3].charAt(0);
-        flood(origin, newColor);
+        flood(origin, targetColor, newColor);
 
         return canvas;
     }
 
-    private Queue<Coordinate> checkUpDown(Queue<Coordinate> queue, Coordinate point) {
-        //check up down
-        Coordinate up = new Coordinate(point.getX(), point.getY() - 1);
-        if (ref.indexOf(canvas.getCell(up)) < 0) queue.add(up);
+    private void flood(Coordinate origin, Character targetColor, Character newColor) {
+        if (targetColor == newColor) return;
+        if (canvas.getCell(origin) != targetColor) return;
 
-        Coordinate down = new Coordinate(point.getX(), point.getY() + 1);
-        if (ref.indexOf(canvas.getCell(down)) < 0) queue.add(down);
+        canvas.plot(origin, newColor);
 
-        return queue;
-    }
+        LinkedList<Coordinate> queue = new LinkedList<>();
+        queue.add(origin);
 
-    private Queue<Coordinate> checkLeftRight(Queue<Coordinate> queue, Coordinate point) {
-        //check up down
-        Coordinate left = new Coordinate(point.getX() - 1, point.getY());
-        if (ref.indexOf(canvas.getCell(left)) < 0) queue.add(left);
-
-        Coordinate right = new Coordinate(point.getX() + 1, point.getY());
-        if (ref.indexOf(canvas.getCell(right)) < 0) queue.add(right);
-
-        return queue;
-    }
-
-    private void fillLeftRight(Coordinate origin, Character newColor) {
-
-        if (ref.indexOf(canvas.getCell(origin)) > 0 || canvas.getCell(origin) != targetColor) return;
-
-        Queue<Coordinate> queue = new LinkedList<>();
-        Coordinate point = new Coordinate(origin.addX(1), origin.getY());
-
-        while (ref.indexOf(canvas.getCell(point)) < 0 && canvas.getCell(point) == targetColor) {
-            //check up down
-            checkUpDown(queue, point);
-
-            //plot new color
-            canvas.plot(point, newColor);
-            point = new Coordinate(point.addX(1), point.getY());
-        }
-
-        point = new Coordinate(origin.addX(-1), origin.getY());
-
-        while (ref.indexOf(canvas.getCell(point)) < 0 && canvas.getCell(point) == targetColor) {
-            //check up down
-            checkUpDown(queue, point);
-
-            //plot new color
-            canvas.plot(point, newColor);
-            point = new Coordinate(point.addX(-1), point.getY());
-        }
-
-        // queue for replace recursion of vertical fill
         while (!queue.isEmpty()) {
-            Coordinate p = queue.remove();
-            fillUpDown(p, newColor);
-        }
-    }
+            Coordinate point = queue.removeFirst();
 
-    private void fillUpDown(Coordinate origin, Character newColor) {
+            //left
+            Coordinate left = new Coordinate(point.getX() - 1, point.getY());
+            if (canvas.getCell(left) == targetColor) {
+                canvas.plot(left, newColor);
+                queue.addLast(left);
+            }
 
-        if (ref.indexOf(canvas.getCell(origin)) > 0 || canvas.getCell(origin) != targetColor) return;
+            //right
+            Coordinate right = new Coordinate(point.getX() + 1, point.getY());
+            if (canvas.getCell(right) == targetColor) {
+                canvas.plot(right, newColor);
+                queue.addLast(right);
+            }
 
-        Coordinate point = new Coordinate(origin.getX(), origin.getY());
-        Queue<Coordinate> queue = new LinkedList<>();
-
-
-        while (ref.indexOf(canvas.getCell(point)) < 0 && canvas.getCell(point) == targetColor) {
-            //check left right
-            checkLeftRight(queue, point);
-
-            //plot new color
-            canvas.plot(point, newColor);
-            fillLeftRight(point, newColor);
-            point = new Coordinate(point.getX(), point.addY(1));
-        }
-
-        point = new Coordinate(origin.getX(), origin.addY(-1));
-
-        while (ref.indexOf(canvas.getCell(point)) < 0 && canvas.getCell(point) == targetColor) {
-            //check left right
-            checkLeftRight(queue, point);
-
-            //plot new color
-            canvas.plot(point, newColor);
-
-            fillLeftRight(point, newColor);
-            point = new Coordinate(point.getX(), point.addY(-1));
-        }
-
-        // queue for replace recursion of horizontal fill
-        while (!queue.isEmpty()) {
-            Coordinate p = queue.remove();
-            fillLeftRight(p, newColor);
+            //up
+            Coordinate up = new Coordinate(point.getX(), point.getY() - 1);
+            if (canvas.getCell(up) == targetColor) {
+                canvas.plot(up, newColor);
+                queue.addLast(up);
+            }
+            //down
+            Coordinate down = new Coordinate(point.getX(), point.getY() + 1);
+            if (canvas.getCell(down) == targetColor) {
+                canvas.plot(down, newColor);
+                queue.addLast(down);
+            }
         }
 
     }
-
-    private void flood(Coordinate point, Character newColor) throws InvalidInputException {
-
-        ref = "-|";
-        //Characters to avoid
-        if (ref.contains(newColor.toString())) throw new InvalidInputException("Invalid color");
-        else ref = ref + newColor;
-
-        targetColor = canvas.getCell(point);
-
-        fillUpDown(point, newColor);
-    }
-
 }

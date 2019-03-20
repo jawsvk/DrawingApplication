@@ -1,31 +1,33 @@
 package com.zuhlke.command;
 
+import com.zuhlke.exception.InvalidInputException;
+import com.zuhlke.exception.NoCanvasException;
 import com.zuhlke.model.Canvas;
 import com.zuhlke.model.Coordinate;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class BucketFillTest {
+class BucketFillTest {
 
     private Canvas canvas;
     private BucketFill subject;
-    private String br;
     private String ans1;
     private String ans2;
     private String ans3;
 
-    @Before
-    public void setUp() {
-        subject = new BucketFill();
+    @BeforeEach
+    void setUp() {
         canvas = new Canvas(20, 4);
-        br = System.getProperty("line.separator");
+        subject = new BucketFill();
+        String br = System.getProperty("line.separator");
         ans1 = br +
                 "----------------------" + br +
                 "|oooooooooooooxxxxxoo|" + br +
@@ -41,7 +43,6 @@ public class BucketFillTest {
                 "|             ooooo  |" + br +
                 "|                    |" + br +
                 "----------------------" + br;
-
         ans3 = br +
                 "-------" + br +
                 "|ooooo|" + br +
@@ -51,7 +52,52 @@ public class BucketFillTest {
     }
 
     @Test
-    public void bucketFillImageTest() {
+    void checkNoCanvasError() {
+
+        Assertions.assertThrows(NoCanvasException.class, () -> {
+            String command = "B 10 1 o";
+            subject.execute(command.split(" "), null);
+        });
+    }
+
+    @Test
+    void checkInvalidColorCharacterError() {
+        Assertions.assertThrows(InvalidInputException.class, () -> {
+            String command = "B 10 1 |";
+            subject.execute(command.split(" "), canvas);
+        });
+    }
+
+    @Test
+    void expectExceptionWhenMoreThanOneColorCharacter() {
+        Assertions.assertThrows(InvalidInputException.class, () -> {
+            String command = "B 10 1 oo";
+            subject.execute(command.split(" "), canvas);
+        });
+    }
+
+    @Test
+    void SimpleFillImageTest() {
+        Canvas testCanvas = new Canvas(5, 3);
+        testCanvas.plot(new Coordinate(1, 2), 'x');
+        String command = "B 1 1 o";
+
+        OutputStream os = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(os);
+        System.setOut(ps);
+
+        try {
+            canvas = subject.execute(command.split(" "), testCanvas);
+            canvas.print();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        assertEquals(ans3, os.toString());
+    }
+
+    @Test
+    void bucketFillImageTest() {
         String command = "B 1 1 o";
         String setupCommand = "R 14 1 18 3";
 
@@ -77,7 +123,7 @@ public class BucketFillTest {
     }
 
     @Test
-    public void BucketFillBorderExpectColorBorder() {
+    void BucketFillBorderExpectColorBorder() {
         String command = "B 14 1 o";
         String setupCommand = "R 14 1 18 3";
 
@@ -101,30 +147,8 @@ public class BucketFillTest {
         assertEquals(ans2, os.toString());
     }
 
-    @Test
-    public void SimpleTestCase() {
-
-        Canvas testCanvas = new Canvas(5, 3);
-        testCanvas.plot(new Coordinate(1, 2), 'x');
-        String command = "B 1 1 o";
-
-        OutputStream os = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(os);
-        System.setOut(ps);
-
-        try {
-            canvas = subject.execute(command.split(" "), testCanvas);
-            canvas.print();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-        assertEquals(ans3, os.toString());
-    }
-
-    @After
-    public void tearDown() {
+    @AfterEach
+    void tearDown() {
         System.setOut(System.out);
-        System.setIn(System.in);
     }
 }

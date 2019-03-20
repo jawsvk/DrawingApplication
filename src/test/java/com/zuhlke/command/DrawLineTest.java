@@ -1,25 +1,25 @@
 package com.zuhlke.command;
 
 import com.zuhlke.model.Canvas;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DrawLineTest {
+class DrawLineTest {
 
     private Canvas canvas;
     private DrawLine subject;
     private String br;
     private String ans;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         canvas = new Canvas(20, 4);
         subject = new DrawLine();
         br = System.getProperty("line.separator");
@@ -34,7 +34,7 @@ public class DrawLineTest {
     }
 
     @Test
-    public void drawLineImageTest() {
+    void drawLineImageTest() {
         String command = "L 1 2 6 2";
 
         //prepare to redirect output
@@ -53,7 +53,7 @@ public class DrawLineTest {
     }
 
     @Test
-    public void drawLineInReverseImageTest() {
+    void drawLineInReverseImageTest() {
         Canvas testCanvas = new Canvas(20, 4);
         String command = "L 6 2 1 2";
 
@@ -72,8 +72,8 @@ public class DrawLineTest {
         assertEquals(ans, os.toString());
     }
 
-    @After
-    public void tearDown() {
+    @AfterEach
+    void tearDown() {
         //Restore normal output
         System.setOut(System.out);
     }

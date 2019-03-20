@@ -1,27 +1,26 @@
 package com.zuhlke.command;
 
-import com.zuhlke.exception.InvalidInputException;
 import com.zuhlke.model.Canvas;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-public class SetCanvasTest {
+class SetCanvasTest {
 
     private Canvas canvas;
     private SetCanvas subject;
     private String br;
     private String ans;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         canvas = new Canvas(20, 4);
         subject = new SetCanvas();
         br = System.getProperty("line.separator");
@@ -35,7 +34,7 @@ public class SetCanvasTest {
     }
 
     @Test
-    public void setCanvasImageTest() {
+    void setCanvasImageTest() {
         String command = "C 20 4";
 
         //prepare to redirect output
@@ -53,14 +52,9 @@ public class SetCanvasTest {
         assertEquals(ans, os.toString());
     }
 
-    @Test(expected = InvalidInputException.class)
-    public void checkInvalidInputError() {
-        String command = "C 20 -4";
-        subject.execute(command.split(" "), canvas);
-    }
 
-    @After
-    public void tearDown() {
+    @AfterEach
+    void tearDown() {
         //Restore normal output
         System.setOut(System.out);
     }

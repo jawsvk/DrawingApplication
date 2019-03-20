@@ -1,25 +1,25 @@
 package com.zuhlke.command;
 
 import com.zuhlke.model.Canvas;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DrawRectangleTest {
+class DrawRectangleTest {
 
     private Canvas canvas;
     private DrawRectangle subject;
     private String br;
     private String ans;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         subject = new DrawRectangle();
         canvas = new Canvas(20, 4);
         br = System.getProperty("line.separator");
@@ -33,7 +33,7 @@ public class DrawRectangleTest {
     }
 
     @Test
-    public void drawRectangleImageTest() {
+    void drawRectangleImageTest() {
         String command = "R 14 1 18 3";
 
         //prepare to redirect output
@@ -52,8 +52,8 @@ public class DrawRectangleTest {
 
     }
 
-    @After
-    public void tearDown() {
+    @AfterEach
+    void tearDown() {
         //Restore normal output
         System.setOut(System.out);
     }

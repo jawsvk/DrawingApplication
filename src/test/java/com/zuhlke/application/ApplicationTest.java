@@ -1,27 +1,27 @@
 package com.zuhlke.application;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.*;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-public class ApplicationTest {
+class ApplicationTest {
 
     private Application app;
     private String br;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         app = new Application();
         br = System.getProperty("line.separator");
     }
 
     @Test
-    public void checkForNoCanvasError() {
+    void checkForNoCanvasError() {
         //set input stream
         String command = "L 1 2 6 2" + br + "Q";
         InputStream is = new ByteArrayInputStream(command.getBytes());
@@ -37,7 +37,7 @@ public class ApplicationTest {
     }
 
     @Test
-    public void checkForInvalidCommandError() {
+    void checkForInvalidCommandError() {
         //set input stream
         String command = "C 20 4" + br + "WrongCommand" + br + "Q";
         InputStream is = new ByteArrayInputStream(command.getBytes());
@@ -53,7 +53,7 @@ public class ApplicationTest {
     }
 
     @Test
-    public void checkForInvalidParameters() {
+    void checkForInvalidParameters() {
         //set input stream
         String command = "C 20 4" + br + "L -1 2 6 2" + br + "Q";
         InputStream is = new ByteArrayInputStream(command.getBytes());
@@ -68,8 +68,8 @@ public class ApplicationTest {
         assertTrue(os.toString().contains("Either Start Point or End Point (or both) are out of bounds"));
     }
 
-    @After
-    public void tearDown() {
+    @AfterEach
+    void tearDown() {
         //restore normal input and output
         System.setOut(System.out);
         System.setIn(System.in);

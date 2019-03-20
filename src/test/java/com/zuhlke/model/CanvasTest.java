@@ -1,23 +1,23 @@
 package com.zuhlke.model;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class CanvasTest {
+class CanvasTest {
 
     private Canvas canvas;
     private String ans;
     private String br;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         canvas = new Canvas(10, 4);
         br = System.getProperty("line.separator");
         ans = br +
@@ -31,7 +31,7 @@ public class CanvasTest {
 
 
     @Test
-    public void plotXAtOnePoint() {
+    void plotXAtOnePoint() {
         Character ans = 'T';
 
         Coordinate coordinate = new Coordinate(1, 1);
@@ -42,7 +42,7 @@ public class CanvasTest {
 
 
     @Test
-    public void plotXExpectXatSamePoint() {
+    void plotXExpectXatSamePoint() {
         Character ans = 'T';
 
         Coordinate coordinate = new Coordinate(2, 2);
@@ -52,7 +52,7 @@ public class CanvasTest {
     }
 
     @Test
-    public void positiveCoordinateReturnTrue() {
+    void positiveCoordinateReturnTrue() {
         Coordinate coordinate = new Coordinate(2, 2);
 
         assertTrue(canvas.isValidPoint(coordinate));
@@ -60,7 +60,7 @@ public class CanvasTest {
     }
 
     @Test
-    public void ExpectCorrectPrintOut() {
+    void ExpectCorrectPrintOut() {
         //redirect output
         OutputStream os = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(os);
