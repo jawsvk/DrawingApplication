@@ -1,5 +1,6 @@
 package com.zuhlke.command;
 
+import com.zuhlke.exception.InvalidInputException;
 import com.zuhlke.exception.NoCanvasException;
 import com.zuhlke.model.Canvas;
 import com.zuhlke.model.Coordinate;
@@ -14,14 +15,14 @@ public class BucketFill implements Command {
 
 
     @Override
-    public Canvas execute(String[] input, Canvas source) throws NoCanvasException {
+    public Canvas execute(String[] input, Canvas source) throws NoCanvasException, InvalidInputException {
         Coordinate origin = new Coordinate(Integer.parseInt(input[1]), Integer.parseInt(input[2]));
 
         if (source == null) throw new NoCanvasException();
         canvas = source;
 
         if (input[3].length() > 1) {
-            throw new IllegalArgumentException("Invalid Parameters >> New color can only be ONE character");
+            throw new InvalidInputException("New color can only be ONE character");
         }
 
         Character newColor = input[3].charAt(0);
@@ -125,10 +126,12 @@ public class BucketFill implements Command {
 
     }
 
-    private void flood(Coordinate point, Character newColor) {
+    private void flood(Coordinate point, Character newColor) throws InvalidInputException {
 
+        ref = "-|";
         //Characters to avoid
-        ref = "-|" + newColor;
+        if (ref.contains(newColor.toString())) throw new InvalidInputException("Invalid color");
+        else ref = ref + newColor;
 
         targetColor = canvas.getCell(point);
 

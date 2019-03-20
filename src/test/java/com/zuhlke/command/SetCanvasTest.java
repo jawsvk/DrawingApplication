@@ -1,5 +1,6 @@
 package com.zuhlke.command;
 
+import com.zuhlke.exception.InvalidInputException;
 import com.zuhlke.model.Canvas;
 import org.junit.After;
 import org.junit.Before;
@@ -50,6 +51,12 @@ public class SetCanvasTest {
         }
 
         assertEquals(ans, os.toString());
+    }
+
+    @Test(expected = InvalidInputException.class)
+    public void checkInvalidInputError() {
+        String command = "C 20 -4";
+        subject.execute(command.split(" "), canvas);
     }
 
     @After
