@@ -50,7 +50,7 @@ public class Canvas {
 
     //check if a coordinate lies within canvas
     public boolean isValidPoint(Coordinate point) {
-        return (point.getX() >= 1 && point.getX() <= column && point.getY() >= 1 && point.getY() <= row);
+        return (point.getX() >= 1 && point.getX() < column - 1 && point.getY() >= 1 && point.getY() < row - 1);
     }
 
     public void print() {

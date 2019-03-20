@@ -1,7 +1,9 @@
 package com.zuhlke.command;
 
+import com.zuhlke.exception.InvalidInputException;
 import com.zuhlke.model.Canvas;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -52,6 +54,14 @@ class SetCanvasTest {
         assertEquals(ans, os.toString());
     }
 
+
+    @Test
+    void checkValidCanvasParameters() {
+        Assertions.assertThrows(InvalidInputException.class, () -> {
+            String command = "C 20 -5";
+            subject.execute(command.split(" "), canvas);
+        });
+    }
 
     @AfterEach
     void tearDown() {

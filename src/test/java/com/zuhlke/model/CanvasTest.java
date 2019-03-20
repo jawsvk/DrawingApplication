@@ -7,8 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class CanvasTest {
 
@@ -28,7 +27,6 @@ class CanvasTest {
                 "|          |" + br +
                 "------------" + br;
     }
-
 
     @Test
     void plotXAtOnePoint() {
@@ -52,11 +50,15 @@ class CanvasTest {
     }
 
     @Test
-    void positiveCoordinateReturnTrue() {
+    void CoordinateWithinCanvasReturnTrue() {
         Coordinate coordinate = new Coordinate(2, 2);
-
         assertTrue(canvas.isValidPoint(coordinate));
+    }
 
+    @Test
+    void CoordinateOutsideBoundaryReturnFalse() {
+        Coordinate coordinate = new Coordinate(11, -2);
+        assertFalse(canvas.isValidPoint(coordinate));
     }
 
     @Test
