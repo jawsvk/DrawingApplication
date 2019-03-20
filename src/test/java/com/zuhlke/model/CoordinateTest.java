@@ -7,7 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class CoordinateTest {
 
@@ -39,11 +39,6 @@ public class CoordinateTest {
         assertEquals(10, point.linearDistance());
     }
 
-    @Test
-    public void ExpectTestEqualsStart() {
-        Coordinate test = new Coordinate(2, 3);
-        assertTrue(test.equals(start));
-    }
 
     @Test
     public void ExpectPrintOutOfCoordinates() {
@@ -55,7 +50,7 @@ public class CoordinateTest {
         PrintStream ps = new PrintStream(os);
         System.setOut(ps);
 
-        start.print();
+        System.out.println(start.toString());
 
         assertEquals(ans, os.toString());
 

@@ -9,13 +9,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 
 public class SetCanvasTest {
 
     private Canvas canvas;
-    private Character[][] testbase;
     private SetCanvas subject;
     private String br;
     private String ans;
@@ -35,54 +34,6 @@ public class SetCanvasTest {
     }
 
     @Test
-    public void SetCanvasExpect44HorizontalBorderlines() {
-        String command = "C 20 4";
-        try {
-            canvas = subject.Execute(command.split(" "), canvas);
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-        testbase = canvas.getBase();
-
-        int count = 0;
-
-        for (Character[] array : testbase) {
-            for (Character c : array) {
-                if (c == '-') count++;
-            }
-        }
-
-        assertEquals(44, count);
-
-    }
-
-    @Test
-    public void SetCanvasExpect8VerticalBorderlines() {
-        String command = "C 20 4";
-        try {
-            canvas = subject.Execute(command.split(" "), canvas);
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-        testbase = canvas.getBase();
-
-        int count = 0;
-
-        for (Character[] array : testbase) {
-            for (Character c : array) {
-                if (c == '|') count++;
-            }
-        }
-
-        assertEquals(8, count);
-
-    }
-
-    @Test
     public void setCanvasImageTest() {
         String command = "C 20 4";
 
@@ -91,9 +42,9 @@ public class SetCanvasTest {
         PrintStream ps = new PrintStream(os);
         System.setOut(ps);
 
-
         try {
-            canvas = subject.Execute(command.split(" "), canvas);
+            canvas = subject.execute(command.split(" "), canvas);
+            canvas.print();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

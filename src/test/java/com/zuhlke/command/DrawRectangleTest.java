@@ -9,7 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class DrawRectangleTest {
 
@@ -42,7 +42,8 @@ public class DrawRectangleTest {
         System.setOut(ps);
 
         try {
-            canvas = subject.Execute(command.split(" "), canvas);
+            canvas = subject.execute(command.split(" "), canvas);
+            canvas.print();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

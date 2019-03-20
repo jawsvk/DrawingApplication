@@ -23,7 +23,7 @@ public class ApplicationTest {
     @Test
     public void checkForNoCanvasError() {
         //set input stream
-        String command = "WrongCommand" + br + "Q";
+        String command = "L 1 2 6 2" + br + "Q";
         InputStream is = new ByteArrayInputStream(command.getBytes());
         System.setIn(is);
 
@@ -49,7 +49,7 @@ public class ApplicationTest {
         System.setOut(ps);
         app.run();
 
-        assertTrue(os.toString().contains("Invalid Command"));
+        assertTrue(os.toString().contains("Command not found"));
     }
 
     @Test
@@ -65,7 +65,7 @@ public class ApplicationTest {
         System.setOut(ps);
         app.run();
 
-        assertTrue(os.toString().contains("Invalid Parameters >> Either Start Point or End Point (or both) are out of bounds"));
+        assertTrue(os.toString().contains("Either Start Point or End Point (or both) are out of bounds"));
     }
 
     @After

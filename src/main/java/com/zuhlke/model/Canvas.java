@@ -6,9 +6,6 @@ public class Canvas {
     private int row;
     private int column;
 
-    public Canvas() {
-    }
-
     public Canvas(int x, int y) {
         this.column = x + 2;
         this.row = y + 2;
@@ -16,17 +13,6 @@ public class Canvas {
         makeOutline();
     }
 
-    public Character[][] getBase() {
-        return base;
-    }
-
-    public int getRow() {
-        return row;
-    }
-
-    public int getColumn() {
-        return column;
-    }
 
     //draw outline of the canvas
     private void makeOutline() {
@@ -52,9 +38,8 @@ public class Canvas {
     }
 
     //plot a single point in the canvas
-    public Character[][] plot(Coordinate point, Character x) {
+    public void plot(Coordinate point, Character x) {
         base[point.getY()][point.getX()] = x;
-        return getBase();
     }
 
     //retrieve character at a single point in the canvas

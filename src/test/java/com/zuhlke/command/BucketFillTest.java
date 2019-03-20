@@ -10,12 +10,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class BucketFillTest {
 
     private Canvas canvas;
-    private Character[][] testbase;
     private BucketFill subject;
     private String br;
     private String ans1;
@@ -60,14 +59,14 @@ public class BucketFillTest {
 
         DrawRectangle dR = new DrawRectangle();
         try {
-            canvas = dR.Execute(setupCommand.split(" "), canvas);
+            canvas = dR.execute(setupCommand.split(" "), canvas);
 
             //prepare to redirect output
             PrintStream ps = new PrintStream(os);
             System.setOut(ps);
 
-            canvas = subject.Execute(command.split(" "), canvas);
-
+            canvas = subject.execute(command.split(" "), canvas);
+            canvas.print();
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -86,13 +85,14 @@ public class BucketFillTest {
 
         DrawRectangle dR = new DrawRectangle();
         try {
-            canvas = dR.Execute(setupCommand.split(" "), canvas);
+            canvas = dR.execute(setupCommand.split(" "), canvas);
 
             //prepare to redirect output
             PrintStream ps = new PrintStream(os);
             System.setOut(ps);
 
-            canvas = subject.Execute(command.split(" "), canvas);
+            canvas = subject.execute(command.split(" "), canvas);
+            canvas.print();
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -113,8 +113,8 @@ public class BucketFillTest {
         System.setOut(ps);
 
         try {
-            canvas = subject.Execute(command.split(" "), testCanvas);
-
+            canvas = subject.execute(command.split(" "), testCanvas);
+            canvas.print();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

@@ -9,7 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class DrawLineTest {
 
@@ -43,7 +43,8 @@ public class DrawLineTest {
         System.setOut(ps);
 
         try {
-            canvas = subject.Execute(command.split(" "), canvas);
+            canvas = subject.execute(command.split(" "), canvas);
+            canvas.print();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -62,7 +63,8 @@ public class DrawLineTest {
         System.setOut(ps);
 
         try {
-            canvas = subject.Execute(command.split(" "), testCanvas);
+            canvas = subject.execute(command.split(" "), testCanvas);
+            canvas.print();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

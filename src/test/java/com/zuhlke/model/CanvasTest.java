@@ -7,19 +7,18 @@ import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class CanvasTest {
 
     private Canvas canvas;
-    private Character[][] testbase;
     private String ans;
     private String br;
 
     @Before
     public void setUp() {
         canvas = new Canvas(10, 4);
-        testbase = canvas.getBase();
         br = System.getProperty("line.separator");
         ans = br +
                 "------------" + br +
@@ -30,49 +29,24 @@ public class CanvasTest {
                 "------------" + br;
     }
 
-    @Test
-    public void checkHorizontalOutline() {
-        int count = 0;
-
-        for (Character[] array : testbase) {
-            for (Character c : array) {
-                if (c == '-') count++;
-            }
-        }
-
-        assertEquals(24, count);
-    }
-
-    @Test
-    public void checkVerticalOutline() {
-        int count = 0;
-
-        for (Character[] array : testbase) {
-            for (Character c : array) {
-                if (c == '|') count++;
-            }
-        }
-
-        assertEquals(8, count);
-
-    }
 
     @Test
     public void plotXAtOnePoint() {
         Character ans = 'T';
 
         Coordinate coordinate = new Coordinate(1, 1);
-        testbase = canvas.plot(coordinate, ans);
+        canvas.plot(coordinate, ans);
 
-        assertEquals(ans, testbase[1][1]);
+        assertEquals(ans, canvas.getCell(coordinate));
     }
 
 
     @Test
     public void plotXExpectXatSamePoint() {
         Character ans = 'T';
+
         Coordinate coordinate = new Coordinate(2, 2);
-        testbase = canvas.plot(coordinate, ans);
+        canvas.plot(coordinate, ans);
 
         assertEquals(ans, canvas.getCell(coordinate));
     }
