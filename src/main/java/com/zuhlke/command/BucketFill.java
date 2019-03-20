@@ -129,11 +129,6 @@ public class BucketFill implements Command {
         ref = "-|" + newColor;
 
         targetColor = canvas.getCell(point);
-//        if (oldColor == 'x') {
-//            ref = ref + newColor + ' ';
-//        } else {
-//            ref = ref + newColor + 'x';
-//        }
 
         fillUpDown(point, newColor);
     }
