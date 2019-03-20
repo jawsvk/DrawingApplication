@@ -11,13 +11,13 @@ public class Application {
     private Canvas canvas;
     private String[] input;
     private Command currentCommand;
-    private HashMap<String, Command> CommandLibrary = new HashMap<>();
+    private HashMap<String, Command> commandLibrary = new HashMap<>();
 
     public Application() {
-        CommandLibrary.put("C", new SetCanvas());
-        CommandLibrary.put("L", new DrawLine());
-        CommandLibrary.put("R", new DrawRectangle());
-        CommandLibrary.put("B", new BucketFill());
+        commandLibrary.put("C", new SetCanvas());
+        commandLibrary.put("L", new DrawLine());
+        commandLibrary.put("R", new DrawRectangle());
+        commandLibrary.put("B", new BucketFill());
     }
 
     public void run() {
@@ -33,7 +33,7 @@ public class Application {
 
             //execute command
             try {
-                currentCommand = CommandLibrary.get(input[0].toUpperCase());
+                currentCommand = commandLibrary.get(input[0].toUpperCase());
                 canvas = currentCommand.Execute(input, canvas);
             } catch (NullPointerException e) {
                 if (canvas == null) System.out.println("No canvas found. Please create a canvas with C command");

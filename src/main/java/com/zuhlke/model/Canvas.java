@@ -59,7 +59,6 @@ public class Canvas {
 
     //retrieve character at a single point in the canvas
     public Character getCell(Coordinate point) {
-
         return base[point.getY()][point.getX()];
 
     }
