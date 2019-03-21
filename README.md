@@ -1,7 +1,8 @@
 # Drawing Application
 
 ##Instructions
-1. Import project into IDE as a Maven Project. Run the following maven goal `mvn clean package`
+1. Launch a CLI and navigate to the project folder location.
+2. Run `./mvnw clean package` for Unix systems and `./mvnw.cmd clean package` for Batch.
 3. Navigate to the executable jar file in the "target" folder or search for DrawingApplication-1.0.jar
 4. Execute the following
 command at the file location.
