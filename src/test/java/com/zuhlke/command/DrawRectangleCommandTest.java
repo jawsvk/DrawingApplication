@@ -11,17 +11,17 @@ import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class DrawRectangleTest {
+class DrawRectangleCommandTest {
 
     private Canvas canvas;
-    private DrawRectangle subject;
+    private DrawRectangleCommand subject;
     private String br;
     private String ans;
 
     @BeforeEach
     void setUp() {
-        subject = new DrawRectangle();
         canvas = new Canvas(20, 4);
+        subject = new DrawRectangleCommand();
         br = System.getProperty("line.separator");
         ans = br +
                 "----------------------" + br +

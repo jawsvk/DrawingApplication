@@ -1,7 +1,6 @@
 package com.zuhlke.command;
 
 import com.zuhlke.exception.InvalidInputException;
-import com.zuhlke.exception.NoCanvasException;
 import com.zuhlke.model.Canvas;
 import com.zuhlke.model.Coordinate;
 import org.junit.jupiter.api.AfterEach;
@@ -15,10 +14,10 @@ import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class BucketFillTest {
+class BucketFillCommandTest {
 
     private Canvas canvas;
-    private BucketFill subject;
+    private BucketFillCommand subject;
     private String ans1;
     private String ans2;
     private String ans3;
@@ -26,7 +25,7 @@ class BucketFillTest {
     @BeforeEach
     void setUp() {
         canvas = new Canvas(20, 4);
-        subject = new BucketFill();
+        subject = new BucketFillCommand();
         String br = System.getProperty("line.separator");
         ans1 = br +
                 "----------------------" + br +
@@ -52,15 +51,6 @@ class BucketFillTest {
     }
 
     @Test
-    void checkNoCanvasError() {
-
-        Assertions.assertThrows(NoCanvasException.class, () -> {
-            String command = "B 10 1 o";
-            subject.execute(command.split(" "), null);
-        });
-    }
-
-    @Test
     void checkInvalidColorCharacterError() {
         Assertions.assertThrows(InvalidInputException.class, () -> {
             String command = "B 10 1 |";
@@ -82,13 +72,15 @@ class BucketFillTest {
         testCanvas.plot(new Coordinate(1, 2), 'x');
         String command = "B 1 1 o";
 
+        subject = new BucketFillCommand();
+
         OutputStream os = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(os);
         System.setOut(ps);
 
         try {
-            canvas = subject.execute(command.split(" "), testCanvas);
-            canvas.print();
+            testCanvas = subject.execute(command.split(" "), testCanvas);
+            testCanvas.print();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -100,10 +92,11 @@ class BucketFillTest {
     void bucketFillImageTest() {
         String command = "B 1 1 o";
         String setupCommand = "R 14 1 18 3";
+        Canvas canvas = new Canvas(20, 4);
 
         OutputStream os = new ByteArrayOutputStream();
-
-        DrawRectangle dR = new DrawRectangle();
+        DrawRectangleCommand dR = new DrawRectangleCommand();
+        subject = new BucketFillCommand();
         try {
             canvas = dR.execute(setupCommand.split(" "), canvas);
 
@@ -129,7 +122,7 @@ class BucketFillTest {
 
         OutputStream os = new ByteArrayOutputStream();
 
-        DrawRectangle dR = new DrawRectangle();
+        DrawRectangleCommand dR = new DrawRectangleCommand();
         try {
             canvas = dR.execute(setupCommand.split(" "), canvas);
 

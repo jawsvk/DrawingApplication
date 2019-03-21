@@ -12,6 +12,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class CanvasTest {
 
     private Canvas canvas;
+    private String br = System.getProperty("line.separator");
+
 
     @BeforeEach
     void setUp() {
@@ -53,7 +55,6 @@ class CanvasTest {
 
     @Test
     void ExpectCorrectPrintOut() {
-        String br = System.getProperty("line.separator");
 
         String ans = br +
                 "------------" + br +
@@ -71,5 +72,21 @@ class CanvasTest {
         canvas.print();
 
         assertEquals(ans, os.toString());
+    }
+
+    @Test
+    void drawHorizontalLineTest() {
+        Coordinate start = new Coordinate(1, 2);
+        Coordinate end = new Coordinate(6, 2);
+
+        canvas.drawLine(start, end);
+
+        int count = 0;
+        for (Character c : canvas.getBase()[2]) {
+            if (c == 'x') count++;
+        }
+
+        assertEquals(6, count);
+
     }
 }

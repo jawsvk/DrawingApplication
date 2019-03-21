@@ -2,7 +2,6 @@ package com.zuhlke.application;
 
 import com.zuhlke.command.*;
 import com.zuhlke.exception.InvalidInputException;
-import com.zuhlke.exception.NoCanvasException;
 import com.zuhlke.model.Canvas;
 
 import java.util.HashMap;
@@ -14,43 +13,40 @@ public class Application {
     private HashMap<String, Command> commandLibrary = new HashMap<>();
 
     public Application() {
-        commandLibrary.put("C", new SetCanvas());
-        commandLibrary.put("L", new DrawLine());
-        commandLibrary.put("R", new DrawRectangle());
-        commandLibrary.put("B", new BucketFill());
+        commandLibrary.put("C", new CreateCanvasCommand());
+        commandLibrary.put("L", new DrawLineCommand());
+        commandLibrary.put("R", new DrawRectangleCommand());
+        commandLibrary.put("B", new BucketFillCommand());
     }
 
     public void run() {
         String[] input;
-        Scanner scanner = new Scanner(System.in);
 
-        do {
-            // loop request for command input
-            System.out.print("Enter command: ");
-            input = scanner.nextLine().split(" ");
+        try (Scanner scanner = new Scanner(System.in)) {
+            do {
 
-            //execute command
-            if (commandLibrary.containsKey(input[0].toUpperCase())) {
-                try {
-                    canvas = commandLibrary.get(input[0].toUpperCase()).execute(input, canvas);
-                    canvas.print();
-                } catch (NoCanvasException e) {
-                    System.out.println(e.getMessage());
-                    System.out.println("Please create a canvas with command C");
-                } catch (InvalidInputException e) {
-                    System.out.println(e.getMessage());
-                    System.out.println("Please try again");
-                } catch (Exception e) {
-                    System.out.println("Error in command parameters: " + e.getMessage());
-                    System.out.println("Please try again");
+                // loop request for command input
+                System.out.print("Enter command: ");
+                input = scanner.nextLine().split(" ");
+
+                //execute command
+                if (commandLibrary.containsKey(input[0])) {
+                    try {
+                        canvas = commandLibrary.get(input[0]).execute(input, canvas);
+                        canvas.print();
+                    } catch (InvalidInputException e) {
+                        System.out.println(e.getMessage());
+                        System.out.println("Please try again");
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                } else {
+                    //print out if command is not found
+                    System.out.println("Command not found. Please try again.");
                 }
-            } else {
-                //print out if command is not found
-                System.out.println("Command not found. Please try again.");
             }
-        } while (!input[0].toUpperCase().equals("Q"));
-        scanner.close();
-
+            while (!input[0].toUpperCase().equals("Q"));
+        }
     }
 
 

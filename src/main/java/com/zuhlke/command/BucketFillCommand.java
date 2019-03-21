@@ -7,16 +7,14 @@ import com.zuhlke.model.Coordinate;
 
 import java.util.LinkedList;
 
-public class BucketFill implements Command {
-
-    private Canvas canvas;
+public class BucketFillCommand implements Command {
 
     @Override
-    public Canvas execute(String[] input, Canvas base) throws NoCanvasException, InvalidInputException {
-
-        if (base == null) throw new NoCanvasException();
+    public Canvas execute(String[] input, Canvas source) throws InvalidInputException {
         Coordinate origin = new Coordinate(Integer.parseInt(input[1]), Integer.parseInt(input[2]));
-        canvas = base;
+
+        if (source == null) throw new NoCanvasException();
+        Canvas canvas = new Canvas(source);
 
         if (input[3].length() > 1 || "-|".contains(input[3])) {
             throw new InvalidInputException("Invalid color.");
@@ -24,12 +22,13 @@ public class BucketFill implements Command {
 
         Character targetColor = canvas.getCell(origin);
         Character newColor = input[3].charAt(0);
-        flood(origin, targetColor, newColor);
+        flood(origin, targetColor, newColor, canvas);
 
         return canvas;
     }
 
-    private void flood(Coordinate origin, Character targetColor, Character newColor) {
+    private void flood(Coordinate origin, Character targetColor, Character newColor, Canvas canvas) {
+
         if (targetColor == newColor) return;
         if (canvas.getCell(origin) != targetColor) return;
 

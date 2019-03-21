@@ -1,7 +1,6 @@
 package com.zuhlke.command;
 
 import com.zuhlke.exception.InvalidInputException;
-import com.zuhlke.exception.NoCanvasException;
 import com.zuhlke.model.Canvas;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -14,31 +13,30 @@ import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class DrawLineTest {
+class CreateCanvasCommandTest {
 
     private Canvas canvas;
-    private DrawLine subject;
+    private CreateCanvasCommand subject;
     private String br;
     private String ans;
 
     @BeforeEach
     void setUp() {
         canvas = new Canvas(20, 4);
-        subject = new DrawLine();
+        subject = new CreateCanvasCommand();
         br = System.getProperty("line.separator");
         ans = br +
                 "----------------------" + br +
                 "|                    |" + br +
-                "|xxxxxx              |" + br +
+                "|                    |" + br +
                 "|                    |" + br +
                 "|                    |" + br +
                 "----------------------" + br;
-
     }
 
     @Test
-    void drawLineImageTest() {
-        String command = "L 1 2 6 2";
+    void setCanvasImageTest() {
+        String command = "C 20 4";
 
         //prepare to redirect output
         OutputStream os = new ByteArrayOutputStream();
@@ -56,37 +54,9 @@ class DrawLineTest {
     }
 
     @Test
-    void drawLineInReverseImageTest() {
-        Canvas testCanvas = new Canvas(20, 4);
-        String command = "L 6 2 1 2";
-
-        //prepare to redirect output
-        OutputStream os = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(os);
-        System.setOut(ps);
-
-        try {
-            canvas = subject.execute(command.split(" "), testCanvas);
-            canvas.print();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-        assertEquals(ans, os.toString());
-    }
-
-    @Test
-    void checkNoCanvasError() {
-        Assertions.assertThrows(NoCanvasException.class, () -> {
-            String command = "L 1 2 6 2";
-            subject.execute(command.split(" "), null);
-        });
-    }
-
-    @Test
-    void checkVerticalOrHorizontalLine() {
+    void checkValidCanvasParameters() {
         Assertions.assertThrows(InvalidInputException.class, () -> {
-            String command = "L 1 2 6 4";
+            String command = "C 20 -5";
             subject.execute(command.split(" "), canvas);
         });
     }

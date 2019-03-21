@@ -1,6 +1,5 @@
 package com.zuhlke.application;
 
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +18,7 @@ class ApplicationTest {
 
 
     @BeforeEach
-    private void setUp() {
+    void setUp() {
         app = new Application();
         br = System.getProperty("line.separator");
         step1 = br +
@@ -31,26 +30,6 @@ class ApplicationTest {
                 "----------------------" + br;
     }
 
-    @Test
-    void checkSetCanvasCommand() {
-
-        //set input stream
-        String command = "C 20 4" + br + "Q";
-
-        InputStream is = new ByteArrayInputStream(command.getBytes());
-        System.setIn(is);
-
-        //redirect output stream
-        OutputStream os = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(os);
-        System.setOut(ps);
-
-        app.run();
-
-        int startFrom = os.toString().indexOf(br);
-
-        assertEquals(step1, os.toString().substring(startFrom, startFrom + step1.length()));
-    }
 
     @Test
     void checkDrawLineCommand() {
@@ -170,13 +149,6 @@ class ApplicationTest {
         assertEquals(ans, os.toString().substring(startFrom, startFrom + ans.length()));
     }
 
-    @Ignore
-    @Test
-    void checkQuitApplicationCommand() {
-        //set input stream
-//        String command = "
-//                "Q";
-    }
 
     @Test
     void checkForNoCanvasError() {
@@ -191,6 +163,9 @@ class ApplicationTest {
         System.setOut(ps);
 
         app.run();
+
+        assertTrue(os.toString().contains("No canvas found"));
+
     }
 
     @Test
