@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CanvasTest {
 
     private Canvas canvas;
-    private String br = System.getProperty("line.separator");
+    private final String br = System.getProperty("line.separator");
 
 
     @BeforeEach

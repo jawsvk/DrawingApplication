@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class Application {
 
     private Canvas canvas;
-    private HashMap<String, Command> commandLibrary = new HashMap<>();
+    private final HashMap<String, Command> commandLibrary = new HashMap<>();
 
     public Application() {
         commandLibrary.put("C", new CreateCanvasCommand());
@@ -24,7 +24,6 @@ public class Application {
 
         try (Scanner scanner = new Scanner(System.in)) {
             do {
-
                 // loop request for command input
                 System.out.print("Enter command: ");
                 input = scanner.nextLine().split(" ");
@@ -40,12 +39,11 @@ public class Application {
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
-                } else {
+                } else if (!input[0].toUpperCase().equals("Q")) {
                     //print out if command is not found
                     System.out.println("Command not found. Please try again.");
                 }
-            }
-            while (!input[0].toUpperCase().equals("Q"));
+            } while (!input[0].toUpperCase().equals("Q"));
         }
     }
 

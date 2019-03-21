@@ -2,9 +2,9 @@ package com.zuhlke.model;
 
 public class Canvas {
 
-    private Character[][] base;
-    private int row;
-    private int column;
+    private final Character[][] base;
+    private final int row;
+    private final int column;
 
     //copy constructor
     public Canvas(Canvas canvas) {
