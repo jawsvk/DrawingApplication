@@ -1,27 +1,27 @@
 package com.zuhlke.command;
 
 import com.zuhlke.model.Canvas;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DrawRectangleTest {
+class DrawRectangleCommandTest {
 
     private Canvas canvas;
-    private DrawRectangle subject;
+    private DrawRectangleCommand subject;
     private String br;
     private String ans;
 
-    @Before
-    public void setUp() {
-        subject = new DrawRectangle();
+    @BeforeEach
+    void setUp() {
         canvas = new Canvas(20, 4);
+        subject = new DrawRectangleCommand();
         br = System.getProperty("line.separator");
         ans = br +
                 "----------------------" + br +
@@ -33,7 +33,7 @@ public class DrawRectangleTest {
     }
 
     @Test
-    public void drawRectangleImageTest() {
+    void drawRectangleImageTest() {
         String command = "R 14 1 18 3";
 
         //prepare to redirect output
@@ -42,7 +42,8 @@ public class DrawRectangleTest {
         System.setOut(ps);
 
         try {
-            canvas = subject.Execute(command.split(" "), canvas);
+            canvas = subject.execute(command.split(" "), canvas);
+            canvas.print();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -51,8 +52,8 @@ public class DrawRectangleTest {
 
     }
 
-    @After
-    public void tearDown() {
+    @AfterEach
+    void tearDown() {
         //Restore normal output
         System.setOut(System.out);
     }

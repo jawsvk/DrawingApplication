@@ -1,92 +1,69 @@
 package com.zuhlke.model;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class CanvasTest {
+class CanvasTest {
 
     private Canvas canvas;
-    private Character[][] testbase;
-    private String ans;
-    private String br;
+    private String br = System.getProperty("line.separator");
 
-    @Before
-    public void setUp() {
+
+    @BeforeEach
+    void setUp() {
         canvas = new Canvas(10, 4);
-        testbase = canvas.getBase();
-        br = System.getProperty("line.separator");
-        ans = br +
+    }
+
+    @Test
+    void plotXAtOnePoint() {
+        Character ans = 'T';
+
+        Coordinate coordinate = new Coordinate(1, 1);
+        canvas.plot(coordinate, ans);
+
+        assertEquals(ans, canvas.getCell(coordinate));
+    }
+
+
+    @Test
+    void plotXExpectXatSamePoint() {
+        Character ans = 'T';
+
+        Coordinate coordinate = new Coordinate(2, 2);
+        canvas.plot(coordinate, ans);
+
+        assertEquals(ans, canvas.getCell(coordinate));
+    }
+
+    @Test
+    void CoordinateWithinCanvasReturnTrue() {
+        Coordinate coordinate = new Coordinate(2, 2);
+        assertTrue(canvas.isValidPoint(coordinate));
+    }
+
+    @Test
+    void CoordinateOutsideBoundaryReturnFalse() {
+        Coordinate coordinate = new Coordinate(11, -2);
+        assertFalse(canvas.isValidPoint(coordinate));
+    }
+
+    @Test
+    void ExpectCorrectPrintOut() {
+
+        String ans = br +
                 "------------" + br +
                 "|          |" + br +
                 "|          |" + br +
                 "|          |" + br +
                 "|          |" + br +
                 "------------" + br;
-    }
 
-    @Test
-    public void checkHorizontalOutline() {
-        int count = 0;
-
-        for (Character[] array : testbase) {
-            for (Character c : array) {
-                if (c == '-') count++;
-            }
-        }
-
-        assertEquals(24, count);
-    }
-
-    @Test
-    public void checkVerticalOutline() {
-        int count = 0;
-
-        for (Character[] array : testbase) {
-            for (Character c : array) {
-                if (c == '|') count++;
-            }
-        }
-
-        assertEquals(8, count);
-
-    }
-
-    @Test
-    public void plotXAtOnePoint() {
-        Character ans = 'T';
-
-        Coordinate coordinate = new Coordinate(1, 1);
-        testbase = canvas.plot(coordinate, ans);
-
-        assertEquals(ans, testbase[1][1]);
-    }
-
-
-    @Test
-    public void plotXExpectXatSamePoint() {
-        Character ans = 'T';
-        Coordinate coordinate = new Coordinate(2, 2);
-        testbase = canvas.plot(coordinate, ans);
-
-        assertEquals(ans, canvas.getCell(coordinate));
-    }
-
-    @Test
-    public void positiveCoordinateReturnTrue() {
-        Coordinate coordinate = new Coordinate(2, 2);
-
-        assertTrue(canvas.isValidPoint(coordinate));
-
-    }
-
-    @Test
-    public void ExpectCorrectPrintOut() {
         //redirect output
         OutputStream os = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(os);
@@ -95,5 +72,21 @@ public class CanvasTest {
         canvas.print();
 
         assertEquals(ans, os.toString());
+    }
+
+    @Test
+    void drawHorizontalLineTest() {
+        Coordinate start = new Coordinate(1, 2);
+        Coordinate end = new Coordinate(6, 2);
+
+        canvas.drawLine(start, end);
+
+        int count = 0;
+        for (Character c : canvas.getBase()[2]) {
+            if (c == 'x') count++;
+        }
+
+        assertEquals(6, count);
+
     }
 }
