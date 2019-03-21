@@ -17,14 +17,13 @@ class CreateCanvasCommandTest {
 
     private Canvas canvas;
     private CreateCanvasCommand subject;
-    private String br;
     private String ans;
 
     @BeforeEach
     void setUp() {
         canvas = new Canvas(20, 4);
         subject = new CreateCanvasCommand();
-        br = System.getProperty("line.separator");
+        String br = System.getProperty("line.separator");
         ans = br +
                 "----------------------" + br +
                 "|                    |" + br +

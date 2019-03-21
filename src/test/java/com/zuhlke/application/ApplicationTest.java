@@ -30,6 +30,25 @@ class ApplicationTest {
                 "----------------------" + br;
     }
 
+    @Test
+    void checkCreateCanvasCommand() {
+        //set input stream
+        String command = "C 20 4" + br + "Q";
+
+        InputStream is = new ByteArrayInputStream(command.getBytes());
+        System.setIn(is);
+
+        //redirect output stream
+        OutputStream os = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(os);
+        System.setOut(ps);
+
+        app.run();
+
+        int startFrom = os.toString().indexOf(":") + 2;
+
+        assertEquals(step1, os.toString().substring(startFrom, startFrom + step1.length()));
+    }
 
     @Test
     void checkDrawLineCommand() {
@@ -113,6 +132,27 @@ class ApplicationTest {
         int startFrom = os.toString().indexOf(":", step1.length()) + 2;
 
         assertEquals(ans, os.toString().substring(startFrom, startFrom + ans.length()));
+    }
+
+    @Test
+    void checkQuitApplication() {
+        //set input stream
+        String command = "Q";
+
+        InputStream is = new ByteArrayInputStream(command.getBytes());
+        System.setIn(is);
+
+        //redirect output stream
+        OutputStream os = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(os);
+        System.setOut(ps);
+
+        app.run();
+
+        int startFrom = os.toString().indexOf(":") + 2;
+
+        assertTrue(os.toString().substring(startFrom).isEmpty());
+
     }
 
     @Test

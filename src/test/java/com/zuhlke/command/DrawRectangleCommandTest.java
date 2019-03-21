@@ -15,14 +15,13 @@ class DrawRectangleCommandTest {
 
     private Canvas canvas;
     private DrawRectangleCommand subject;
-    private String br;
     private String ans;
 
     @BeforeEach
     void setUp() {
         canvas = new Canvas(20, 4);
         subject = new DrawRectangleCommand();
-        br = System.getProperty("line.separator");
+        String br = System.getProperty("line.separator");
         ans = br +
                 "----------------------" + br +
                 "|             xxxxx  |" + br +
