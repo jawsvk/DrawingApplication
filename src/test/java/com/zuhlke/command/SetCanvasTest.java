@@ -13,7 +13,6 @@ import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
 class SetCanvasTest {
 
     private Canvas canvas;
@@ -53,7 +52,6 @@ class SetCanvasTest {
 
         assertEquals(ans, os.toString());
     }
-
 
     @Test
     void checkValidCanvasParameters() {

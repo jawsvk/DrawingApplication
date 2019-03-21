@@ -27,12 +27,12 @@ public class Application {
         do {
             // loop request for command input
             System.out.print("Enter command: ");
-            input = scanner.nextLine().toUpperCase().split(" ");
+            input = scanner.nextLine().split(" ");
 
             //execute command
-            if (commandLibrary.containsKey(input[0])) {
+            if (commandLibrary.containsKey(input[0].toUpperCase())) {
                 try {
-                    canvas = commandLibrary.get(input[0]).execute(input, canvas);
+                    canvas = commandLibrary.get(input[0].toUpperCase()).execute(input, canvas);
                     canvas.print();
                 } catch (NoCanvasException e) {
                     System.out.println(e.getMessage());

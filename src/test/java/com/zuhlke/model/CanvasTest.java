@@ -12,20 +12,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class CanvasTest {
 
     private Canvas canvas;
-    private String ans;
-    private String br;
 
     @BeforeEach
     void setUp() {
         canvas = new Canvas(10, 4);
-        br = System.getProperty("line.separator");
-        ans = br +
-                "------------" + br +
-                "|          |" + br +
-                "|          |" + br +
-                "|          |" + br +
-                "|          |" + br +
-                "------------" + br;
     }
 
     @Test
@@ -63,6 +53,16 @@ class CanvasTest {
 
     @Test
     void ExpectCorrectPrintOut() {
+        String br = System.getProperty("line.separator");
+
+        String ans = br +
+                "------------" + br +
+                "|          |" + br +
+                "|          |" + br +
+                "|          |" + br +
+                "|          |" + br +
+                "------------" + br;
+
         //redirect output
         OutputStream os = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(os);
