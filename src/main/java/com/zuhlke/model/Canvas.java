@@ -58,7 +58,6 @@ public class Canvas {
                 base[i][j] = ' ';
             }
         }
-
     }
 
     //plot a single point in the canvas
