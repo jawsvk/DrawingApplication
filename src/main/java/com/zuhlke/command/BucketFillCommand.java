@@ -60,6 +60,7 @@ public class BucketFillCommand implements Command {
                 canvas.plot(up, newColor);
                 queue.addLast(up);
             }
+
             //down
             Coordinate down = new Coordinate(point.getX(), point.getY() + 1);
             if (canvas.getCell(down) == targetColor) {

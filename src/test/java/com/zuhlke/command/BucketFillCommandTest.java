@@ -21,11 +21,18 @@ class BucketFillCommandTest {
     private String ans1;
     private String ans2;
     private String ans3;
+    private OutputStream os;
 
     @BeforeEach
     void setUp() {
         canvas = new Canvas(20, 4);
         subject = new BucketFillCommand();
+
+        //prepare to redirect output
+        os = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(os);
+        System.setOut(ps);
+
         String br = System.getProperty("line.separator");
         ans1 = br +
                 "----------------------" + br +
@@ -74,9 +81,6 @@ class BucketFillCommandTest {
 
         subject = new BucketFillCommand();
 
-        OutputStream os = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(os);
-        System.setOut(ps);
 
         try {
             testCanvas = subject.execute(command.split(" "), testCanvas);
@@ -94,15 +98,10 @@ class BucketFillCommandTest {
         String setupCommand = "R 14 1 18 3";
         Canvas canvas = new Canvas(20, 4);
 
-        OutputStream os = new ByteArrayOutputStream();
         DrawRectangleCommand dR = new DrawRectangleCommand();
         subject = new BucketFillCommand();
         try {
             canvas = dR.execute(setupCommand.split(" "), canvas);
-
-            //prepare to redirect output
-            PrintStream ps = new PrintStream(os);
-            System.setOut(ps);
 
             canvas = subject.execute(command.split(" "), canvas);
             canvas.print();
@@ -120,15 +119,9 @@ class BucketFillCommandTest {
         String command = "B 14 1 o";
         String setupCommand = "R 14 1 18 3";
 
-        OutputStream os = new ByteArrayOutputStream();
-
         DrawRectangleCommand dR = new DrawRectangleCommand();
         try {
             canvas = dR.execute(setupCommand.split(" "), canvas);
-
-            //prepare to redirect output
-            PrintStream ps = new PrintStream(os);
-            System.setOut(ps);
 
             canvas = subject.execute(command.split(" "), canvas);
             canvas.print();

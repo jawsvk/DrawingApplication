@@ -6,7 +6,7 @@ public class Canvas {
     private final int row;
     private final int column;
 
-    //copy constructor
+    //deep copy constructor
     public Canvas(Canvas canvas) {
         this.row = canvas.getRow();
         this.column = canvas.getColumn();
@@ -23,15 +23,15 @@ public class Canvas {
         return row;
     }
 
+    private int getColumn() {
+        return column;
+    }
+
     public Canvas(int x, int y) {
         this.column = x + 2;
         this.row = y + 2;
         this.base = new Character[row][column];
         makeOutline();
-    }
-
-    private int getColumn() {
-        return column;
     }
 
     Character[][] getBase() {

@@ -17,7 +17,7 @@ public class DrawRectangleCommand extends DrawLineCommand {
         Coordinate corner2 = new Coordinate(corner4.getX(), corner1.getY());
         Coordinate corner3 = new Coordinate(corner1.getX(), corner4.getY());
 
-        //make sure all the coordinates are valid
+        //make sure input coordinates are valid
         checkCoordinates(corner1, corner4, canvas);
 
         //draw each side of the rectangle
