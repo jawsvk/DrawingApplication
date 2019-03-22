@@ -1,7 +1,5 @@
 package com.zuhlke.model;
 
-import java.util.Arrays;
-
 public class Canvas {
 
     private final Character[][] base;
@@ -82,7 +80,7 @@ public class Canvas {
     public void print() {
         for (int i = 0; i < row; i++) {
             System.out.println();
-            Arrays.stream(base[i]).forEach(System.out::print);
+            for (Character c : base[i]) System.out.print(c);
         }
         System.out.println();
 
