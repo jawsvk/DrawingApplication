@@ -36,6 +36,5 @@ public class DrawRectangleCommand extends DrawLineCommand {
         Coordinate x2 = new Coordinate(end.getX(), end.getY());
 
         return canvas.drawLine(x1, x2);
-
     }
 }

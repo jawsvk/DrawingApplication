@@ -54,6 +54,14 @@ class CanvasTest {
     }
 
     @Test
+    void createCanvasDeepCopy() {
+        Canvas testCanvas = new Canvas(canvas);
+
+        assertNotEquals(testCanvas.toString(), canvas.toString());
+
+    }
+
+    @Test
     void ExpectCorrectPrintOut() {
 
         String ans = br +

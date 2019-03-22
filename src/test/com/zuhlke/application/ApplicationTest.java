@@ -9,7 +9,6 @@ import java.io.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-
 class ApplicationTest {
 
     private Application app;

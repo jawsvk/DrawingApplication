@@ -1,11 +1,8 @@
 package com.zuhlke.model;
 
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -43,17 +40,9 @@ class CoordinateTest {
     @Test
     void ExpectPrintOutOfCoordinates() {
 
-        String ans = "X-Coordinate: 2, Y-Coordinate: 3" + System.getProperty("line.separator");
+        String ans = "X-Coordinate: 2, Y-Coordinate: 3";
 
-        //redirect output
-        OutputStream os = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(os);
-        System.setOut(ps);
-
-        System.out.println(start.toString());
-
-        assertEquals(ans, os.toString());
-
+        assertEquals(ans, start.toString());
     }
 
     @Test
