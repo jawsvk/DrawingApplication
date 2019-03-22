@@ -42,13 +42,13 @@ class CanvasTest {
     }
 
     @Test
-    void CoordinateWithinCanvasReturnTrue() {
+    void coordinateWithinCanvasReturnTrue() {
         Coordinate coordinate = new Coordinate(2, 2);
         assertTrue(canvas.isValidPoint(coordinate));
     }
 
     @Test
-    void CoordinateOutsideBoundaryReturnFalse() {
+    void coordinateOutsideBoundaryReturnFalse() {
         Coordinate coordinate = new Coordinate(11, -2);
         assertFalse(canvas.isValidPoint(coordinate));
     }
@@ -58,11 +58,20 @@ class CanvasTest {
         Canvas testCanvas = new Canvas(canvas);
 
         assertNotEquals(testCanvas.toString(), canvas.toString());
-
     }
 
     @Test
-    void ExpectCorrectPrintOut() {
+    void checkCanvasCopyHasSameBase() {
+
+        Coordinate point = new Coordinate(5, 5);
+        canvas.plot(point, 'c');
+
+        Canvas testCanvas = new Canvas(canvas);
+        assertEquals(testCanvas.getCell(point), canvas.getCell(point));
+    }
+
+    @Test
+    void expectCorrectPrintOut() {
 
         String ans = br +
                 "------------" + br +

@@ -67,7 +67,7 @@ class BucketFillCommandTest {
     }
 
     @Test
-    void SimpleFillImageTest() {
+    void simpleFillImageTest() {
         Canvas testCanvas = new Canvas(5, 3);
         testCanvas.plot(new Coordinate(1, 2), 'x');
         String command = "B 1 1 o";
@@ -116,7 +116,7 @@ class BucketFillCommandTest {
     }
 
     @Test
-    void BucketFillBorderExpectColorBorder() {
+    void bucketFillBorderExpectColorBorder() {
         String command = "B 14 1 o";
         String setupCommand = "R 14 1 18 3";
 
