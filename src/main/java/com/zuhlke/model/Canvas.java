@@ -1,5 +1,7 @@
 package com.zuhlke.model;
 
+import java.util.Arrays;
+
 public class Canvas {
 
     private final Character[][] base;
@@ -57,6 +59,7 @@ public class Canvas {
             for (int j = 1; j < base[0].length - 1; j++) {
                 base[i][j] = ' ';
             }
+
         }
     }
 
@@ -79,9 +82,7 @@ public class Canvas {
     public void print() {
         for (int i = 0; i < row; i++) {
             System.out.println();
-            for (Character s : base[i]) {
-                System.out.print(s);
-            }
+            Arrays.stream(base[i]).forEach(System.out::print);
         }
         System.out.println();
 
