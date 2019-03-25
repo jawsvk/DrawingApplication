@@ -1,8 +1,0 @@
-com\zuhlke\command\DrawLineCommandTest.class
-com\zuhlke\model\CanvasTest.class
-com\zuhlke\command\BucketFillCommandTest.class
-com\zuhlke\application\ApplicationTest.class
-com\zuhlke\command\CreateCanvasCommandTest.class
-com\zuhlke\application\ApplicationScenarioTest.class
-com\zuhlke\command\DrawRectangleCommandTest.class
-com\zuhlke\model\CoordinateTest.class
