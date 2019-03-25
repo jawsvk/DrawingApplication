@@ -11,6 +11,7 @@ public class DrawLineCommand implements Command {
     @Override
     public Canvas execute(String[] input, Canvas source) throws InvalidInputException {
         if (source == null) throw new NoCanvasException();
+
         Canvas canvas = new Canvas(source);
 
         Coordinate startPt = new Coordinate(Integer.parseInt((input[1])), Integer.parseInt((input[2])));

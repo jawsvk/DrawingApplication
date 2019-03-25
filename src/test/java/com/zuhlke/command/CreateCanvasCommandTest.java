@@ -12,30 +12,30 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
 class CreateCanvasCommandTest {
 
     private Canvas canvas;
     private CreateCanvasCommand subject;
-    private String ans;
+    private String br;
 
     @BeforeEach
     void setUp() {
         canvas = new Canvas(20, 4);
         subject = new CreateCanvasCommand();
-        String br = System.getProperty("line.separator");
-        ans = br +
+        br = System.getProperty("line.separator");
+    }
+
+    @Test
+    void setCanvasImageTest() throws InvalidInputException {
+        String ans = br +
                 "----------------------" + br +
                 "|                    |" + br +
                 "|                    |" + br +
                 "|                    |" + br +
                 "|                    |" + br +
                 "----------------------" + br;
-    }
 
-    @Test
-    void setCanvasImageTest() {
         String command = "C 20 4";
 
         //prepare to redirect output
@@ -43,13 +43,8 @@ class CreateCanvasCommandTest {
         PrintStream ps = new PrintStream(os);
         System.setOut(ps);
 
-        try {
-            canvas = subject.execute(command.split(" "), canvas);
-            canvas.print();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            fail(e.getCause());
-        }
+        canvas = subject.execute(command.split(" "), canvas);
+        canvas.print();
 
         assertEquals(ans, os.toString());
     }

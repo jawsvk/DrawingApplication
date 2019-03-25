@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Application {
-
     private Canvas canvas;
+
     private final HashMap<String, Command> commandLibrary = new HashMap<>();
 
     public Application() {
@@ -20,8 +20,10 @@ public class Application {
         commandLibrary.put("B", new BucketFillCommand());
     }
 
-    public void run() {
+    public void run(Canvas source) {
         String[] input;
+
+        if (source != null) canvas = new Canvas(source);
 
         try (Scanner scanner = new Scanner(System.in)) {
             do {

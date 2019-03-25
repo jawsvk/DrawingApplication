@@ -1,5 +1,6 @@
 package com.zuhlke.application;
 
+import com.zuhlke.model.Canvas;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,10 +15,12 @@ class ApplicationTest {
     private Application app;
     private String br;
     private OutputStream os;
+    private Canvas source;
 
     @BeforeEach
     void setUp() {
         app = new Application();
+        source = new Canvas(20, 4);
 
         //redirect output stream
         os = new ByteArrayOutputStream();
@@ -37,13 +40,14 @@ class ApplicationTest {
                 "|                    |" + br +
                 "|                    |" + br +
                 "----------------------" + br;
+
         //set input stream
         String command = "C 20 4" + br + "Q";
 
         InputStream is = new ByteArrayInputStream(command.getBytes());
         System.setIn(is);
 
-        app.run();
+        app.run(null);
 
         int startFrom = os.toString().indexOf(":") + 2;
         assertEquals(ans, os.toString().substring(startFrom, startFrom + ans.length()));
@@ -60,14 +64,14 @@ class ApplicationTest {
                 "----------------------";
 
         //set input stream
-        String command = "C 20 4" + br + "L 1 2 6 2" + br + "Q";
+        String command = "L 1 2 6 2" + br + "Q";
 
         InputStream is = new ByteArrayInputStream(command.getBytes());
         System.setIn(is);
 
-        app.run();
+        app.run(source);
 
-        int startFrom = os.toString().indexOf(":", ans.length()) + 2;
+        int startFrom = os.toString().indexOf(":") + 2;
 
         assertEquals(ans, os.toString().substring(startFrom, startFrom + ans.length()));
     }
@@ -83,15 +87,14 @@ class ApplicationTest {
                 "----------------------";
 
         //set input stream
-        String command = "C 20 4" + br + "R 14 1 18 3" + br + "Q";
+        String command = "R 14 1 18 3" + br + "Q";
 
         InputStream is = new ByteArrayInputStream(command.getBytes());
         System.setIn(is);
 
+        app.run(source);
 
-        app.run();
-
-        int startFrom = os.toString().indexOf(":", ans.length()) + 2;
+        int startFrom = os.toString().indexOf(":") + 2;
 
         assertEquals(ans, os.toString().substring(startFrom, startFrom + ans.length()));
     }
@@ -107,19 +110,15 @@ class ApplicationTest {
                 "----------------------";
 
         //set input stream
-        String command = "C 20 4" + br + "B 1 1 o" + br + "Q";
+        String command = "B 1 1 o" + br + "Q";
 
         InputStream is = new ByteArrayInputStream(command.getBytes());
         System.setIn(is);
 
-        //redirect output stream
-        OutputStream os = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(os);
-        System.setOut(ps);
 
-        app.run();
+        app.run(source);
 
-        int startFrom = os.toString().indexOf(":", ans.length()) + 2;
+        int startFrom = os.toString().indexOf(":") + 2;
 
         assertEquals(ans, os.toString().substring(startFrom, startFrom + ans.length()));
     }
@@ -132,43 +131,12 @@ class ApplicationTest {
         InputStream is = new ByteArrayInputStream(command.getBytes());
         System.setIn(is);
 
-        app.run();
+        app.run(null);
 
         int startFrom = os.toString().indexOf(":") + 2;
 
         assertTrue(os.toString().substring(startFrom).isEmpty());
-
     }
-
-    @Test
-    void checkAllCommandsInSequence() {
-
-        String ans = br +
-                "----------------------" + br +
-                "|oooooooooooooxxxxxoo|" + br +
-                "|xxxxxxooooooox   xoo|" + br +
-                "|     xoooooooxxxxxoo|" + br +
-                "|     xoooooooooooooo|" + br +
-                "----------------------" + br;
-
-        //set input stream
-        String command = "C 20 4" + br +
-                "L 1 2 6 2" + br +
-                "L 6 3 6 4" + br +
-                "R 14 1 18 3" + br +
-                "B 10 1 o" + br +
-                "Q";
-
-        InputStream is = new ByteArrayInputStream(command.getBytes());
-        System.setIn(is);
-
-        app.run();
-
-        int startFrom = os.toString().indexOf(":", ans.length() * 4) + 2;
-
-        assertEquals(ans, os.toString().substring(startFrom, startFrom + ans.length()));
-    }
-
 
     @Test
     void checkForNoCanvasError() {
@@ -177,10 +145,9 @@ class ApplicationTest {
         InputStream is = new ByteArrayInputStream(command.getBytes());
         System.setIn(is);
 
-        app.run();
+        app.run(null);
 
         assertTrue(os.toString().contains("No canvas found"));
-
     }
 
     @Test
@@ -190,7 +157,7 @@ class ApplicationTest {
         InputStream is = new ByteArrayInputStream(command.getBytes());
         System.setIn(is);
 
-        app.run();
+        app.run(null);
 
         assertTrue(os.toString().contains("Command not found"));
     }
@@ -201,7 +168,7 @@ class ApplicationTest {
         String command = "C 20 4" + br + "L -1 2 6 2" + br + "Q";
         InputStream is = new ByteArrayInputStream(command.getBytes());
         System.setIn(is);
-        app.run();
+        app.run(null);
 
         assertTrue(os.toString().contains("Either Start Point or End Point (or both) are out of bounds"));
     }

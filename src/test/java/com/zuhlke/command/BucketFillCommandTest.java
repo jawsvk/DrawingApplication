@@ -13,7 +13,6 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
 class BucketFillCommandTest {
 
@@ -44,7 +43,7 @@ class BucketFillCommandTest {
     }
 
     @Test
-    void simpleFillImageTest() {
+    void simpleFillImageTest() throws InvalidInputException {
         String ans = br +
                 "-------" + br +
                 "|ooooo|" + br +
@@ -58,20 +57,14 @@ class BucketFillCommandTest {
 
         subject = new BucketFillCommand();
 
-        try {
-            testCanvas = subject.execute(command.split(" "), testCanvas);
-            testCanvas.print();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            fail(e.getCause());
-
-        }
+        testCanvas = subject.execute(command.split(" "), testCanvas);
+        testCanvas.print();
 
         assertEquals(ans, os.toString());
     }
 
     @Test
-    void bucketFillImageTest() {
+    void bucketFillImageTest() throws InvalidInputException {
         String ans = br +
                 "----------------------" + br +
                 "|oooooooooooooxxxxxoo|" + br +
@@ -88,24 +81,18 @@ class BucketFillCommandTest {
 
         DrawRectangleCommand dR = new DrawRectangleCommand();
         subject = new BucketFillCommand();
-        try {
-            canvas = dR.execute(setupCommand.split(" "), canvas);
 
-            canvas = subject.execute(command.split(" "), canvas);
-            canvas.print();
+        canvas = dR.execute(setupCommand.split(" "), canvas);
 
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            fail(e.getCause());
-
-        }
+        canvas = subject.execute(command.split(" "), canvas);
+        canvas.print();
 
         assertEquals(ans, os.toString());
 
     }
 
     @Test
-    void bucketFillBorderExpectColorBorder() {
+    void bucketFillBorderExpectColorBorder() throws InvalidInputException {
         String ans = br +
                 "----------------------" + br +
                 "|             ooooo  |" + br +
@@ -118,17 +105,11 @@ class BucketFillCommandTest {
         String setupCommand = "R 14 1 18 3";
 
         DrawRectangleCommand dR = new DrawRectangleCommand();
-        try {
-            canvas = dR.execute(setupCommand.split(" "), canvas);
 
-            canvas = subject.execute(command.split(" "), canvas);
-            canvas.print();
+        canvas = dR.execute(setupCommand.split(" "), canvas);
 
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            fail(e.getCause());
-
-        }
+        canvas = subject.execute(command.split(" "), canvas);
+        canvas.print();
 
         assertEquals(ans, os.toString());
     }

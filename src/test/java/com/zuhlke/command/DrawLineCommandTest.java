@@ -12,13 +12,13 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
 class DrawLineCommandTest {
 
     private Canvas canvas;
     private DrawLineCommand subject;
     private String br;
+    private OutputStream os;
 
     @BeforeEach
     void setUp() {
@@ -26,11 +26,14 @@ class DrawLineCommandTest {
         subject = new DrawLineCommand();
         br = System.getProperty("line.separator");
 
-
+        //prepare to redirect output
+        os = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(os);
+        System.setOut(ps);
     }
 
     @Test
-    void drawLineImageTest() {
+    void drawLineImageTest() throws InvalidInputException {
         String ans = br +
                 "----------------------" + br +
                 "|                    |" + br +
@@ -41,25 +44,14 @@ class DrawLineCommandTest {
 
         String command = "L 1 2 6 2";
 
-        //prepare to redirect output
-        OutputStream os = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(os);
-        System.setOut(ps);
-
-        try {
-            canvas = subject.execute(command.split(" "), canvas);
-            canvas.print();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            fail(e.getCause());
-
-        }
+        canvas = subject.execute(command.split(" "), canvas);
+        canvas.print();
 
         assertEquals(ans, os.toString());
     }
 
     @Test
-    void drawLineInReverseImageTest() {
+    void drawLineInReverseImageTest() throws InvalidInputException {
         String ans = br +
                 "----------------------" + br +
                 "|                    |" + br +
@@ -70,19 +62,8 @@ class DrawLineCommandTest {
 
         String command = "L 6 2 1 2";
 
-        //prepare to redirect output
-        OutputStream os = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(os);
-        System.setOut(ps);
-
-        try {
-            canvas = subject.execute(command.split(" "), canvas);
-            canvas.print();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            fail(e.getCause());
-
-        }
+        canvas = subject.execute(command.split(" "), canvas);
+        canvas.print();
 
         assertEquals(ans, os.toString());
     }

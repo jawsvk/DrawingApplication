@@ -1,5 +1,6 @@
 package com.zuhlke.command;
 
+import com.zuhlke.exception.InvalidInputException;
 import com.zuhlke.model.Canvas;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +11,6 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
 class DrawRectangleCommandTest {
 
@@ -26,7 +26,7 @@ class DrawRectangleCommandTest {
     }
 
     @Test
-    void drawRectangleImageTest() {
+    void drawRectangleImageTest() throws InvalidInputException {
         String ans = br +
                 "----------------------" + br +
                 "|             xxxxx  |" + br +
@@ -41,14 +41,9 @@ class DrawRectangleCommandTest {
         PrintStream ps = new PrintStream(os);
         System.setOut(ps);
 
-        try {
-            canvas = subject.execute(command.split(" "), canvas);
-            canvas.print();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            fail(e.getCause());
+        canvas = subject.execute(command.split(" "), canvas);
+        canvas.print();
 
-        }
 
         assertEquals(ans, os.toString());
 
