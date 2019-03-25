@@ -32,7 +32,7 @@ class CreateCanvasCommandTest {
     }
 
     @Test
-    void setCanvasImageTest() throws InvalidInputException {
+    void createCanvasImageTest() throws InvalidInputException {
         // given
         String command = "C 20 4";
         Canvas canvas;

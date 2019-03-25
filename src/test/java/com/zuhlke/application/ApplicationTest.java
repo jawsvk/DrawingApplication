@@ -138,7 +138,7 @@ class ApplicationTest {
     }
 
     @Test
-    void checkForNoCanvasError() {
+    void expectExceptionWhenNoCanvasCreated() {
         // given
         String command = "L 1 2 6 2" + br + "Q";
         sendToInput(command);
@@ -151,7 +151,7 @@ class ApplicationTest {
     }
 
     @Test
-    void checkForInvalidCommandError() {
+    void expectExceptionWhenWrongCommand() {
         // given
         String command = "C 20 4" + br + "WrongCommand" + br + "Q";
         sendToInput(command);
@@ -164,7 +164,7 @@ class ApplicationTest {
     }
 
     @Test
-    void checkForOutOfBoundParameters() {
+    void expectExceptionForOutOfBoundParameters() {
         // given
         Canvas source = new Canvas(20, 4);
         String command = "L 22 2 6 2" + br + "Q";
