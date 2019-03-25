@@ -43,7 +43,7 @@ class ApplicationScenarioTest {
         byte[] bytes = Files.readAllBytes(Paths.get(uri));
 
 
-        String output = new String(bytes);
+        String expected = new String(bytes);
 
         //set input stream
         String command = "C 20 4" + br +
@@ -58,7 +58,8 @@ class ApplicationScenarioTest {
 
         app.run(null);
 
-        assertEquals(output, os.toString());
+        //compare as CRLF file
+        assertEquals(expected.replaceAll("\\n", "\r\n"), os.toString());
     }
 
     @AfterEach
