@@ -58,8 +58,8 @@ class ApplicationScenarioTest {
 
         app.run(null);
 
-        //compare as CRLF file
-        assertEquals(expected.replaceAll("\\n", "\r\n"), os.toString());
+        //compare as LF file
+        assertEquals(expected, os.toString().replaceAll("\\r\\n", "\n"));
     }
 
     @AfterEach
