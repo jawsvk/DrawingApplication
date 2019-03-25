@@ -165,10 +165,10 @@ class ApplicationTest {
     @Test
     void checkForInvalidParameters() {
         //set input stream
-        String command = "C 20 4" + br + "L -1 2 6 2" + br + "Q";
+        String command = "L -1 2 6 2" + br + "Q";
         InputStream is = new ByteArrayInputStream(command.getBytes());
         System.setIn(is);
-        app.run(null);
+        app.run(source);
 
         assertTrue(os.toString().contains("Either Start Point or End Point (or both) are out of bounds"));
     }

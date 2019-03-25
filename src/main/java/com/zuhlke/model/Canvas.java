@@ -102,6 +102,7 @@ public class Canvas {
             if (diff.getY() == 0) point.addX(1);
 
         }
+
         return this;
     }
 }
