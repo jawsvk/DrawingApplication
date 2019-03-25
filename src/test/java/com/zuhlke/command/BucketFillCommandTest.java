@@ -1,5 +1,6 @@
 package com.zuhlke.command;
 
+import com.zuhlke.exception.InsufficientParametersException;
 import com.zuhlke.exception.InvalidInputException;
 import com.zuhlke.model.Canvas;
 import com.zuhlke.model.Coordinate;
@@ -32,18 +33,6 @@ class BucketFillCommandTest {
         br = System.getProperty("line.separator");
     }
 
-    @Test
-    void expectExceptionWhenMoreThanOneColorCharacter() {
-        // then
-        Assertions.assertThrows(InvalidInputException.class, () -> {
-            // given
-            String command = "B 10 1 oo";
-            Canvas canvas = new Canvas(20, 4);
-
-            //when
-            subject.execute(command.split(" "), canvas);
-        });
-    }
 
     @Test
     void simpleFillImageTest() throws InvalidInputException {
@@ -117,6 +106,47 @@ class BucketFillCommandTest {
 
         assertEquals(expected, os.toString());
     }
+
+    @Test
+    void expectExceptionWhenMoreThanOneColorCharacter() {
+        // then
+        Assertions.assertThrows(InvalidInputException.class, () -> {
+            // given
+            String command = "B 10 1 oo";
+            Canvas canvas = new Canvas(20, 4);
+
+            //when
+            subject.execute(command.split(" "), canvas);
+        });
+    }
+
+    @Test
+    void expectExceptionWhenInvalidCoordinateParameters() {
+        // then
+        Assertions.assertThrows(InvalidInputException.class, () -> {
+            // given
+            String command = "B 10 -1 o";
+            Canvas canvas = new Canvas(20, 4);
+
+            //when
+            subject.execute(command.split(" "), canvas);
+        });
+    }
+
+    @Test
+    void expectExceptionWhenInsufficientParameters() {
+        // then
+        Assertions.assertThrows(InsufficientParametersException.class, () -> {
+            // given
+            String command = "B 10 1";
+            Canvas canvas = new Canvas(20, 4);
+
+            //when
+            subject.execute(command.split(" "), canvas);
+        });
+    }
+
+
 
     @AfterEach
     void tearDown() {

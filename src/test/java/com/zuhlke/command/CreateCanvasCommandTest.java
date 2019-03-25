@@ -1,5 +1,6 @@
 package com.zuhlke.command;
 
+import com.zuhlke.exception.InsufficientParametersException;
 import com.zuhlke.exception.InvalidInputException;
 import com.zuhlke.model.Canvas;
 import org.junit.jupiter.api.AfterEach;
@@ -53,11 +54,23 @@ class CreateCanvasCommandTest {
     }
 
     @Test
-    void checkValidCanvasParameters() {
+    void expectExceptionWhenInvalidCanvasParameters() {
         // then
         Assertions.assertThrows(InvalidInputException.class, () -> {
             // given
-            String command = "C 20 -5";
+            String command = "C 20 a";
+
+            // when
+            subject.execute(command.split(" "), null);
+        });
+    }
+
+    @Test
+    void expectExceptionWhenInsufficientCanvasParameters() {
+        // then
+        Assertions.assertThrows(InsufficientParametersException.class, () -> {
+            // given
+            String command = "C 20";
 
             // when
             subject.execute(command.split(" "), null);

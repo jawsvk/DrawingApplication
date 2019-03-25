@@ -164,10 +164,10 @@ class ApplicationTest {
     }
 
     @Test
-    void checkForInvalidParameters() {
+    void checkForOutOfBoundParameters() {
         // given
         Canvas source = new Canvas(20, 4);
-        String command = "L -1 2 6 2" + br + "Q";
+        String command = "L 22 2 6 2" + br + "Q";
         sendToInput(command);
 
         // when

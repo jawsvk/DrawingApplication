@@ -12,13 +12,15 @@ public class DrawRectangleCommand extends DrawLineCommand {
         if (source == null) throw new NoCanvasException();
         Canvas canvas = new Canvas(source);
 
+        input = validateInput(input);
+
         Coordinate corner1 = new Coordinate(Integer.parseInt(input[1]), Integer.parseInt(input[2]));
         Coordinate corner4 = new Coordinate(Integer.parseInt(input[3]), Integer.parseInt(input[4]));
         Coordinate corner2 = new Coordinate(corner4.getX(), corner1.getY());
         Coordinate corner3 = new Coordinate(corner1.getX(), corner4.getY());
 
         //make sure input coordinates are valid
-        checkCoordinates(corner1, corner4, canvas);
+        validateCoordinates(corner1, corner4, canvas);
 
         //draw each side of the rectangle
         canvas = drawSide(corner1, corner2, canvas);

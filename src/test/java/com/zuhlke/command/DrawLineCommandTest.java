@@ -1,5 +1,6 @@
 package com.zuhlke.command;
 
+import com.zuhlke.exception.InsufficientParametersException;
 import com.zuhlke.exception.InvalidInputException;
 import com.zuhlke.model.Canvas;
 import org.junit.jupiter.api.AfterEach;
@@ -76,12 +77,38 @@ class DrawLineCommandTest {
 
 
     @Test
-    void checkVerticalOrHorizontalLine() {
+    void expectExceptionWhenNotVerticalOrHorizontalLine() {
         // then
         Assertions.assertThrows(InvalidInputException.class, () -> {
             // given
             Canvas canvas = new Canvas(20, 5);
             String command = "L 1 2 6 4";
+
+            // when
+            subject.execute(command.split(" "), canvas);
+        });
+    }
+
+    @Test
+    void expectExceptionWhenInvalidInputParameters() {
+        // then
+        Assertions.assertThrows(InvalidInputException.class, () -> {
+            // given
+            Canvas canvas = new Canvas(20, 4);
+            String command = "L 1 a 6 v";
+
+            // when
+            subject.execute(command.split(" "), canvas);
+        });
+    }
+
+    @Test
+    void expectExceptionWhenInsufficientInputParameters() {
+        // then
+        Assertions.assertThrows(InsufficientParametersException.class, () -> {
+            // given
+            Canvas canvas = new Canvas(20, 4);
+            String command = "L 1 2 6";
 
             // when
             subject.execute(command.split(" "), canvas);

@@ -1,10 +1,13 @@
 package com.zuhlke.command;
 
+import com.zuhlke.exception.InsufficientParametersException;
 import com.zuhlke.exception.InvalidInputException;
 import com.zuhlke.exception.NoCanvasException;
 import com.zuhlke.model.Canvas;
 import com.zuhlke.model.Coordinate;
+import org.apache.commons.lang3.StringUtils;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 public class BucketFillCommand implements Command {
@@ -16,13 +19,29 @@ public class BucketFillCommand implements Command {
         if (source == null) throw new NoCanvasException();
         Canvas canvas = new Canvas(source);
 
-        if (input[3].length() > 1) throw new InvalidInputException("Color should only have one character.");
+        input = validateInput(input);
 
         Character targetColor = canvas.getCell(origin);
         Character newColor = input[3].charAt(0);
         flood(origin, targetColor, newColor, canvas);
 
         return canvas;
+    }
+
+    private String[] validateInput(String[] input) throws InvalidInputException {
+        //filter out double-spaces
+        input = Arrays.stream(input).filter(s -> !s.isEmpty()).toArray(String[]::new);
+
+        for (int i = 1; i < input.length - 1; i++) {
+            if (!StringUtils.isNumeric(input[i]) || Integer.parseInt(input[i]) <= 0) {
+                throw new InvalidInputException("Coordinates must be numbers more than zero");
+            }
+        }
+
+        if (input.length < 4) throw new InsufficientParametersException();
+        if (input[3].length() > 1) throw new InvalidInputException("Color should only have one character.");
+
+        return input;
     }
 
     private void flood(Coordinate origin, Character targetColor, Character newColor, Canvas canvas) {

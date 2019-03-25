@@ -4,7 +4,6 @@ import com.zuhlke.command.*;
 import com.zuhlke.exception.InvalidInputException;
 import com.zuhlke.model.Canvas;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -30,9 +29,6 @@ public class Application {
                 //loop request for command input
                 System.out.print("Enter command: ");
                 input = scanner.nextLine().split(" ");
-
-                //filter out double-spaces
-                input = Arrays.stream(input).filter(s -> !s.isEmpty()).toArray(String[]::new);
 
                 //execute command
                 if (commandLibrary.containsKey(input[0])) {
