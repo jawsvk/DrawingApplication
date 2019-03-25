@@ -13,9 +13,7 @@ public class Canvas {
         this.base = new Character[row][column];
 
         for (int i = 0; i < row; i++) {
-            for (int j = 0; j < column; j++) {
-                base[i][j] = canvas.getBase()[i][j];
-            }
+            System.arraycopy(canvas.getBase()[i], 0, base[i], 0, column);
         }
     }
 
@@ -34,7 +32,7 @@ public class Canvas {
         makeOutline();
     }
 
-    Character[][] getBase() {
+    private Character[][] getBase() {
         return base;
     }
 
@@ -103,6 +101,6 @@ public class Canvas {
 
         }
 
-        return this;
+        return new Canvas(this);
     }
 }

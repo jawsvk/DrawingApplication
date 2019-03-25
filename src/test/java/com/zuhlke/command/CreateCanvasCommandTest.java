@@ -15,20 +15,33 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CreateCanvasCommandTest {
 
-    private Canvas canvas;
     private CreateCanvasCommand subject;
     private String br;
+    private OutputStream os;
 
     @BeforeEach
     void setUp() {
-        canvas = new Canvas(20, 4);
         subject = new CreateCanvasCommand();
         br = System.getProperty("line.separator");
+
+        //prepare to redirect output
+        os = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(os);
+        System.setOut(ps);
     }
 
     @Test
     void setCanvasImageTest() throws InvalidInputException {
-        String ans = br +
+        // given
+        String command = "C 20 4";
+        Canvas canvas;
+
+        // when
+        canvas = subject.execute(command.split(" "), null);
+        canvas.print();
+
+        // then
+        String expected = br +
                 "----------------------" + br +
                 "|                    |" + br +
                 "|                    |" + br +
@@ -36,24 +49,18 @@ class CreateCanvasCommandTest {
                 "|                    |" + br +
                 "----------------------" + br;
 
-        String command = "C 20 4";
-
-        //prepare to redirect output
-        OutputStream os = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(os);
-        System.setOut(ps);
-
-        canvas = subject.execute(command.split(" "), canvas);
-        canvas.print();
-
-        assertEquals(ans, os.toString());
+        assertEquals(expected, os.toString());
     }
 
     @Test
     void checkValidCanvasParameters() {
+        // then
         Assertions.assertThrows(InvalidInputException.class, () -> {
+            // given
             String command = "C 20 -5";
-            subject.execute(command.split(" "), canvas);
+
+            // when
+            subject.execute(command.split(" "), null);
         });
     }
 

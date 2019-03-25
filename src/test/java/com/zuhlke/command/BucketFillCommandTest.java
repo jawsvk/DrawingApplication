@@ -16,14 +16,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BucketFillCommandTest {
 
-    private Canvas canvas;
     private BucketFillCommand subject;
     private OutputStream os;
     private String br;
 
     @BeforeEach
     void setUp() {
-        canvas = new Canvas(20, 4);
         subject = new BucketFillCommand();
 
         //prepare to redirect output
@@ -36,36 +34,54 @@ class BucketFillCommandTest {
 
     @Test
     void expectExceptionWhenMoreThanOneColorCharacter() {
+        // then
         Assertions.assertThrows(InvalidInputException.class, () -> {
+            // given
             String command = "B 10 1 oo";
+            Canvas canvas = new Canvas(20, 4);
+
+            //when
             subject.execute(command.split(" "), canvas);
         });
     }
 
     @Test
     void simpleFillImageTest() throws InvalidInputException {
-        String ans = br +
+        // given
+        Canvas testCanvas = new Canvas(5, 3);
+        testCanvas.plot(new Coordinate(1, 2), 'x');
+        String command = "B 1 1 o";
+
+        // when
+        testCanvas = subject.execute(command.split(" "), testCanvas);
+        testCanvas.print();
+
+        // then
+        String expected = br +
                 "-------" + br +
                 "|ooooo|" + br +
                 "|xoooo|" + br +
                 "|ooooo|" + br +
                 "-------" + br;
 
-        Canvas testCanvas = new Canvas(5, 3);
-        testCanvas.plot(new Coordinate(1, 2), 'x');
-        String command = "B 1 1 o";
-
-        subject = new BucketFillCommand();
-
-        testCanvas = subject.execute(command.split(" "), testCanvas);
-        testCanvas.print();
-
-        assertEquals(ans, os.toString());
+        assertEquals(expected, os.toString());
     }
 
     @Test
     void bucketFillImageTest() throws InvalidInputException {
-        String ans = br +
+        // given
+        String command = "B 1 1 o";
+        String setupCommand = "R 14 1 18 3";
+        Canvas canvas = new Canvas(20, 4);
+        DrawRectangleCommand dR = new DrawRectangleCommand();
+        canvas = dR.execute(setupCommand.split(" "), canvas);
+
+        // when
+        canvas = subject.execute(command.split(" "), canvas);
+        canvas.print();
+
+        // then
+        String expected = br +
                 "----------------------" + br +
                 "|oooooooooooooxxxxxoo|" + br +
                 "|ooooooooooooox   xoo|" + br +
@@ -73,27 +89,25 @@ class BucketFillCommandTest {
                 "|oooooooooooooooooooo|" + br +
                 "----------------------" + br;
 
-
-        String command = "B 1 1 o";
-        String setupCommand = "R 14 1 18 3";
-        Canvas canvas = new Canvas(20, 4);
-
-
-        DrawRectangleCommand dR = new DrawRectangleCommand();
-        subject = new BucketFillCommand();
-
-        canvas = dR.execute(setupCommand.split(" "), canvas);
-
-        canvas = subject.execute(command.split(" "), canvas);
-        canvas.print();
-
-        assertEquals(ans, os.toString());
+        assertEquals(expected, os.toString());
 
     }
 
     @Test
     void bucketFillBorderExpectColorBorder() throws InvalidInputException {
-        String ans = br +
+        // given
+        Canvas canvas = new Canvas(20, 4);
+        DrawRectangleCommand dR = new DrawRectangleCommand();
+        String command = "B 14 1 o";
+        String setupCommand = "R 14 1 18 3";
+        canvas = dR.execute(setupCommand.split(" "), canvas);
+
+        // when
+        canvas = subject.execute(command.split(" "), canvas);
+        canvas.print();
+
+        // then
+        String expected = br +
                 "----------------------" + br +
                 "|             ooooo  |" + br +
                 "|             o   o  |" + br +
@@ -101,17 +115,7 @@ class BucketFillCommandTest {
                 "|                    |" + br +
                 "----------------------" + br;
 
-        String command = "B 14 1 o";
-        String setupCommand = "R 14 1 18 3";
-
-        DrawRectangleCommand dR = new DrawRectangleCommand();
-
-        canvas = dR.execute(setupCommand.split(" "), canvas);
-
-        canvas = subject.execute(command.split(" "), canvas);
-        canvas.print();
-
-        assertEquals(ans, os.toString());
+        assertEquals(expected, os.toString());
     }
 
     @AfterEach

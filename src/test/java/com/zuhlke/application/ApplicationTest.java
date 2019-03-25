@@ -15,12 +15,11 @@ class ApplicationTest {
     private Application app;
     private String br;
     private OutputStream os;
-    private Canvas source;
+
 
     @BeforeEach
     void setUp() {
         app = new Application();
-        source = new Canvas(20, 4);
 
         //redirect output stream
         os = new ByteArrayOutputStream();
@@ -33,144 +32,154 @@ class ApplicationTest {
 
     @Test
     void checkCreateCanvasCommand() {
-        String ans = br +
+        // given
+        String command = "C 20 4" + br + "Q";
+        sendToInput(command);
+
+        // when
+        app.run(null);
+
+        // then
+        String expected = "Enter command: " + br +
                 "----------------------" + br +
                 "|                    |" + br +
                 "|                    |" + br +
                 "|                    |" + br +
                 "|                    |" + br +
-                "----------------------" + br;
+                "----------------------" + br +
+                "Enter command: ";
 
-        //set input stream
-        String command = "C 20 4" + br + "Q";
-
-        InputStream is = new ByteArrayInputStream(command.getBytes());
-        System.setIn(is);
-
-        app.run(null);
-
-        int startFrom = os.toString().indexOf(":") + 2;
-        assertEquals(ans, os.toString().substring(startFrom, startFrom + ans.length()));
+        assertEquals(expected, os.toString());
     }
 
     @Test
     void checkDrawLineCommand() {
-        String ans = br +
+        // given
+        Canvas source = new Canvas(20, 4);
+        String command = "L 1 2 6 2" + br + "Q";
+        sendToInput(command);
+
+        // when
+        app.run(source);
+
+        // then
+        String expected = "Enter command: " + br +
                 "----------------------" + br +
                 "|                    |" + br +
                 "|xxxxxx              |" + br +
                 "|                    |" + br +
                 "|                    |" + br +
-                "----------------------";
+                "----------------------" + br +
+                "Enter command: ";
 
-        //set input stream
-        String command = "L 1 2 6 2" + br + "Q";
 
-        InputStream is = new ByteArrayInputStream(command.getBytes());
-        System.setIn(is);
-
-        app.run(source);
-
-        int startFrom = os.toString().indexOf(":") + 2;
-
-        assertEquals(ans, os.toString().substring(startFrom, startFrom + ans.length()));
+        assertEquals(expected, os.toString());
     }
 
     @Test
     void checkDrawRectangleCommand() {
-        String ans = br +
+        // given
+        Canvas source = new Canvas(20, 4);
+        String command = "R 14 1 18 3" + br + "Q";
+        sendToInput(command);
+
+        // when
+        app.run(source);
+
+        // then
+        String expected = "Enter command: " + br +
                 "----------------------" + br +
                 "|             xxxxx  |" + br +
                 "|             x   x  |" + br +
                 "|             xxxxx  |" + br +
                 "|                    |" + br +
-                "----------------------";
+                "----------------------" + br +
+                "Enter command: ";
 
-        //set input stream
-        String command = "R 14 1 18 3" + br + "Q";
-
-        InputStream is = new ByteArrayInputStream(command.getBytes());
-        System.setIn(is);
-
-        app.run(source);
-
-        int startFrom = os.toString().indexOf(":") + 2;
-
-        assertEquals(ans, os.toString().substring(startFrom, startFrom + ans.length()));
+        assertEquals(expected, os.toString());
     }
 
     @Test
     void checkBucketFillCommand() {
-        String ans = br +
+        // given
+        Canvas source = new Canvas(20, 4);
+        String command = "B 1 1 o" + br + "Q";
+        sendToInput(command);
+
+        // when
+        app.run(source);
+
+        // then
+        String expected = "Enter command: " + br +
                 "----------------------" + br +
                 "|oooooooooooooooooooo|" + br +
                 "|oooooooooooooooooooo|" + br +
                 "|oooooooooooooooooooo|" + br +
                 "|oooooooooooooooooooo|" + br +
-                "----------------------";
+                "----------------------" + br +
+                "Enter command: ";
 
-        //set input stream
-        String command = "B 1 1 o" + br + "Q";
-
-        InputStream is = new ByteArrayInputStream(command.getBytes());
-        System.setIn(is);
-
-
-        app.run(source);
-
-        int startFrom = os.toString().indexOf(":") + 2;
-
-        assertEquals(ans, os.toString().substring(startFrom, startFrom + ans.length()));
+        assertEquals(expected, os.toString());
     }
 
     @Test
     void checkQuitApplication() {
-        //set input stream
+        // given
         String command = "Q";
+        sendToInput(command);
 
-        InputStream is = new ByteArrayInputStream(command.getBytes());
-        System.setIn(is);
-
+        // when
         app.run(null);
 
-        int startFrom = os.toString().indexOf(":") + 2;
+        // then
+        String expected = "Enter command: ";
+        assertEquals(expected, os.toString());
 
-        assertTrue(os.toString().substring(startFrom).isEmpty());
     }
 
     @Test
     void checkForNoCanvasError() {
-        //set input stream
+        // given
         String command = "L 1 2 6 2" + br + "Q";
-        InputStream is = new ByteArrayInputStream(command.getBytes());
-        System.setIn(is);
+        sendToInput(command);
 
+        // when
         app.run(null);
 
+        // then
         assertTrue(os.toString().contains("No canvas found"));
     }
 
     @Test
     void checkForInvalidCommandError() {
-        //set input stream
+        // given
         String command = "C 20 4" + br + "WrongCommand" + br + "Q";
-        InputStream is = new ByteArrayInputStream(command.getBytes());
-        System.setIn(is);
+        sendToInput(command);
 
+        // when
         app.run(null);
 
+        // then
         assertTrue(os.toString().contains("Command not found"));
     }
 
     @Test
     void checkForInvalidParameters() {
-        //set input stream
+        // given
+        Canvas source = new Canvas(20, 4);
         String command = "L -1 2 6 2" + br + "Q";
-        InputStream is = new ByteArrayInputStream(command.getBytes());
-        System.setIn(is);
+        sendToInput(command);
+
+        // when
         app.run(source);
 
+        // then
         assertTrue(os.toString().contains("Either Start Point or End Point (or both) are out of bounds"));
+    }
+
+    void sendToInput(String command) {
+        InputStream is = new ByteArrayInputStream(command.getBytes());
+        System.setIn(is);
     }
 
     @AfterEach

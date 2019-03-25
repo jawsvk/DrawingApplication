@@ -1,63 +1,92 @@
 package com.zuhlke.model;
 
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CoordinateTest {
 
-    private Coordinate start;
-    private Coordinate end;
-
-    @BeforeEach
-    void setUp() {
-        start = new Coordinate(2, 3);
-        end = new Coordinate(5, 12);
-    }
 
     @Test
     void expectGetDistanceOf3and9() {
-        Coordinate answer = new Coordinate(5 - 2, 12 - 3);
-        assertEquals(answer.getX(), end.getDistance(start).getX());
-        assertEquals(answer.getY(), end.getDistance(start).getY());
+        // given
+        Coordinate start = new Coordinate(2, 3);
+        Coordinate end = new Coordinate(5, 12);
+
+        // when
+        Coordinate difference = end.getDistance(start);
+
+        // then
+        Coordinate expected = new Coordinate(5 - 2, 12 - 3);
+        assertEquals(expected.getX(), difference.getX());
+        assertEquals(expected.getY(), difference.getY());
     }
 
     @Test
     void expectStartLinearDistance5() {
-        int ans = start.getX() + start.getY();
-        assertEquals(ans, start.linearDistance());
+        // given
+        Coordinate start = new Coordinate(2, 3);
+
+        // when
+        int answer = start.linearDistance();
+
+        // then
+        int expected = start.getX() + start.getY();
+        assertEquals(expected, answer);
     }
 
     @Test
     void expectLinearDistance10() {
+        // given
         Coordinate point = new Coordinate(3, 7);
-        assertEquals(10, point.linearDistance());
+
+        // when
+        int answer = point.linearDistance();
+
+        // then
+        int expected = 3 + 7;
+        assertEquals(expected, answer);
     }
 
 
     @Test
     void expectPrintOutOfCoordinates() {
+        // given
+        Coordinate start = new Coordinate(2, 3);
 
-        String ans = "X-Coordinate: 2, Y-Coordinate: 3";
+        // when
+        String answer = start.toString();
 
-        assertEquals(ans, start.toString());
+        // then
+        String expected = "X-Coordinate: 2, Y-Coordinate: 3";
+        assertEquals(expected, answer);
     }
 
     @Test
     void addOneToX() {
+        // given
         Coordinate test = new Coordinate(3, 4);
 
-        assertEquals(4, test.addX(1));
-        assertEquals(3, test.addX(-1));
+        // when
+        int answer = test.addX(-1);
+
+        // then
+        int expected = 3 - 1;
+        assertEquals(expected, answer);
 
     }
 
     @Test
     void addOneToY() {
+        // given
         Coordinate test = new Coordinate(3, 4);
-        assertEquals(5, test.addY(1));
-        assertEquals(4, test.addY(-1));
+
+        // when
+        int answer = test.addY(-1);
+
+        // then
+        int expected = 4 - 1;
+        assertEquals(expected, answer);
     }
 }

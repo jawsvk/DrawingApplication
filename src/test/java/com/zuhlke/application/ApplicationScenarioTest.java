@@ -24,7 +24,8 @@ class ApplicationScenarioTest {
         app = new Application();
         br = System.getProperty("line.separator");
 
-        //redirect output stream
+
+        //prepare to redirect output
         os = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(os);
         System.setOut(ps);
@@ -32,8 +33,8 @@ class ApplicationScenarioTest {
 
     @Test
     void checkAllCommandsInSequence() throws IOException, URISyntaxException {
+        // given
         URI uri = new URI("");
-
         final URL resource = this.getClass().getClassLoader().getResource("AllCommandsInSequence.txt");
 
         if (resource != null) {
@@ -42,10 +43,6 @@ class ApplicationScenarioTest {
 
         byte[] bytes = Files.readAllBytes(Paths.get(uri));
 
-
-        String expected = new String(bytes);
-
-        //set input stream
         String command = "C 20 4" + br +
                 "L 1 2 6 2" + br +
                 "L 6 3 6 4" + br +
@@ -53,13 +50,20 @@ class ApplicationScenarioTest {
                 "B 10 1 o" + br +
                 "Q";
 
-        InputStream is = new ByteArrayInputStream(command.getBytes());
-        System.setIn(is);
+        sendToInput(command);
 
+
+        // when
         app.run(null);
 
-        //compare as LF file
+        // then
+        String expected = new String(bytes);
         assertEquals(expected, os.toString().replaceAll("\\r\\n", "\n"));
+    }
+
+    void sendToInput(String command) {
+        InputStream is = new ByteArrayInputStream(command.getBytes());
+        System.setIn(is);
     }
 
     @AfterEach

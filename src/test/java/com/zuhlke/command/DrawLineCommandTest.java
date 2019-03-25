@@ -15,14 +15,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DrawLineCommandTest {
 
-    private Canvas canvas;
     private DrawLineCommand subject;
     private String br;
     private OutputStream os;
 
     @BeforeEach
     void setUp() {
-        canvas = new Canvas(20, 4);
         subject = new DrawLineCommand();
         br = System.getProperty("line.separator");
 
@@ -34,7 +32,16 @@ class DrawLineCommandTest {
 
     @Test
     void drawLineImageTest() throws InvalidInputException {
-        String ans = br +
+        // given
+        Canvas canvas = new Canvas(20, 4);
+        String command = "L 1 2 6 2";
+
+        // when
+        canvas = subject.execute(command.split(" "), canvas);
+        canvas.print();
+
+        // then
+        String expected = br +
                 "----------------------" + br +
                 "|                    |" + br +
                 "|xxxxxx              |" + br +
@@ -42,17 +49,21 @@ class DrawLineCommandTest {
                 "|                    |" + br +
                 "----------------------" + br;
 
-        String command = "L 1 2 6 2";
-
-        canvas = subject.execute(command.split(" "), canvas);
-        canvas.print();
-
-        assertEquals(ans, os.toString());
+        assertEquals(expected, os.toString());
     }
 
     @Test
     void drawLineInReverseImageTest() throws InvalidInputException {
-        String ans = br +
+        // given
+        Canvas canvas = new Canvas(20, 4);
+        String command = "L 6 2 1 2";
+
+        // when
+        canvas = subject.execute(command.split(" "), canvas);
+        canvas.print();
+
+        // then
+        String expected = br +
                 "----------------------" + br +
                 "|                    |" + br +
                 "|xxxxxx              |" + br +
@@ -60,19 +71,19 @@ class DrawLineCommandTest {
                 "|                    |" + br +
                 "----------------------" + br;
 
-        String command = "L 6 2 1 2";
-
-        canvas = subject.execute(command.split(" "), canvas);
-        canvas.print();
-
-        assertEquals(ans, os.toString());
+        assertEquals(expected, os.toString());
     }
 
 
     @Test
     void checkVerticalOrHorizontalLine() {
+        // then
         Assertions.assertThrows(InvalidInputException.class, () -> {
+            // given
+            Canvas canvas = new Canvas(20, 5);
             String command = "L 1 2 6 4";
+
+            // when
             subject.execute(command.split(" "), canvas);
         });
     }

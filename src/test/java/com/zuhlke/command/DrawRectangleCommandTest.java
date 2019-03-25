@@ -14,38 +14,41 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DrawRectangleCommandTest {
 
-    private Canvas canvas;
     private DrawRectangleCommand subject;
     private String br;
+    private OutputStream os;
 
     @BeforeEach
     void setUp() {
-        canvas = new Canvas(20, 4);
         subject = new DrawRectangleCommand();
         br = System.getProperty("line.separator");
+
+        //prepare to redirect output
+        os = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(os);
+        System.setOut(ps);
     }
 
     @Test
     void drawRectangleImageTest() throws InvalidInputException {
-        String ans = br +
+        // given
+        Canvas canvas = new Canvas(20, 4);
+        String command = "R 14 1 18 3";
+
+        // when
+        canvas = subject.execute(command.split(" "), canvas);
+        canvas.print();
+
+        // then
+        String expected = br +
                 "----------------------" + br +
                 "|             xxxxx  |" + br +
                 "|             x   x  |" + br +
                 "|             xxxxx  |" + br +
                 "|                    |" + br +
                 "----------------------" + br;
-        String command = "R 14 1 18 3";
 
-        //prepare to redirect output
-        OutputStream os = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(os);
-        System.setOut(ps);
-
-        canvas = subject.execute(command.split(" "), canvas);
-        canvas.print();
-
-
-        assertEquals(ans, os.toString());
+        assertEquals(expected, os.toString());
 
     }
 
