@@ -58,7 +58,9 @@ class ApplicationScenarioTest {
 
         app.run(null);
 
-        assertEquals(output, os.toString());
+        //convert LF to CRLF
+        final String expected = output.replaceAll("\\n", "\r\n");
+        assertEquals(expected, os.toString());
     }
 
     @AfterEach
