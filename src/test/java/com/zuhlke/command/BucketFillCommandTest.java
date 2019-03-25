@@ -13,15 +13,14 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class BucketFillCommandTest {
 
     private Canvas canvas;
     private BucketFillCommand subject;
-    private String ans1;
-    private String ans2;
-    private String ans3;
     private OutputStream os;
+    private String br;
 
     @BeforeEach
     void setUp() {
@@ -33,36 +32,7 @@ class BucketFillCommandTest {
         PrintStream ps = new PrintStream(os);
         System.setOut(ps);
 
-        String br = System.getProperty("line.separator");
-        ans1 = br +
-                "----------------------" + br +
-                "|oooooooooooooxxxxxoo|" + br +
-                "|ooooooooooooox   xoo|" + br +
-                "|oooooooooooooxxxxxoo|" + br +
-                "|oooooooooooooooooooo|" + br +
-                "----------------------" + br;
-
-        ans2 = br +
-                "----------------------" + br +
-                "|             ooooo  |" + br +
-                "|             o   o  |" + br +
-                "|             ooooo  |" + br +
-                "|                    |" + br +
-                "----------------------" + br;
-        ans3 = br +
-                "-------" + br +
-                "|ooooo|" + br +
-                "|xoooo|" + br +
-                "|ooooo|" + br +
-                "-------" + br;
-    }
-
-    @Test
-    void checkInvalidColorCharacterError() {
-        Assertions.assertThrows(InvalidInputException.class, () -> {
-            String command = "B 10 1 |";
-            subject.execute(command.split(" "), canvas);
-        });
+        br = System.getProperty("line.separator");
     }
 
     @Test
@@ -75,28 +45,46 @@ class BucketFillCommandTest {
 
     @Test
     void simpleFillImageTest() {
+        String ans = br +
+                "-------" + br +
+                "|ooooo|" + br +
+                "|xoooo|" + br +
+                "|ooooo|" + br +
+                "-------" + br;
+
         Canvas testCanvas = new Canvas(5, 3);
         testCanvas.plot(new Coordinate(1, 2), 'x');
         String command = "B 1 1 o";
 
         subject = new BucketFillCommand();
 
-
         try {
             testCanvas = subject.execute(command.split(" "), testCanvas);
             testCanvas.print();
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            fail(e.getCause());
+
         }
 
-        assertEquals(ans3, os.toString());
+        assertEquals(ans, os.toString());
     }
 
     @Test
     void bucketFillImageTest() {
+        String ans = br +
+                "----------------------" + br +
+                "|oooooooooooooxxxxxoo|" + br +
+                "|ooooooooooooox   xoo|" + br +
+                "|oooooooooooooxxxxxoo|" + br +
+                "|oooooooooooooooooooo|" + br +
+                "----------------------" + br;
+
+
         String command = "B 1 1 o";
         String setupCommand = "R 14 1 18 3";
         Canvas canvas = new Canvas(20, 4);
+
 
         DrawRectangleCommand dR = new DrawRectangleCommand();
         subject = new BucketFillCommand();
@@ -108,14 +96,24 @@ class BucketFillCommandTest {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            fail(e.getCause());
+
         }
 
-        assertEquals(ans1, os.toString());
+        assertEquals(ans, os.toString());
 
     }
 
     @Test
     void bucketFillBorderExpectColorBorder() {
+        String ans = br +
+                "----------------------" + br +
+                "|             ooooo  |" + br +
+                "|             o   o  |" + br +
+                "|             ooooo  |" + br +
+                "|                    |" + br +
+                "----------------------" + br;
+
         String command = "B 14 1 o";
         String setupCommand = "R 14 1 18 3";
 
@@ -128,9 +126,11 @@ class BucketFillCommandTest {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            fail(e.getCause());
+
         }
 
-        assertEquals(ans2, os.toString());
+        assertEquals(ans, os.toString());
     }
 
     @AfterEach

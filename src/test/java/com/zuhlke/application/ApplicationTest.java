@@ -13,7 +13,6 @@ class ApplicationTest {
 
     private Application app;
     private String br;
-    private String step1;
     private OutputStream os;
 
     @BeforeEach
@@ -26,17 +25,18 @@ class ApplicationTest {
         System.setOut(ps);
 
         br = System.getProperty("line.separator");
-        step1 = br +
+
+    }
+
+    @Test
+    void checkCreateCanvasCommand() {
+        String ans = br +
                 "----------------------" + br +
                 "|                    |" + br +
                 "|                    |" + br +
                 "|                    |" + br +
                 "|                    |" + br +
                 "----------------------" + br;
-    }
-
-    @Test
-    void checkCreateCanvasCommand() {
         //set input stream
         String command = "C 20 4" + br + "Q";
 
@@ -46,7 +46,7 @@ class ApplicationTest {
         app.run();
 
         int startFrom = os.toString().indexOf(":") + 2;
-        assertEquals(step1, os.toString().substring(startFrom, startFrom + step1.length()));
+        assertEquals(ans, os.toString().substring(startFrom, startFrom + ans.length()));
     }
 
     @Test
@@ -65,10 +65,9 @@ class ApplicationTest {
         InputStream is = new ByteArrayInputStream(command.getBytes());
         System.setIn(is);
 
-
         app.run();
 
-        int startFrom = os.toString().indexOf(":", step1.length()) + 2;
+        int startFrom = os.toString().indexOf(":", ans.length()) + 2;
 
         assertEquals(ans, os.toString().substring(startFrom, startFrom + ans.length()));
     }
@@ -92,7 +91,7 @@ class ApplicationTest {
 
         app.run();
 
-        int startFrom = os.toString().indexOf(":", step1.length()) + 2;
+        int startFrom = os.toString().indexOf(":", ans.length()) + 2;
 
         assertEquals(ans, os.toString().substring(startFrom, startFrom + ans.length()));
     }
@@ -120,7 +119,7 @@ class ApplicationTest {
 
         app.run();
 
-        int startFrom = os.toString().indexOf(":", step1.length()) + 2;
+        int startFrom = os.toString().indexOf(":", ans.length()) + 2;
 
         assertEquals(ans, os.toString().substring(startFrom, startFrom + ans.length()));
     }
@@ -165,7 +164,7 @@ class ApplicationTest {
 
         app.run();
 
-        int startFrom = os.toString().indexOf(":", step1.length() * 4) + 2;
+        int startFrom = os.toString().indexOf(":", ans.length() * 4) + 2;
 
         assertEquals(ans, os.toString().substring(startFrom, startFrom + ans.length()));
     }
@@ -177,7 +176,6 @@ class ApplicationTest {
         String command = "L 1 2 6 2" + br + "Q";
         InputStream is = new ByteArrayInputStream(command.getBytes());
         System.setIn(is);
-
 
         app.run();
 
@@ -203,7 +201,6 @@ class ApplicationTest {
         String command = "C 20 4" + br + "L -1 2 6 2" + br + "Q";
         InputStream is = new ByteArrayInputStream(command.getBytes());
         System.setIn(is);
-
         app.run();
 
         assertTrue(os.toString().contains("Either Start Point or End Point (or both) are out of bounds"));

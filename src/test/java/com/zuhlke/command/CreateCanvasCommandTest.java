@@ -12,6 +12,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class CreateCanvasCommandTest {
 
@@ -47,6 +48,7 @@ class CreateCanvasCommandTest {
             canvas.print();
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            fail(e.getCause());
         }
 
         assertEquals(ans, os.toString());

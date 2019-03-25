@@ -12,19 +12,26 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class DrawLineCommandTest {
 
     private Canvas canvas;
     private DrawLineCommand subject;
-    private String ans;
+    private String br;
 
     @BeforeEach
     void setUp() {
         canvas = new Canvas(20, 4);
         subject = new DrawLineCommand();
-        String br = System.getProperty("line.separator");
-        ans = br +
+        br = System.getProperty("line.separator");
+
+
+    }
+
+    @Test
+    void drawLineImageTest() {
+        String ans = br +
                 "----------------------" + br +
                 "|                    |" + br +
                 "|xxxxxx              |" + br +
@@ -32,10 +39,6 @@ class DrawLineCommandTest {
                 "|                    |" + br +
                 "----------------------" + br;
 
-    }
-
-    @Test
-    void drawLineImageTest() {
         String command = "L 1 2 6 2";
 
         //prepare to redirect output
@@ -48,6 +51,8 @@ class DrawLineCommandTest {
             canvas.print();
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            fail(e.getCause());
+
         }
 
         assertEquals(ans, os.toString());
@@ -55,6 +60,14 @@ class DrawLineCommandTest {
 
     @Test
     void drawLineInReverseImageTest() {
+        String ans = br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|xxxxxx              |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br;
+
         String command = "L 6 2 1 2";
 
         //prepare to redirect output
@@ -67,6 +80,8 @@ class DrawLineCommandTest {
             canvas.print();
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            fail(e.getCause());
+
         }
 
         assertEquals(ans, os.toString());

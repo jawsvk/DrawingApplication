@@ -16,9 +16,7 @@ public class BucketFillCommand implements Command {
         if (source == null) throw new NoCanvasException();
         Canvas canvas = new Canvas(source);
 
-        if (input[3].length() > 1 || "-|".contains(input[3])) {
-            throw new InvalidInputException("Invalid color.");
-        }
+        if (input[3].length() > 1) throw new InvalidInputException("Color should only have one character.");
 
         Character targetColor = canvas.getCell(origin);
         Character newColor = input[3].charAt(0);
@@ -42,28 +40,28 @@ public class BucketFillCommand implements Command {
 
             //left
             Coordinate left = new Coordinate(point.getX() - 1, point.getY());
-            if (canvas.getCell(left) == targetColor) {
+            if (canvas.getCell(left) == targetColor && canvas.isValidPoint(left)) {
                 canvas.plot(left, newColor);
                 queue.addLast(left);
             }
 
             //right
             Coordinate right = new Coordinate(point.getX() + 1, point.getY());
-            if (canvas.getCell(right) == targetColor) {
+            if (canvas.getCell(right) == targetColor && canvas.isValidPoint(right)) {
                 canvas.plot(right, newColor);
                 queue.addLast(right);
             }
 
             //up
             Coordinate up = new Coordinate(point.getX(), point.getY() - 1);
-            if (canvas.getCell(up) == targetColor) {
+            if (canvas.getCell(up) == targetColor && canvas.isValidPoint(up)) {
                 canvas.plot(up, newColor);
                 queue.addLast(up);
             }
 
             //down
             Coordinate down = new Coordinate(point.getX(), point.getY() + 1);
-            if (canvas.getCell(down) == targetColor) {
+            if (canvas.getCell(down) == targetColor && canvas.isValidPoint(down)) {
                 canvas.plot(down, newColor);
                 queue.addLast(down);
             }

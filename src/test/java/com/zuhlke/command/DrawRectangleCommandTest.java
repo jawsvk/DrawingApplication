@@ -10,29 +10,30 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class DrawRectangleCommandTest {
 
     private Canvas canvas;
     private DrawRectangleCommand subject;
-    private String ans;
+    private String br;
 
     @BeforeEach
     void setUp() {
         canvas = new Canvas(20, 4);
         subject = new DrawRectangleCommand();
-        String br = System.getProperty("line.separator");
-        ans = br +
+        br = System.getProperty("line.separator");
+    }
+
+    @Test
+    void drawRectangleImageTest() {
+        String ans = br +
                 "----------------------" + br +
                 "|             xxxxx  |" + br +
                 "|             x   x  |" + br +
                 "|             xxxxx  |" + br +
                 "|                    |" + br +
                 "----------------------" + br;
-    }
-
-    @Test
-    void drawRectangleImageTest() {
         String command = "R 14 1 18 3";
 
         //prepare to redirect output
@@ -45,6 +46,8 @@ class DrawRectangleCommandTest {
             canvas.print();
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            fail(e.getCause());
+
         }
 
         assertEquals(ans, os.toString());

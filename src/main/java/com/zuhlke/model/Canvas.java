@@ -57,7 +57,6 @@ public class Canvas {
             for (int j = 1; j < base[0].length - 1; j++) {
                 base[i][j] = ' ';
             }
-
         }
     }
 
@@ -69,7 +68,6 @@ public class Canvas {
     //retrieve character at a single point in the canvas
     public Character getCell(Coordinate point) {
         return base[point.getY()][point.getX()];
-
     }
 
     //check if a coordinate lies within canvas
@@ -83,33 +81,26 @@ public class Canvas {
             for (Character c : base[i]) System.out.print(c);
         }
         System.out.println();
-
     }
 
     public Canvas drawLine(Coordinate start, Coordinate end) {
         Coordinate diff = end.getDistance(start);
+        Coordinate point;
 
-        //loop through half of the linear distance
-        for (int i = 0; i <= diff.linearDistance() / 2; i++) {
-            this.plot(start, 'x');
-            this.plot(end, 'x');
+        //assign point to the smaller coordinate
+        if (diff.getY() > 0 || diff.getX() > 0) {
+            point = new Coordinate(start.getX(), start.getY());
+        } else {
+            point = new Coordinate(end.getX(), end.getY());
+        }
 
-            //if else statements to move coordinates of end and start closer to each other
-            if (diff.getX() > 0) {
-                start.addX(1);
-                end.addX(-1);
-            } else if (diff.getX() < 0) {
-                end.addX(1);
-                start.addX(-1);
-            }
+        //loop through linear distance
+        for (int i = 0; i <= diff.linearDistance(); i++) {
+            this.plot(point, 'x');
 
-            if (diff.getY() > 0) {
-                start.addY(1);
-                end.addY(-1);
-            } else if (diff.getY() < 0) {
-                end.addY(1);
-                start.addY(-1);
-            }
+            if (diff.getX() == 0) point.addY(1);
+            if (diff.getY() == 0) point.addX(1);
+
         }
         return this;
     }
