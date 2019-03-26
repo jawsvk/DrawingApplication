@@ -21,7 +21,7 @@ class ApplicationTest {
     void setUp() {
         app = new Application();
 
-        //redirect output stream
+        // redirect output stream
         outputStream = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(outputStream);
         System.setOut(ps);

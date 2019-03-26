@@ -7,8 +7,6 @@ import com.zuhlke.model.Canvas;
 import com.zuhlke.model.Coordinate;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Arrays;
-
 
 public class DrawLineCommand implements Command {
 
@@ -17,17 +15,15 @@ public class DrawLineCommand implements Command {
         if (source == null) throw new NoCanvasException();
         Canvas canvas = new Canvas(source);
 
-        input = validateInput(input);
-
         Coordinate startPt = new Coordinate(Integer.parseInt((input[1])), Integer.parseInt((input[2])));
         Coordinate endPt = new Coordinate(Integer.parseInt((input[3])), Integer.parseInt((input[4])));
         Coordinate diff = endPt.getDistance(startPt);
 
-        //check that coordinates are valid
+        // check that coordinates are valid
         validateCoordinates(startPt, endPt, canvas);
 
-        //check that end points form a vertical/horizontal line
-        if (diff.getX() > 0 && diff.getY() > 0) {
+        // check that end points form a vertical/horizontal line
+        if (diff.getX() != 0 && diff.getY() != 0) {
             throw new InvalidInputException("Coordinates do not form a vertical or horizontal line");
         }
 
@@ -36,10 +32,8 @@ public class DrawLineCommand implements Command {
         return canvas;
     }
 
-    String[] validateInput(String[] input) throws InvalidInputException {
-
-        //filter out double-spaces
-        input = Arrays.stream(input).filter(s -> !s.isEmpty()).toArray(String[]::new);
+    @Override
+    public void validateInput(String[] input) throws InvalidInputException {
 
         if (input.length < 5) throw new InsufficientParametersException("Please input both start and end coordinates");
 
@@ -49,12 +43,11 @@ public class DrawLineCommand implements Command {
             }
         }
 
-        return input;
     }
 
     void validateCoordinates(Coordinate start, Coordinate end, Canvas source) throws InvalidInputException {
 
-        //check that start point and end point is within the canvas
+        // check that start point and end point is within the canvas
         if (!source.isValidPoint(start) || !source.isValidPoint(end)) {
             throw new InvalidInputException("Either Start Point or End Point (or both) are out of bounds");
         }

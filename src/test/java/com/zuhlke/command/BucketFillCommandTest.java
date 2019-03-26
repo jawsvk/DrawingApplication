@@ -42,7 +42,7 @@ class BucketFillCommandTest {
         String command = "B 1 1 o";
 
         // when
-        testCanvas = subject.execute(command.split(" "), testCanvas);
+        testCanvas = subject.execute(command.split("\\s+"), testCanvas);
         testCanvas.print();
 
         // then
@@ -63,10 +63,10 @@ class BucketFillCommandTest {
         String setupCommand = "R 14 1 18 3";
         Canvas canvas = new Canvas(20, 4);
         DrawRectangleCommand dR = new DrawRectangleCommand();
-        canvas = dR.execute(setupCommand.split(" "), canvas);
+        canvas = dR.execute(setupCommand.split("\\s+"), canvas);
 
         // when
-        canvas = subject.execute(command.split(" "), canvas);
+        canvas = subject.execute(command.split("\\s+"), canvas);
         canvas.print();
 
         // then
@@ -89,10 +89,10 @@ class BucketFillCommandTest {
         DrawRectangleCommand dR = new DrawRectangleCommand();
         String command = "B 14 1 o";
         String setupCommand = "R 14 1 18 3";
-        canvas = dR.execute(setupCommand.split(" "), canvas);
+        canvas = dR.execute(setupCommand.split("\\s+"), canvas);
 
         // when
-        canvas = subject.execute(command.split(" "), canvas);
+        canvas = subject.execute(command.split("\\s+"), canvas);
         canvas.print();
 
         // then
@@ -113,10 +113,9 @@ class BucketFillCommandTest {
         Assertions.assertThrows(InvalidInputException.class, () -> {
             // given
             String command = "B 10 1 oo";
-            Canvas canvas = new Canvas(20, 4);
 
             //when
-            subject.execute(command.split(" "), canvas);
+            subject.validateInput(command.split("\\s+"));
         });
     }
 
@@ -126,10 +125,9 @@ class BucketFillCommandTest {
         Assertions.assertThrows(InvalidInputException.class, () -> {
             // given
             String command = "B 10 -1 o";
-            Canvas canvas = new Canvas(20, 4);
 
             //when
-            subject.execute(command.split(" "), canvas);
+            subject.validateInput(command.split("\\s+"));
         });
     }
 
@@ -139,10 +137,9 @@ class BucketFillCommandTest {
         Assertions.assertThrows(InsufficientParametersException.class, () -> {
             // given
             String command = "B 10 1";
-            Canvas canvas = new Canvas(20, 4);
 
             //when
-            subject.execute(command.split(" "), canvas);
+            subject.validateInput(command.split("\\s+"));
         });
     }
 

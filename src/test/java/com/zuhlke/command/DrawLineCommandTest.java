@@ -38,7 +38,7 @@ class DrawLineCommandTest {
         String command = "L 1 2 6 2";
 
         // when
-        canvas = subject.execute(command.split(" "), canvas);
+        canvas = subject.execute(command.split("\\s+"), canvas);
         canvas.print();
 
         // then
@@ -60,7 +60,7 @@ class DrawLineCommandTest {
         String command = "L 6 2 1 2";
 
         // when
-        canvas = subject.execute(command.split(" "), canvas);
+        canvas = subject.execute(command.split("\\s+"), canvas);
         canvas.print();
 
         // then
@@ -75,30 +75,40 @@ class DrawLineCommandTest {
         assertEquals(expected, outputStream.toString());
     }
 
-
     @Test
     void expectExceptionWhenNotVerticalOrHorizontalLine() {
         // then
         Assertions.assertThrows(InvalidInputException.class, () -> {
             // given
-            Canvas canvas = new Canvas(20, 5);
+            Canvas canvas = new Canvas(20, 4);
             String command = "L 1 2 6 4";
 
             // when
-            subject.execute(command.split(" "), canvas);
+            subject.execute(command.split("\\s+"), canvas);
         });
     }
 
     @Test
-    void expectExceptionWhenInvalidInputParameters() {
+    void expectExceptionWhenInputParametersNotAllNumbers() {
         // then
         Assertions.assertThrows(InvalidInputException.class, () -> {
             // given
-            Canvas canvas = new Canvas(20, 4);
             String command = "L 1 a 6 v";
 
             // when
-            subject.execute(command.split(" "), canvas);
+            subject.validateInput(command.split("\\s+"));
+        });
+    }
+
+    @Test
+    void expectExceptionWhenInputParametersHasNegativeNumbers() {
+        // then
+        Assertions.assertThrows(InvalidInputException.class, () -> {
+            // given
+            String command = "L -1 2 -6 2";
+
+            // when
+            subject.validateInput(command.split("\\s+"));
         });
     }
 
@@ -107,11 +117,10 @@ class DrawLineCommandTest {
         // then
         Assertions.assertThrows(InsufficientParametersException.class, () -> {
             // given
-            Canvas canvas = new Canvas(20, 4);
             String command = "L 1 2 6";
 
             // when
-            subject.execute(command.split(" "), canvas);
+            subject.validateInput(command.split("\\s+"));
         });
     }
 

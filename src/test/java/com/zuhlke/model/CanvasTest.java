@@ -22,28 +22,28 @@ class CanvasTest {
     @Test
     void plotXAtOnePoint() {
         // given
-        Character ans = 'T';
+        Character expected = 'T';
         Coordinate coordinate = new Coordinate(1, 1);
 
         // when
-        canvas.plot(coordinate, ans);
+        canvas.plot(coordinate, expected);
 
         // then
-        assertEquals(ans, canvas.getCell(coordinate));
+        assertEquals(expected, canvas.getCell(coordinate));
     }
 
 
     @Test
     void plotXExpectXatSamePoint() {
         // given
-        Character ans = 'T';
+        Character expected = 'T';
         Coordinate coordinate = new Coordinate(2, 2);
 
         // when
-        canvas.plot(coordinate, ans);
+        canvas.plot(coordinate, expected);
 
         // then
-        assertEquals(ans, canvas.getCell(coordinate));
+        assertEquals(expected, canvas.getCell(coordinate));
     }
 
     @Test
@@ -88,7 +88,7 @@ class CanvasTest {
     }
 
     @Test
-    void expectCorrectPrintOut() {
+    void checkCanvasPrintOut() {
         // given
         Canvas canvas = new Canvas(10, 4);
 
@@ -100,7 +100,7 @@ class CanvasTest {
         canvas.print();
 
         // then
-        String ans = br +
+        String expected = br +
                 "------------" + br +
                 "|          |" + br +
                 "|          |" + br +
@@ -108,7 +108,34 @@ class CanvasTest {
                 "|          |" + br +
                 "------------" + br;
 
-        assertEquals(ans, outputStream.toString());
+        assertEquals(expected, outputStream.toString());
+    }
+
+    @Test
+    void checkCanvasDrawLine() {
+        // given
+        Canvas canvas = new Canvas(10, 4);
+        Coordinate start = new Coordinate(1, 2);
+        Coordinate end = new Coordinate(3, 2);
+
+        OutputStream outputStream = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(outputStream);
+        System.setOut(ps);
+
+        // when
+        canvas.drawLine(start, end);
+        canvas.print();
+
+        // then
+        String expected = br +
+                "------------" + br +
+                "|          |" + br +
+                "|xxx       |" + br +
+                "|          |" + br +
+                "|          |" + br +
+                "------------" + br;
+
+        assertEquals(expected, outputStream.toString());
     }
 
 }

@@ -38,7 +38,7 @@ class DrawRectangleCommandTest {
         String command = "R 14 1 18 3";
 
         // when
-        canvas = subject.execute(command.split(" "), canvas);
+        canvas = subject.execute(command.split("\\s"), canvas);
         canvas.print();
 
         // then
@@ -55,15 +55,14 @@ class DrawRectangleCommandTest {
     }
 
     @Test
-    void expectExceptionWhenInvalidInputParameters() {
+    void expectExceptionWhenInputParameterNotNumber() {
         // then
         Assertions.assertThrows(InvalidInputException.class, () -> {
             // given
-            Canvas canvas = new Canvas(20, 4);
             String command = "R 14 1 18 a";
 
             // when
-            subject.execute(command.split(" "), canvas);
+            subject.validateInput(command.split("\\s"));
         });
     }
 
@@ -72,11 +71,10 @@ class DrawRectangleCommandTest {
         // then
         Assertions.assertThrows(InsufficientParametersException.class, () -> {
             // given
-            Canvas canvas = new Canvas(20, 4);
             String command = "R 14 1 17";
 
             // when
-            subject.execute(command.split(" "), canvas);
+            subject.validateInput(command.split("\\s"));
         });
     }
 

@@ -32,13 +32,13 @@ class CreateCanvasCommandTest {
     }
 
     @Test
-    void createCanvasImageTest() throws InvalidInputException {
+    void createCanvasImageTest() {
         // given
         String command = "C 20 4";
         Canvas canvas;
 
         // when
-        canvas = subject.execute(command.split(" "), null);
+        canvas = subject.execute(command.split("\\s+"), null);
         canvas.print();
 
         // then
@@ -54,14 +54,26 @@ class CreateCanvasCommandTest {
     }
 
     @Test
-    void expectExceptionWhenInvalidCanvasParameters() {
+    void expectExceptionWhenParametersNotNumbers() {
         // then
         Assertions.assertThrows(InvalidInputException.class, () -> {
             // given
-            String command = "C 20 a";
+            String command = "C b a";
 
             // when
-            subject.execute(command.split(" "), null);
+            subject.validateInput(command.split("\\s+"));
+        });
+    }
+
+    @Test
+    void expectExceptionWhenParametersHasNegativeNumber() {
+        // then
+        Assertions.assertThrows(InvalidInputException.class, () -> {
+            // given
+            String command = "C 20 -5";
+
+            // when
+            subject.validateInput(command.split("\\s+"));
         });
     }
 
@@ -73,7 +85,7 @@ class CreateCanvasCommandTest {
             String command = "C 20";
 
             // when
-            subject.execute(command.split(" "), null);
+            subject.validateInput(command.split("\\s+"));
         });
     }
 

@@ -5,23 +5,19 @@ import com.zuhlke.exception.InvalidInputException;
 import com.zuhlke.model.Canvas;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Arrays;
-
 public class CreateCanvasCommand implements Command {
 
     @Override
-    public Canvas execute(String[] input, Canvas source) throws InvalidInputException {
+    public Canvas execute(String[] input, Canvas source) {
 
-        input = validateInput(input);
         int x = Integer.parseInt(input[1]);
         int y = Integer.parseInt(input[2]);
 
         return new Canvas(x, y);
     }
 
-    private String[] validateInput(String[] input) throws InvalidInputException {
-        //filter out double-spaces
-        input = Arrays.stream(input).filter(s -> !s.isEmpty()).toArray(String[]::new);
+    @Override
+    public void validateInput(String[] input) throws InvalidInputException {
 
         if (input.length < 3) throw new InsufficientParametersException("Please input both width and height");
 
@@ -32,6 +28,5 @@ public class CreateCanvasCommand implements Command {
             }
         }
 
-        return input;
     }
 }

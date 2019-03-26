@@ -22,19 +22,23 @@ public class Application {
 
     public void run(Canvas source) {
         String[] input;
+        String cmd;
 
         if (source != null) canvas = new Canvas(source);
 
         try (Scanner scanner = new Scanner(System.in)) {
             do {
-                //loop request for command input
+                // loop request for command input
                 System.out.print("Enter command: ");
-                input = scanner.nextLine().split(" ");
+                input = scanner.nextLine().split("\\s+");
+                cmd = input[0].toUpperCase();
 
-                //execute command
-                if (commandLibrary.containsKey(input[0].toUpperCase())) {
+                // execute command
+                if (commandLibrary.containsKey(cmd)) {
                     try {
-                        canvas = commandLibrary.get(input[0].toUpperCase()).execute(input, canvas);
+                        final Command command = commandLibrary.get(cmd);
+                        command.validateInput(input);
+                        canvas = command.execute(input, canvas);
                         canvas.print();
                     } catch (InvalidInputException e) {
                         System.out.println(e.getMessage());
@@ -43,11 +47,11 @@ public class Application {
                         System.out.println(e.getMessage());
 
                     }
-                } else if (!input[0].toUpperCase().equals("Q")) {
-                    //print out if command is not found
+                } else if (!cmd.equals("Q")) {
+                    // print out if command is not found
                     System.out.println("Command not found. Please try again.");
                 }
-            } while (!input[0].toUpperCase().equals("Q"));
+            } while (!cmd.equals("Q"));
         }
     }
 
