@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ApplicationScenarioTest {
     private Application app;
-    private OutputStream os;
+    private OutputStream outputStream;
     private String br;
 
     @BeforeEach
@@ -26,8 +26,8 @@ class ApplicationScenarioTest {
 
 
         //prepare to redirect output
-        os = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(os);
+        outputStream = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(outputStream);
         System.setOut(ps);
     }
 
@@ -58,7 +58,7 @@ class ApplicationScenarioTest {
 
         // then
         String expected = new String(bytes);
-        assertEquals(expected, os.toString().replaceAll("\\r\\n", "\n"));
+        assertEquals(expected, outputStream.toString().replaceAll("\\r\\n", "\n"));
     }
 
     void sendToInput(String command) {

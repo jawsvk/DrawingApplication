@@ -92,8 +92,8 @@ class CanvasTest {
         // given
         Canvas canvas = new Canvas(10, 4);
 
-        OutputStream os = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(os);
+        OutputStream outputStream = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(outputStream);
         System.setOut(ps);
 
         // when
@@ -108,7 +108,7 @@ class CanvasTest {
                 "|          |" + br +
                 "------------" + br;
 
-        assertEquals(ans, os.toString());
+        assertEquals(ans, outputStream.toString());
     }
 
 }

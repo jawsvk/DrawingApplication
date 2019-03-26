@@ -14,7 +14,7 @@ class ApplicationTest {
 
     private Application app;
     private String br;
-    private OutputStream os;
+    private OutputStream outputStream;
 
 
     @BeforeEach
@@ -22,8 +22,8 @@ class ApplicationTest {
         app = new Application();
 
         //redirect output stream
-        os = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(os);
+        outputStream = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(outputStream);
         System.setOut(ps);
 
         br = System.getProperty("line.separator");
@@ -49,7 +49,7 @@ class ApplicationTest {
                 "----------------------" + br +
                 "Enter command: ";
 
-        assertEquals(expected, os.toString());
+        assertEquals(expected, outputStream.toString());
     }
 
     @Test
@@ -73,7 +73,7 @@ class ApplicationTest {
                 "Enter command: ";
 
 
-        assertEquals(expected, os.toString());
+        assertEquals(expected, outputStream.toString());
     }
 
     @Test
@@ -96,7 +96,7 @@ class ApplicationTest {
                 "----------------------" + br +
                 "Enter command: ";
 
-        assertEquals(expected, os.toString());
+        assertEquals(expected, outputStream.toString());
     }
 
     @Test
@@ -119,7 +119,7 @@ class ApplicationTest {
                 "----------------------" + br +
                 "Enter command: ";
 
-        assertEquals(expected, os.toString());
+        assertEquals(expected, outputStream.toString());
     }
 
     @Test
@@ -133,7 +133,7 @@ class ApplicationTest {
 
         // then
         String expected = "Enter command: ";
-        assertEquals(expected, os.toString());
+        assertEquals(expected, outputStream.toString());
 
     }
 
@@ -147,7 +147,7 @@ class ApplicationTest {
         app.run(null);
 
         // then
-        assertTrue(os.toString().contains("No canvas found"));
+        assertTrue(outputStream.toString().contains("No canvas found"));
     }
 
     @Test
@@ -160,7 +160,7 @@ class ApplicationTest {
         app.run(null);
 
         // then
-        assertTrue(os.toString().contains("Command not found"));
+        assertTrue(outputStream.toString().contains("Command not found"));
     }
 
     @Test
@@ -174,7 +174,7 @@ class ApplicationTest {
         app.run(source);
 
         // then
-        assertTrue(os.toString().contains("Either Start Point or End Point (or both) are out of bounds"));
+        assertTrue(outputStream.toString().contains("Either Start Point or End Point (or both) are out of bounds"));
     }
 
     void sendToInput(String command) {

@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class BucketFillCommandTest {
 
     private BucketFillCommand subject;
-    private OutputStream os;
+    private OutputStream outputStream;
     private String br;
 
     @BeforeEach
@@ -26,8 +26,8 @@ class BucketFillCommandTest {
         subject = new BucketFillCommand();
 
         //prepare to redirect output
-        os = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(os);
+        outputStream = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(outputStream);
         System.setOut(ps);
 
         br = System.getProperty("line.separator");
@@ -53,7 +53,7 @@ class BucketFillCommandTest {
                 "|ooooo|" + br +
                 "-------" + br;
 
-        assertEquals(expected, os.toString());
+        assertEquals(expected, outputStream.toString());
     }
 
     @Test
@@ -78,7 +78,7 @@ class BucketFillCommandTest {
                 "|oooooooooooooooooooo|" + br +
                 "----------------------" + br;
 
-        assertEquals(expected, os.toString());
+        assertEquals(expected, outputStream.toString());
 
     }
 
@@ -104,7 +104,7 @@ class BucketFillCommandTest {
                 "|                    |" + br +
                 "----------------------" + br;
 
-        assertEquals(expected, os.toString());
+        assertEquals(expected, outputStream.toString());
     }
 
     @Test

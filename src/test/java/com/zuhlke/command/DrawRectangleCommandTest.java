@@ -18,7 +18,7 @@ class DrawRectangleCommandTest {
 
     private DrawRectangleCommand subject;
     private String br;
-    private OutputStream os;
+    private OutputStream outputStream;
 
     @BeforeEach
     void setUp() {
@@ -26,8 +26,8 @@ class DrawRectangleCommandTest {
         br = System.getProperty("line.separator");
 
         //prepare to redirect output
-        os = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(os);
+        outputStream = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(outputStream);
         System.setOut(ps);
     }
 
@@ -50,7 +50,7 @@ class DrawRectangleCommandTest {
                 "|                    |" + br +
                 "----------------------" + br;
 
-        assertEquals(expected, os.toString());
+        assertEquals(expected, outputStream.toString());
 
     }
 
