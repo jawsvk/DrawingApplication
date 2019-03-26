@@ -98,7 +98,6 @@ public class Canvas {
 
             if (diff.getX() == 0) point.addY(1);
             if (diff.getY() == 0) point.addX(1);
-
         }
 
         return new Canvas(this);

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Application {
+
     private Canvas canvas;
 
     private final HashMap<String, Command> commandLibrary = new HashMap<>();
