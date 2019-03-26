@@ -3,7 +3,7 @@
 ### Instructions
 1. Launch a CLI and navigate to the project folder location.
 2. Run `./mvnw clean compile assembly:single` for Unix systems and `./mvnw.cmd clean compile assembly:single` for Batch.
-3. Navigate to the executable jar file in the "target" folder or search for DrawingApplication-1.0.jar
+3. Navigate to the executable jar file in the "target" folder or search for DrawingApplication.jar
 4. Execute the following
 command at the file location.
     
