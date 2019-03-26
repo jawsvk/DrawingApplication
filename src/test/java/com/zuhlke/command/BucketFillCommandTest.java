@@ -143,8 +143,6 @@ class BucketFillCommandTest {
         });
     }
 
-
-
     @AfterEach
     void tearDown() {
         System.setOut(System.out);
