@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CoordinateTest {
 
-
     @Test
     void expectGetDistanceOf3and9() {
         // given

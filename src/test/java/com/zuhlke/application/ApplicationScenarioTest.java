@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ApplicationScenarioTest {
+
     private Application app;
     private OutputStream outputStream;
     private String br;
