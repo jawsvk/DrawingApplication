@@ -4,7 +4,6 @@ import com.zuhlke.command.*;
 import com.zuhlke.exception.InvalidInputException;
 import com.zuhlke.model.Canvas;
 
-import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Stack;
@@ -30,7 +29,6 @@ public class Application {
         if (source != null) {
             currentCanvas = new Canvas(source);
         }
-
         canvasStack.push(currentCanvas);
 
         try (Scanner scanner = new Scanner(System.in)) {
@@ -75,19 +73,21 @@ public class Application {
     }
 
     private void undo(Stack<Canvas> canvasStack, Stack<Canvas> removedCanvas) {
-        try {
+        if (!canvasStack.isEmpty()) {
             removedCanvas.push(canvasStack.pop());
-            canvasStack.peek().print();
-        } catch (Exception e) {
-            System.out.println("\r\nNo more previous commands.");
+            if (!canvasStack.isEmpty() && canvasStack.peek() != null) {
+                canvasStack.peek().print();
+            } else System.out.println("\r\nNo more previous commands.");
         }
     }
 
     private void redo(Stack<Canvas> canvasStack, Stack<Canvas> removedCanvas) {
-        try {
+        if (!removedCanvas.isEmpty()) {
             canvasStack.push(removedCanvas.pop());
-            canvasStack.peek().print();
-        } catch (EmptyStackException e) {
+            if (canvasStack.peek() != null) {
+                canvasStack.peek().print();
+            }
+        } else {
             System.out.println("\r\nLatest command reached.");
         }
     }
