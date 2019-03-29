@@ -12,7 +12,6 @@ import java.util.Stack;
 public class Application {
 
     private Canvas currentCanvas;
-
     private final HashMap<String, Command> commandLibrary = new HashMap<>();
 
     public Application() {
@@ -48,20 +47,29 @@ public class Application {
                         command.validateInput(input);
                         currentCanvas = command.execute(input, canvasStack.peek());
                         canvasStack.push(currentCanvas).print();
+                        removedCanvasStack.clear();
                     } catch (InvalidInputException e) {
                         System.out.println(e.getMessage());
                         System.out.println("Please try again");
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
-                } else if (cmd.equals("UNDO")) {
-                    undo(canvasStack, removedCanvasStack);
-                } else if (cmd.equals("REDO")) {
-                    redo(canvasStack, removedCanvasStack);
                 } else if (!cmd.equals("Q")) {
-                    // print out if command is not found
-                    System.out.println("Command not found. Please try again.");
+                    switch (cmd) {
+                        case "UNDO":
+                            undo(canvasStack, removedCanvasStack);
+                            break;
+
+                        case "REDO":
+                            redo(canvasStack, removedCanvasStack);
+                            break;
+
+                        default:
+                            // print out if command is not found
+                            System.out.println("Command not found. Please try again.");
+                    }
                 }
+
             } while (!cmd.equals("Q"));
         }
     }
@@ -77,11 +85,10 @@ public class Application {
 
     private void redo(Stack<Canvas> canvasStack, Stack<Canvas> removedCanvas) {
         try {
-            canvasStack.push(removedCanvas.pop()).print();
+            canvasStack.push(removedCanvas.pop());
+            canvasStack.peek().print();
         } catch (EmptyStackException e) {
             System.out.println("\r\nLatest command reached.");
         }
     }
 }
-
-

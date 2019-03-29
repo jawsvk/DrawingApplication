@@ -400,6 +400,50 @@ class ApplicationTest {
     }
 
     @Test
+    void redoAfterCommand() {
+        // given
+        Canvas source = new Canvas(20, 4);
+        String command = "B 1 1 o" + br +
+                "UNDO" + br +
+                "L 1 2 6 2" + br +
+                "REDO" + br + "Q";
+        sendToInput(command);
+
+        // when
+        app.run(source);
+
+        //given
+        String expected = "Enter command: " + br +
+                "----------------------" + br +
+                "|oooooooooooooooooooo|" + br +
+                "|oooooooooooooooooooo|" + br +
+                "|oooooooooooooooooooo|" + br +
+                "|oooooooooooooooooooo|" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|xxxxxx              |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "Latest command reached." + br +
+                "Enter command: ";
+
+        assertEquals(expected, outputStream.toString());
+
+
+    }
+
+    @Test
     void checkQuitApplication() {
         // given
         String command = "Q";
