@@ -1,6 +1,7 @@
 package com.zuhlke.application;
 
 import com.zuhlke.model.Canvas;
+import com.zuhlke.model.Coordinate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,6 @@ class ApplicationTest {
     private Application app;
     private String br;
     private OutputStream outputStream;
-
 
     @BeforeEach
     void setUp() {
@@ -117,6 +117,283 @@ class ApplicationTest {
                 "|oooooooooooooooooooo|" + br +
                 "|oooooooooooooooooooo|" + br +
                 "----------------------" + br +
+                "Enter command: ";
+
+        assertEquals(expected, outputStream.toString());
+    }
+
+    @Test
+    void checkUndoBucketFillCommand() {
+        // given
+        Canvas source = new Canvas(20, 4);
+        String command = "B 1 1 o" + br + "UNDO" + br + "Q";
+        sendToInput(command);
+
+        // when
+        app.run(source);
+
+        // then
+        String expected = "Enter command: " + br +
+                "----------------------" + br +
+                "|oooooooooooooooooooo|" + br +
+                "|oooooooooooooooooooo|" + br +
+                "|oooooooooooooooooooo|" + br +
+                "|oooooooooooooooooooo|" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: ";
+
+        assertEquals(expected, outputStream.toString());
+    }
+
+
+    @Test
+    void undoRectangleCommandFromCanvasWithLine() {
+        // given
+        Canvas source = new Canvas(20, 4);
+        Coordinate start = new Coordinate(1, 2);
+        Coordinate end = new Coordinate(6, 2);
+        source.drawLine(start, end);
+
+        String command = "R 14 1 18 3" + br + "UNDO" + br + "Q";
+        sendToInput(command);
+
+        // when
+        app.run(source);
+
+        // then
+        String expected = "Enter command: " + br +
+                "----------------------" + br +
+                "|             xxxxx  |" + br +
+                "|xxxxxx       x   x  |" + br +
+                "|             xxxxx  |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|xxxxxx              |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: ";
+
+        assertEquals(expected, outputStream.toString());
+    }
+
+    @Test
+    void undoTwoCommandsExpectBlankCanvas() {
+        // given
+        Canvas source = new Canvas(20, 4);
+        String command = "C 20 4" + br + "L 1 2 6 2" + br + "R 14 1 18 3" + br + "UNDO" + br + "UNDO" + br + "Q";
+        sendToInput(command);
+
+        // when
+        app.run(source);
+
+        // then
+        String expected = "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|xxxxxx              |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|             xxxxx  |" + br +
+                "|xxxxxx       x   x  |" + br +
+                "|             xxxxx  |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|xxxxxx              |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: ";
+
+        assertEquals(expected, outputStream.toString());
+
+    }
+
+    @Test
+    void undoAllCommandsExpectError() {
+        // given
+        Canvas source = new Canvas(20, 4);
+        String command = "UNDO" + br + "Q";
+        sendToInput(command);
+
+        // when
+        app.run(source);
+
+        // then
+        String expected = "Enter command: " + br +
+                "No more previous commands." + br +
+                "Enter command: ";
+
+        assertEquals(expected, outputStream.toString());
+    }
+
+    @Test
+    void undoAndRedoBucketFill() {
+        // given
+        Canvas source = new Canvas(20, 4);
+        String command = "B 1 1 o" + br + "UNDO" + br + "REDO" + br + "Q";
+        sendToInput(command);
+
+        // when
+        app.run(source);
+
+        // then
+        String expected = "Enter command: " + br +
+                "----------------------" + br +
+                "|oooooooooooooooooooo|" + br +
+                "|oooooooooooooooooooo|" + br +
+                "|oooooooooooooooooooo|" + br +
+                "|oooooooooooooooooooo|" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|oooooooooooooooooooo|" + br +
+                "|oooooooooooooooooooo|" + br +
+                "|oooooooooooooooooooo|" + br +
+                "|oooooooooooooooooooo|" + br +
+                "----------------------" + br +
+                "Enter command: ";
+
+        assertEquals(expected, outputStream.toString());
+    }
+
+    @Test
+    void undoAndRedoCommandTwice() {
+        // given
+        Canvas source = new Canvas(20, 4);
+        String command = "L 1 2 6 2" + br +
+                "B 1 1 o" + br +
+                "UNDO" + br +
+                "UNDO" + br +
+                "REDO" + br +
+                "REDO" + br + "Q";
+        sendToInput(command);
+
+        // when
+        app.run(source);
+
+        // then
+        String expected = "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|xxxxxx              |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|oooooooooooooooooooo|" + br +
+                "|xxxxxxoooooooooooooo|" + br +
+                "|oooooooooooooooooooo|" + br +
+                "|oooooooooooooooooooo|" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|xxxxxx              |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|xxxxxx              |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|oooooooooooooooooooo|" + br +
+                "|xxxxxxoooooooooooooo|" + br +
+                "|oooooooooooooooooooo|" + br +
+                "|oooooooooooooooooooo|" + br +
+                "----------------------" + br +
+                "Enter command: ";
+
+        assertEquals(expected, outputStream.toString());
+    }
+
+    @Test
+    void undoOnceRedoCommandTwice() {
+        // given
+        Canvas source = new Canvas(20, 4);
+        String command = "B 1 1 o" + br +
+                "UNDO" + br +
+                "REDO" + br +
+                "REDO" + br + "Q";
+        sendToInput(command);
+
+        // when
+        app.run(source);
+
+        // then
+        String expected = "Enter command: " + br +
+                "----------------------" + br +
+                "|oooooooooooooooooooo|" + br +
+                "|oooooooooooooooooooo|" + br +
+                "|oooooooooooooooooooo|" + br +
+                "|oooooooooooooooooooo|" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|oooooooooooooooooooo|" + br +
+                "|oooooooooooooooooooo|" + br +
+                "|oooooooooooooooooooo|" + br +
+                "|oooooooooooooooooooo|" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "Latest command reached." + br +
                 "Enter command: ";
 
         assertEquals(expected, outputStream.toString());
