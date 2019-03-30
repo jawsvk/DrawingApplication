@@ -13,6 +13,7 @@ public class Application {
     private Canvas currentCanvas;
     private Stack<Canvas> canvasStack;
 
+
     private final HashMap<String, Command> commandLibrary = new HashMap<>();
 
     public Application() {
@@ -26,6 +27,7 @@ public class Application {
     public void run(Canvas source) {
         String[] input;
         String cmd;
+        Stack<Canvas> removedCanvas = new Stack<>();
 
         if (source != null) {
             currentCanvas = new Canvas(source);
@@ -54,27 +56,16 @@ public class Application {
                         System.out.println(e.getMessage());
                     }
                 } else if (cmd.equals("UNDO")) {
-//                    if (!canvasStack.isEmpty()) {
-//                        canvasStack.pop();
-//                        if (!canvasStack.isEmpty()) {
-//                            currentCanvas = new Canvas(canvasStack.peek());
-//                            currentCanvas.print();
-//                        } else {
-//                            System.out.println("\r\nNo more previous command.");
-//                        }
-//                    } else {
-//                        currentCanvas = null;
-//                        System.out.println("No more previous command.");
-//                    }
-
                     if (!canvasStack.isEmpty()) {
-                        canvasStack.pop();
+                        removedCanvas.push(canvasStack.pop());
                         currentCanvas = canvasStack.isEmpty() ? null : canvasStack.peek();
                     }
                     if (currentCanvas == null) {
                         System.out.println("\r\nNo more previous command.");
                     } else currentCanvas.print();
-
+                } else if (cmd.equals("REDO")) {
+                    currentCanvas = canvasStack.push(removedCanvas.pop());
+                    currentCanvas.print();
                 } else if (!cmd.equals("Q")) {
                     // print out if command is not found
                     System.out.println("Command not found. Please try again.");
