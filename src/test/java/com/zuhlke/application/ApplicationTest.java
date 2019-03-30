@@ -167,6 +167,45 @@ class ApplicationTest {
     }
 
     @Test
+    void undoBucketFillFromLineCommand() {
+        // given
+        Canvas source = new Canvas(20, 4);
+        String command = "L 1 2 6 2" + br + "B 1 1 o" + br + "undo" + br + "Q";
+        sendToInput(command);
+
+        // when
+        app.run(source);
+
+        // then
+        String expected = "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|xxxxxx              |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|oooooooooooooooooooo|" + br +
+                "|xxxxxxoooooooooooooo|" + br +
+                "|oooooooooooooooooooo|" + br +
+                "|oooooooooooooooooooo|" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|xxxxxx              |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: ";
+
+        assertEquals(expected, outputStream.toString());
+    }
+
+
+
+    @Test
     void expectExceptionWhenNoCanvasCreated() {
         // given
         String command = "L 1 2 6 2" + br + "Q";

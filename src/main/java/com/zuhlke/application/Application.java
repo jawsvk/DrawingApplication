@@ -9,7 +9,8 @@ import java.util.Scanner;
 
 public class Application {
 
-    private Canvas canvas;
+    private Canvas currentCanvas;
+    private Canvas previousCanvas;
 
     private final HashMap<String, Command> commandLibrary = new HashMap<>();
 
@@ -24,7 +25,7 @@ public class Application {
         String[] input;
         String cmd;
 
-        if (source != null) canvas = new Canvas(source);
+        if (source != null) currentCanvas = new Canvas(source);
 
         try (Scanner scanner = new Scanner(System.in)) {
             do {
@@ -38,8 +39,9 @@ public class Application {
                     try {
                         final Command command = commandLibrary.get(cmd);
                         command.validateInput(input);
-                        canvas = command.execute(input, canvas);
-                        canvas.print();
+                        previousCanvas = currentCanvas;
+                        currentCanvas = command.execute(input, currentCanvas);
+                        currentCanvas.print();
                     } catch (InvalidInputException e) {
                         System.out.println(e.getMessage());
                         System.out.println("Please try again");
@@ -48,7 +50,8 @@ public class Application {
 
                     }
                 } else if (cmd.equals("UNDO")) {
-                    source.print();
+                    currentCanvas = new Canvas(previousCanvas);
+                    currentCanvas.print();
                 } else if (!cmd.equals("Q")) {
                     // print out if command is not found
                     System.out.println("Command not found. Please try again.");
