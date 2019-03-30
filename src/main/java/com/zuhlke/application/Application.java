@@ -64,8 +64,10 @@ public class Application {
                         System.out.println("\r\nNo more previous command.");
                     } else currentCanvas.print();
                 } else if (cmd.equals("REDO")) {
-                    currentCanvas = canvasStack.push(removedCanvas.pop());
-                    currentCanvas.print();
+                    if (!removedCanvas.isEmpty()) {
+                        currentCanvas = canvasStack.push(removedCanvas.pop());
+                        currentCanvas.print();
+                    } else System.out.println("\r\nLatest command reached.");
                 } else if (!cmd.equals("Q")) {
                     // print out if command is not found
                     System.out.println("Command not found. Please try again.");

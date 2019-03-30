@@ -319,6 +319,45 @@ class ApplicationTest {
     }
 
     @Test
+    void undoDrawLineRedoTwice() {
+        // given
+        Canvas source = new Canvas(20, 4);
+        String command = "L 1 2 6 2" + br + "undo" + br + "redo" + br + "redo" + br + "Q";
+        sendToInput(command);
+
+        // when
+        app.run(source);
+
+        // then
+        String expected = "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|xxxxxx              |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|xxxxxx              |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "Latest command reached." + br +
+                "Enter command: ";
+
+        assertEquals(expected, outputStream.toString());
+    }
+
+    @Test
     void undoRedoTwiceOnTwoCommands() {
         // given
         Canvas source = new Canvas(20, 4);
@@ -378,7 +417,6 @@ class ApplicationTest {
 
         assertEquals(expected, outputStream.toString());
     }
-
 
     @Test
     void expectExceptionWhenNoCanvasCreated() {
