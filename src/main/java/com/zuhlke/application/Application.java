@@ -54,9 +54,28 @@ public class Application {
                         System.out.println(e.getMessage());
                     }
                 } else if (cmd.equals("UNDO")) {
-                    canvasStack.pop();
-                    currentCanvas = new Canvas(canvasStack.peek());
-                    currentCanvas.print();
+//                    if (!canvasStack.isEmpty()) {
+//                        canvasStack.pop();
+//                        if (!canvasStack.isEmpty()) {
+//                            currentCanvas = new Canvas(canvasStack.peek());
+//                            currentCanvas.print();
+//                        } else {
+//                            System.out.println("\r\nNo more previous command.");
+//                        }
+//                    } else {
+//                        currentCanvas = null;
+//                        System.out.println("No more previous command.");
+//                    }
+
+                    currentCanvas = null;
+                    if (!canvasStack.isEmpty()) {
+                        canvasStack.pop();
+                        currentCanvas = canvasStack.isEmpty() ? null : canvasStack.peek();
+                    }
+                    if (currentCanvas == null) {
+                        System.out.println("\r\nNo more previous command.");
+                    } else currentCanvas.print();
+
                 } else if (!cmd.equals("Q")) {
                     // print out if command is not found
                     System.out.println("Command not found. Please try again.");
@@ -64,7 +83,6 @@ public class Application {
             } while (!cmd.equals("Q"));
         }
     }
-
 
 }
 
