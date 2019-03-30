@@ -134,7 +134,36 @@ class ApplicationTest {
         // then
         String expected = "Enter command: ";
         assertEquals(expected, outputStream.toString());
+    }
 
+    @Test
+    void undoBucketFillCommand() {
+        // given
+        Canvas source = new Canvas(20, 4);
+        String command = "B 1 1 o" + br + "undo" + br + "Q";
+        sendToInput(command);
+
+        // when
+        app.run(source);
+
+        // then
+        String expected = "Enter command: " + br +
+                "----------------------" + br +
+                "|oooooooooooooooooooo|" + br +
+                "|oooooooooooooooooooo|" + br +
+                "|oooooooooooooooooooo|" + br +
+                "|oooooooooooooooooooo|" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: ";
+
+        assertEquals(expected, outputStream.toString());
     }
 
     @Test

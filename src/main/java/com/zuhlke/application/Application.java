@@ -47,6 +47,8 @@ public class Application {
                         System.out.println(e.getMessage());
 
                     }
+                } else if (cmd.equals("UNDO")) {
+                    source.print();
                 } else if (!cmd.equals("Q")) {
                     // print out if command is not found
                     System.out.println("Command not found. Please try again.");
