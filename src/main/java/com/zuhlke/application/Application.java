@@ -67,7 +67,6 @@ public class Application {
 //                        System.out.println("No more previous command.");
 //                    }
 
-                    currentCanvas = null;
                     if (!canvasStack.isEmpty()) {
                         canvasStack.pop();
                         currentCanvas = canvasStack.isEmpty() ? null : canvasStack.peek();
