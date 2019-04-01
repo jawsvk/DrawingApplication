@@ -49,31 +49,47 @@ public class Application {
                         currentCanvas = command.execute(input, currentCanvas);
                         canvasStack.push(currentCanvas);
                         currentCanvas.print();
+                        removedCanvas.clear();
                     } catch (InvalidInputException e) {
                         System.out.println(e.getMessage());
                         System.out.println("Please try again");
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
-                } else if (cmd.equals("UNDO")) {
-                    if (!canvasStack.isEmpty()) {
-                        removedCanvas.push(canvasStack.pop());
-                        currentCanvas = canvasStack.isEmpty() ? null : canvasStack.peek();
-                    }
-                    if (currentCanvas == null) {
-                        System.out.println("\r\nNo more previous command.");
-                    } else currentCanvas.print();
-                } else if (cmd.equals("REDO")) {
-                    if (!removedCanvas.isEmpty()) {
-                        currentCanvas = canvasStack.push(removedCanvas.pop());
-                        currentCanvas.print();
-                    } else System.out.println("\r\nLatest command reached.");
                 } else if (!cmd.equals("Q")) {
-                    // print out if command is not found
-                    System.out.println("Command not found. Please try again.");
+                    switch (cmd) {
+                        case "UNDO":
+                            undo(removedCanvas);
+                            break;
+
+                        case "REDO":
+                            redo(removedCanvas);
+                            break;
+
+                        default:
+                            // print out if command is not found
+                            System.out.println("Command not found. Please try again.");
+                    }
                 }
             } while (!cmd.equals("Q"));
         }
+    }
+
+    private void redo(Stack<Canvas> removedCanvas) {
+        if (!removedCanvas.isEmpty()) {
+            currentCanvas = canvasStack.push(removedCanvas.pop());
+            currentCanvas.print();
+        } else System.out.println("\r\nLatest command reached.");
+    }
+
+    private void undo(Stack<Canvas> removedCanvas) {
+        if (!canvasStack.isEmpty()) {
+            removedCanvas.push(canvasStack.pop());
+            currentCanvas = canvasStack.isEmpty() ? null : canvasStack.peek();
+        }
+        if (currentCanvas == null) {
+            System.out.println("\r\nNo more previous command.");
+        } else currentCanvas.print();
     }
 
 }
