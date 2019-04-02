@@ -73,6 +73,20 @@ public class Canvas {
         return (point.getX() >= 1 && point.getX() < column - 1 && point.getY() >= 1 && point.getY() < row - 1);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (int i = 0; i < row; i++) {
+            for (Character c : base[i]) {
+                stringBuilder.append(c);
+            }
+            stringBuilder.append(System.getProperty("line.separator"));
+        }
+
+        return stringBuilder.toString();
+    }
+
     public void print() {
         for (int i = 0; i < row; i++) {
             System.out.println();

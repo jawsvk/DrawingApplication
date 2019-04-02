@@ -15,13 +15,15 @@ class ApplicationTest {
     private Application app;
     private String br;
     private OutputStream outputStream;
+    private Canvas result;
 
 
     @BeforeEach
     void setUp() {
         app = new Application();
 
-        // redirect output stream
+
+        //prepare to redirect output
         outputStream = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(outputStream);
         System.setOut(ps);
@@ -37,19 +39,18 @@ class ApplicationTest {
         sendToInput(command);
 
         // when
-        app.run(null);
+        result = app.run(null);
 
         // then
-        String expected = "Enter command: " + br +
+        String expected =
                 "----------------------" + br +
-                "|                    |" + br +
-                "|                    |" + br +
-                "|                    |" + br +
-                "|                    |" + br +
-                "----------------------" + br +
-                "Enter command: ";
+                        "|                    |" + br +
+                        "|                    |" + br +
+                        "|                    |" + br +
+                        "|                    |" + br +
+                        "----------------------" + br;
 
-        assertEquals(expected, outputStream.toString());
+        assertEquals(expected, result.toString());
     }
 
     @Test
@@ -60,20 +61,19 @@ class ApplicationTest {
         sendToInput(command);
 
         // when
-        app.run(source);
+        result = app.run(source);
 
         // then
-        String expected = "Enter command: " + br +
+        String expected =
                 "----------------------" + br +
-                "|                    |" + br +
-                "|xxxxxx              |" + br +
-                "|                    |" + br +
-                "|                    |" + br +
-                "----------------------" + br +
-                "Enter command: ";
+                        "|                    |" + br +
+                        "|xxxxxx              |" + br +
+                        "|                    |" + br +
+                        "|                    |" + br +
+                        "----------------------" + br;
 
 
-        assertEquals(expected, outputStream.toString());
+        assertEquals(expected, result.toString());
     }
 
     @Test
@@ -84,19 +84,18 @@ class ApplicationTest {
         sendToInput(command);
 
         // when
-        app.run(source);
+        result = app.run(source);
 
         // then
-        String expected = "Enter command: " + br +
+        String expected =
                 "----------------------" + br +
-                "|             xxxxx  |" + br +
-                "|             x   x  |" + br +
-                "|             xxxxx  |" + br +
-                "|                    |" + br +
-                "----------------------" + br +
-                "Enter command: ";
+                        "|             xxxxx  |" + br +
+                        "|             x   x  |" + br +
+                        "|             xxxxx  |" + br +
+                        "|                    |" + br +
+                        "----------------------" + br;
 
-        assertEquals(expected, outputStream.toString());
+        assertEquals(expected, result.toString());
     }
 
     @Test
@@ -107,19 +106,18 @@ class ApplicationTest {
         sendToInput(command);
 
         // when
-        app.run(source);
+        result = app.run(source);
 
         // then
-        String expected = "Enter command: " + br +
+        String expected =
                 "----------------------" + br +
                 "|oooooooooooooooooooo|" + br +
                 "|oooooooooooooooooooo|" + br +
                 "|oooooooooooooooooooo|" + br +
                 "|oooooooooooooooooooo|" + br +
-                "----------------------" + br +
-                "Enter command: ";
+                        "----------------------" + br;
 
-        assertEquals(expected, outputStream.toString());
+        assertEquals(expected, result.toString());
     }
 
     @Test
@@ -185,7 +183,6 @@ class ApplicationTest {
     @AfterEach
     void tearDown() {
         //restore normal input and output
-        System.setOut(System.out);
         System.setIn(System.in);
     }
 }

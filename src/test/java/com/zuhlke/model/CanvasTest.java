@@ -3,10 +3,6 @@ package com.zuhlke.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class CanvasTest {
@@ -70,7 +66,7 @@ class CanvasTest {
         Canvas testCanvas = new Canvas(canvas);
 
         // then
-        assertNotEquals(testCanvas.toString(), canvas.toString());
+        assertNotEquals(testCanvas, canvas);
     }
 
     @Test
@@ -88,19 +84,12 @@ class CanvasTest {
     }
 
     @Test
-    void checkCanvasPrintOut() {
+    void checkCanvasToString() {
         // given
         Canvas canvas = new Canvas(10, 4);
 
-        OutputStream outputStream = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(outputStream);
-        System.setOut(ps);
-
-        // when
-        canvas.print();
-
         // then
-        String expected = br +
+        String expected =
                 "------------" + br +
                 "|          |" + br +
                 "|          |" + br +
@@ -108,7 +97,7 @@ class CanvasTest {
                 "|          |" + br +
                 "------------" + br;
 
-        assertEquals(expected, outputStream.toString());
+        assertEquals(expected, canvas.toString());
     }
 
     @Test
@@ -118,16 +107,11 @@ class CanvasTest {
         Coordinate start = new Coordinate(1, 2);
         Coordinate end = new Coordinate(3, 2);
 
-        OutputStream outputStream = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(outputStream);
-        System.setOut(ps);
-
         // when
         canvas.drawLine(start, end);
-        canvas.print();
 
         // then
-        String expected = br +
+        String expected =
                 "------------" + br +
                 "|          |" + br +
                 "|xxx       |" + br +
@@ -135,7 +119,7 @@ class CanvasTest {
                 "|          |" + br +
                 "------------" + br;
 
-        assertEquals(expected, outputStream.toString());
+        assertEquals(expected, canvas.toString());
     }
 
 }

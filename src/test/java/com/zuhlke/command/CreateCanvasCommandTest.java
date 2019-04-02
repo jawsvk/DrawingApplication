@@ -3,14 +3,9 @@ package com.zuhlke.command;
 import com.zuhlke.exception.InsufficientParametersException;
 import com.zuhlke.exception.InvalidInputException;
 import com.zuhlke.model.Canvas;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -18,17 +13,11 @@ class CreateCanvasCommandTest {
 
     private CreateCanvasCommand subject;
     private String br;
-    private OutputStream outputStream;
 
     @BeforeEach
     void setUp() {
         subject = new CreateCanvasCommand();
         br = System.getProperty("line.separator");
-
-        //prepare to redirect output
-        outputStream = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(outputStream);
-        System.setOut(ps);
     }
 
     @Test
@@ -39,10 +28,9 @@ class CreateCanvasCommandTest {
 
         // when
         canvas = subject.execute(command.split("\\s+"), null);
-        canvas.print();
 
         // then
-        String expected = br +
+        String expected =
                 "----------------------" + br +
                 "|                    |" + br +
                 "|                    |" + br +
@@ -50,7 +38,7 @@ class CreateCanvasCommandTest {
                 "|                    |" + br +
                 "----------------------" + br;
 
-        assertEquals(expected, outputStream.toString());
+        assertEquals(expected, canvas.toString());
     }
 
     @Test
@@ -89,9 +77,4 @@ class CreateCanvasCommandTest {
         });
     }
 
-    @AfterEach
-    void tearDown() {
-        //Restore normal output
-        System.setOut(System.out);
-    }
 }

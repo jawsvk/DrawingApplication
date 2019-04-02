@@ -20,7 +20,7 @@ public class Application {
         commandLibrary.put("B", new BucketFillCommand());
     }
 
-    public void run(Canvas source) {
+    public Canvas run(Canvas source) {
         String[] input;
         String cmd;
 
@@ -39,7 +39,7 @@ public class Application {
                         final Command command = commandLibrary.get(cmd);
                         command.validateInput(input);
                         canvas = command.execute(input, canvas);
-                        canvas.print();
+                        System.out.println(canvas.toString());
                     } catch (InvalidInputException e) {
                         System.out.println(e.getMessage());
                         System.out.println("Please try again");
@@ -53,6 +53,7 @@ public class Application {
                 }
             } while (!cmd.equals("Q"));
         }
+        return canvas;
     }
 
 

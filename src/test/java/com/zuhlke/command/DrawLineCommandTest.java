@@ -3,14 +3,9 @@ package com.zuhlke.command;
 import com.zuhlke.exception.InsufficientParametersException;
 import com.zuhlke.exception.InvalidInputException;
 import com.zuhlke.model.Canvas;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -18,17 +13,12 @@ class DrawLineCommandTest {
 
     private DrawLineCommand subject;
     private String br;
-    private OutputStream outputStream;
 
     @BeforeEach
     void setUp() {
         subject = new DrawLineCommand();
         br = System.getProperty("line.separator");
 
-        //prepare to redirect output
-        outputStream = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(outputStream);
-        System.setOut(ps);
     }
 
     @Test
@@ -39,10 +29,9 @@ class DrawLineCommandTest {
 
         // when
         canvas = subject.execute(command.split("\\s+"), canvas);
-        canvas.print();
 
         // then
-        String expected = br +
+        String expected =
                 "----------------------" + br +
                 "|                    |" + br +
                 "|xxxxxx              |" + br +
@@ -50,7 +39,7 @@ class DrawLineCommandTest {
                 "|                    |" + br +
                 "----------------------" + br;
 
-        assertEquals(expected, outputStream.toString());
+        assertEquals(expected, canvas.toString());
     }
 
     @Test
@@ -61,10 +50,9 @@ class DrawLineCommandTest {
 
         // when
         canvas = subject.execute(command.split("\\s+"), canvas);
-        canvas.print();
 
         // then
-        String expected = br +
+        String expected =
                 "----------------------" + br +
                 "|                    |" + br +
                 "|xxxxxx              |" + br +
@@ -72,7 +60,7 @@ class DrawLineCommandTest {
                 "|                    |" + br +
                 "----------------------" + br;
 
-        assertEquals(expected, outputStream.toString());
+        assertEquals(expected, canvas.toString());
     }
 
     @Test
@@ -124,9 +112,4 @@ class DrawLineCommandTest {
         });
     }
 
-    @AfterEach
-    void tearDown() {
-        //Restore normal output
-        System.setOut(System.out);
-    }
 }

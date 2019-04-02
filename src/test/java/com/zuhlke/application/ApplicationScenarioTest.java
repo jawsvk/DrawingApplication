@@ -1,23 +1,19 @@
 package com.zuhlke.application;
 
 
+import com.zuhlke.model.Canvas;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ApplicationScenarioTest {
 
     private Application app;
-    private OutputStream outputStream;
     private String br;
 
     @BeforeEach
@@ -25,25 +21,13 @@ class ApplicationScenarioTest {
         app = new Application();
         br = System.getProperty("line.separator");
 
-
-        //prepare to redirect output
-        outputStream = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(outputStream);
-        System.setOut(ps);
     }
 
     @Test
-    void checkAllCommandsInSequence() throws IOException, URISyntaxException {
+    void checkAllCommandsInSequence() {
+
         // given
-        URI uri = new URI("");
-        final URL resource = this.getClass().getClassLoader().getResource("AllCommandsInSequence.txt");
-
-        if (resource != null) {
-            uri = resource.toURI();
-        }
-
-        byte[] bytes = Files.readAllBytes(Paths.get(uri));
-
+        Canvas result;
         String command = "C 20 4" + br +
                 "L 1 2 6 2" + br +
                 "L 6 3 6 4" + br +
@@ -55,11 +39,17 @@ class ApplicationScenarioTest {
 
 
         // when
-        app.run(null);
+        result = app.run(null);
 
         // then
-        String expected = new String(bytes);
-        assertEquals(expected, outputStream.toString().replaceAll("\\r\\n", "\n"));
+        String expected =
+                "----------------------" + br +
+                        "|oooooooooooooxxxxxoo|" + br +
+                        "|xxxxxxooooooox   xoo|" + br +
+                        "|     xoooooooxxxxxoo|" + br +
+                        "|     xoooooooooooooo|" + br +
+                        "----------------------" + br;
+        assertEquals(expected, result.toString());
     }
 
     void sendToInput(String command) {
@@ -69,8 +59,7 @@ class ApplicationScenarioTest {
 
     @AfterEach
     void tearDown() {
-        //restore normal input and output
-        System.setOut(System.out);
+        //restore normal input
         System.setIn(System.in);
     }
 

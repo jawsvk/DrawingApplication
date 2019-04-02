@@ -4,32 +4,20 @@ import com.zuhlke.exception.InsufficientParametersException;
 import com.zuhlke.exception.InvalidInputException;
 import com.zuhlke.model.Canvas;
 import com.zuhlke.model.Coordinate;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BucketFillCommandTest {
 
     private BucketFillCommand subject;
-    private OutputStream outputStream;
     private String br;
 
     @BeforeEach
     void setUp() {
         subject = new BucketFillCommand();
-
-        //prepare to redirect output
-        outputStream = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(outputStream);
-        System.setOut(ps);
-
         br = System.getProperty("line.separator");
     }
 
@@ -43,17 +31,16 @@ class BucketFillCommandTest {
 
         // when
         testCanvas = subject.execute(command.split("\\s+"), testCanvas);
-        testCanvas.print();
 
         // then
-        String expected = br +
+        String expected =
                 "-------" + br +
                 "|ooooo|" + br +
                 "|xoooo|" + br +
                 "|ooooo|" + br +
                 "-------" + br;
 
-        assertEquals(expected, outputStream.toString());
+        assertEquals(expected, testCanvas.toString());
     }
 
     @Test
@@ -67,10 +54,9 @@ class BucketFillCommandTest {
 
         // when
         canvas = subject.execute(command.split("\\s+"), canvas);
-        canvas.print();
 
         // then
-        String expected = br +
+        String expected =
                 "----------------------" + br +
                 "|oooooooooooooxxxxxoo|" + br +
                 "|ooooooooooooox   xoo|" + br +
@@ -78,7 +64,7 @@ class BucketFillCommandTest {
                 "|oooooooooooooooooooo|" + br +
                 "----------------------" + br;
 
-        assertEquals(expected, outputStream.toString());
+        assertEquals(expected, canvas.toString());
 
     }
 
@@ -93,10 +79,9 @@ class BucketFillCommandTest {
 
         // when
         canvas = subject.execute(command.split("\\s+"), canvas);
-        canvas.print();
 
         // then
-        String expected = br +
+        String expected =
                 "----------------------" + br +
                 "|             ooooo  |" + br +
                 "|             o   o  |" + br +
@@ -104,7 +89,7 @@ class BucketFillCommandTest {
                 "|                    |" + br +
                 "----------------------" + br;
 
-        assertEquals(expected, outputStream.toString());
+        assertEquals(expected, canvas.toString());
     }
 
     @Test
@@ -143,8 +128,4 @@ class BucketFillCommandTest {
         });
     }
 
-    @AfterEach
-    void tearDown() {
-        System.setOut(System.out);
-    }
 }
