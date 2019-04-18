@@ -87,6 +87,8 @@ public class Canvas {
         return stringBuilder.toString();
     }
 
+    //replaced by toString() above
+    /*
     public void print() {
         for (int i = 0; i < row; i++) {
             System.out.println();
@@ -94,7 +96,7 @@ public class Canvas {
         }
         System.out.println();
     }
-
+     */
     public void drawLine(Coordinate start, Coordinate end) {
         Coordinate diff = end.getDistance(start);
         Coordinate point;

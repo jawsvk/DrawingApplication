@@ -1,28 +1,21 @@
 package com.zuhlke.application;
 
-import com.zuhlke.command.*;
+import com.zuhlke.command.Command;
+import com.zuhlke.command.CommandSupplier;
 import com.zuhlke.exception.InvalidInputException;
 import com.zuhlke.model.Canvas;
 
-import java.util.HashMap;
 import java.util.Scanner;
+
 
 public class Application {
 
     private Canvas canvas;
 
-    private final HashMap<String, Command> commandLibrary = new HashMap<>();
-
-    public Application() {
-        commandLibrary.put("C", new CreateCanvasCommand());
-        commandLibrary.put("L", new DrawLineCommand());
-        commandLibrary.put("R", new DrawRectangleCommand());
-        commandLibrary.put("B", new BucketFillCommand());
-    }
-
     public Canvas run(Canvas source) {
         String[] input;
         String cmd;
+        CommandSupplier supplier = new CommandSupplier();
 
         if (source != null) canvas = new Canvas(source);
 
@@ -34,28 +27,21 @@ public class Application {
                 cmd = input[0].toUpperCase();
 
                 // execute command
-                if (commandLibrary.containsKey(cmd)) {
-                    try {
-                        final Command command = commandLibrary.get(cmd);
-                        command.validateInput(input);
-                        canvas = command.execute(input, canvas);
-                        System.out.println(canvas.toString());
-                    } catch (InvalidInputException e) {
-                        System.out.println(e.getMessage());
-                        System.out.println("Please try again");
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
-
-                    }
-                } else if (!cmd.equals("Q")) {
-                    // print out if command is not found
-                    System.out.println("Command not found. Please try again.");
+                try {
+                    final Command command = supplier.supplyCommand(cmd);
+                    command.validateInput(input);
+                    canvas = command.execute(input, canvas);
+                    System.out.println(canvas.toString());
+                } catch (InvalidInputException e) {
+                    System.out.println(e.getMessage());
+                    System.out.println("Please try again");
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
                 }
             } while (!cmd.equals("Q"));
         }
         return canvas;
     }
-
 
 }
 
