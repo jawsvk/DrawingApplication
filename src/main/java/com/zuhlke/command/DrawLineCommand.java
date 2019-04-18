@@ -5,10 +5,12 @@ import com.zuhlke.exception.InvalidInputException;
 import com.zuhlke.exception.NoCanvasException;
 import com.zuhlke.model.Canvas;
 import com.zuhlke.model.Coordinate;
-import org.apache.commons.lang3.StringUtils;
 
 
-public class DrawLineCommand implements Command {
+public class DrawLineCommand extends Command {
+
+    private final static int INPUT_LENGTH = 5;
+
 
     @Override
     public Canvas execute(String[] input, Canvas source) throws InvalidInputException {
@@ -35,14 +37,10 @@ public class DrawLineCommand implements Command {
     @Override
     public void validateInput(String[] input) throws InvalidInputException {
 
-        if (input.length < 5) throw new InsufficientParametersException("Please input both start and end coordinates");
+        if (checkInputLength(input, INPUT_LENGTH))
+            throw new InsufficientParametersException("Please input both start and end coordinates");
 
-        for (int i = 1; i < input.length; i++) {
-            if (!StringUtils.isNumeric(input[i]) || Integer.parseInt(input[i]) <= 0) {
-                throw new InvalidInputException("Coordinates must be numbers more than zero");
-            }
-        }
-
+        if (checkInputCoordinates(input)) throw new InvalidInputException("Coordinates must be numbers more than zero");
     }
 
     void validateCoordinates(Coordinate start, Coordinate end, Canvas source) throws InvalidInputException {

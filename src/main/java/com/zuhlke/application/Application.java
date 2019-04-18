@@ -7,7 +7,6 @@ import com.zuhlke.model.Canvas;
 
 import java.util.Scanner;
 
-
 public class Application {
 
     private Canvas canvas;
@@ -15,7 +14,6 @@ public class Application {
     public Canvas run(Canvas source) {
         String[] input;
         String cmd;
-        CommandSupplier supplier = new CommandSupplier();
 
         if (source != null) canvas = new Canvas(source);
 
@@ -28,7 +26,7 @@ public class Application {
 
                 // execute command
                 try {
-                    final Command command = supplier.supplyCommand(cmd);
+                    final Command command = CommandSupplier.supplyCommand(cmd);
                     command.validateInput(input);
                     canvas = command.execute(input, canvas);
                     System.out.println(canvas.toString());

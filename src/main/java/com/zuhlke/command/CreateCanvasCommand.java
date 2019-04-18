@@ -3,9 +3,9 @@ package com.zuhlke.command;
 import com.zuhlke.exception.InsufficientParametersException;
 import com.zuhlke.exception.InvalidInputException;
 import com.zuhlke.model.Canvas;
-import org.apache.commons.lang3.StringUtils;
 
-public class CreateCanvasCommand implements Command {
+public class CreateCanvasCommand extends Command {
+    private final static int INPUT_LENGTH = 3;
 
     @Override
     public Canvas execute(String[] input, Canvas source) {
@@ -19,14 +19,12 @@ public class CreateCanvasCommand implements Command {
     @Override
     public void validateInput(String[] input) throws InvalidInputException {
 
-        if (input.length < 3) throw new InsufficientParametersException("Please input both width and height");
+        if (checkInputLength(input, INPUT_LENGTH))
+            throw new InsufficientParametersException("Please input both width and height");
 
-        for (int i = 1; i < input.length; i++) {
-            // minimum canvas size is 1,1
-            if (!StringUtils.isNumeric(input[i]) || Integer.parseInt(input[i]) <= 0) {
-                throw new InvalidInputException("Width and height be numbers more than zero");
-            }
+        if (checkInputCoordinates(input)) {
+            throw new InvalidInputException("Width and height be numbers more than zero");
         }
-
     }
+
 }

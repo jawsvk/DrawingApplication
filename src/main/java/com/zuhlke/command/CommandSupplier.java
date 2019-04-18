@@ -20,7 +20,7 @@ public class CommandSupplier {
         COMMAND_SUPPLIER = Collections.unmodifiableMap(commands);
     }
 
-    public Command supplyCommand(String code) throws InvalidInputException {
+    public static Command supplyCommand(String code) throws InvalidInputException {
         Supplier<Command> command = COMMAND_SUPPLIER.get(code);
         if (command == null) throw new InvalidInputException("Command not found.");
         return command.get();

@@ -5,11 +5,13 @@ import com.zuhlke.exception.InvalidInputException;
 import com.zuhlke.exception.NoCanvasException;
 import com.zuhlke.model.Canvas;
 import com.zuhlke.model.Coordinate;
-import org.apache.commons.lang3.StringUtils;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
-public class BucketFillCommand implements Command {
+public class BucketFillCommand extends Command {
+
+    private final static int INPUT_LENGTH = 4;
 
     @Override
     public Canvas execute(String[] input, Canvas source) throws InvalidInputException {
@@ -28,13 +30,12 @@ public class BucketFillCommand implements Command {
     @Override
     public void validateInput(String[] input) throws InvalidInputException {
 
-        for (int i = 1; i < input.length - 1; i++) {
-            if (!StringUtils.isNumeric(input[i]) || Integer.parseInt(input[i]) <= 0) {
-                throw new InvalidInputException("Coordinates must be numbers more than zero");
-            }
+        if (checkInputCoordinates(Arrays.copyOfRange(input, 1, INPUT_LENGTH - 1))) {
+            throw new InvalidInputException("Coordinates must be numbers more than zero");
         }
 
-        if (input.length < 4) throw new InsufficientParametersException();
+        if (checkInputLength(input, INPUT_LENGTH)) throw new InsufficientParametersException();
+
         if (input[3].length() > 1) throw new InvalidInputException("Color should only have one character.");
 
     }
