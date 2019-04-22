@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public class CommandSupplier {
-    private static Map<String, Supplier<Command>> COMMAND_SUPPLIER;
+    private static final Map<String, Supplier<Command>> COMMAND_SUPPLIER;
 
     static {
         final Map<String, Supplier<Command>> commands = new HashMap<>();

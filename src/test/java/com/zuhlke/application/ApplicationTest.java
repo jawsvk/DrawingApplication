@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ApplicationTest {
 
@@ -130,7 +129,7 @@ class ApplicationTest {
         app.run(null);
 
         // then
-        assertTrue(result == null);
+        assertNull(result);
 
     }
 
