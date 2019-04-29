@@ -6,14 +6,17 @@ import com.zuhlke.model.Canvas;
 
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class Application {
 
-    private Canvas canvas;
+    private Canvas currentCanvas;
+    private Stack<Canvas> canvasStack;
 
     private final HashMap<String, Command> commandLibrary = new HashMap<>();
 
     public Application() {
+        canvasStack = new Stack<>();
         commandLibrary.put("C", new CreateCanvasCommand());
         commandLibrary.put("L", new DrawLineCommand());
         commandLibrary.put("R", new DrawRectangleCommand());
@@ -24,7 +27,7 @@ public class Application {
         String[] input;
         String cmd;
 
-        if (source != null) canvas = new Canvas(source);
+        if (source != null) currentCanvas = canvasStack.push(source);
 
         try (Scanner scanner = new Scanner(System.in)) {
             do {
@@ -38,8 +41,9 @@ public class Application {
                     try {
                         final Command command = commandLibrary.get(cmd);
                         command.validateInput(input);
-                        canvas = command.execute(input, canvas);
-                        canvas.print();
+                        currentCanvas = command.execute(input, currentCanvas);
+                        canvasStack.push(currentCanvas);
+                        currentCanvas.print();
                     } catch (InvalidInputException e) {
                         System.out.println(e.getMessage());
                         System.out.println("Please try again");
@@ -47,6 +51,15 @@ public class Application {
                         System.out.println(e.getMessage());
 
                     }
+                } else if (cmd.equals("U")) {
+                    if (!canvasStack.empty()) {
+                        canvasStack.pop();
+                        currentCanvas = canvasStack.empty() ? null : canvasStack.peek();
+                    }
+                    if (currentCanvas == null) {
+                        final String linebreak = System.getProperty("line.separator");
+                        System.out.println(linebreak + "Unable to Undo");
+                    } else currentCanvas.print();
                 } else if (!cmd.equals("Q")) {
                     // print out if command is not found
                     System.out.println("Command not found. Please try again.");

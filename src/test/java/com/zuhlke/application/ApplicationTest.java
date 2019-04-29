@@ -77,6 +77,157 @@ class ApplicationTest {
     }
 
     @Test
+    void undo_DrawLineCommand_shouldPrintBlankCanvas() {
+        // given
+        Canvas source = new Canvas(20, 4);
+        String command = "L 1 2 6 2" + br + "U" + br + "Q";
+        sendToInput(command);
+
+        // when
+        app.run(source);
+
+        // then
+        String expected = "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|xxxxxx              |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: ";
+
+
+        assertEquals(expected, outputStream.toString());
+    }
+
+    @Test
+    void undo_DrawRectangleCommand_shouldPrintLinedCanvas() {
+        // given
+        Canvas source = new Canvas(20, 4);
+        String command = "L 1 2 6 2" + br + "R 14 1 18 3" + br + "U" + br + "Q";
+        sendToInput(command);
+
+        // when
+        app.run(source);
+
+        // then
+        String expected = "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|xxxxxx              |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|             xxxxx  |" + br +
+                "|xxxxxx       x   x  |" + br +
+                "|             xxxxx  |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|xxxxxx              |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: ";
+
+        assertEquals(expected, outputStream.toString());
+    }
+
+    @Test
+    void undo_UndoTwoCommands_shouldPrintBlankCanvas() {
+        // given
+        Canvas source = new Canvas(20, 4);
+        String command = "L 1 2 6 2" + br + "R 14 1 18 3" +
+                br + "U" +
+                br + "U" +
+                br + "Q";
+        sendToInput(command);
+
+        // when
+        app.run(source);
+
+        // then
+        String expected = "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|xxxxxx              |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|             xxxxx  |" + br +
+                "|xxxxxx       x   x  |" + br +
+                "|             xxxxx  |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|xxxxxx              |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: ";
+
+        assertEquals(expected, outputStream.toString());
+    }
+
+
+    @Test
+    void undo_UndoTwoCommands_shouldReturnErrorMessage() {
+        // given
+        Canvas source = new Canvas(20, 4);
+        String command = "L 1 2 6 2" +
+                br + "U" +
+                br + "U" +
+                br + "Q";
+        sendToInput(command);
+
+        // when
+        app.run(source);
+
+        // then
+        String expected = "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|xxxxxx              |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "Unable to Undo" + br +
+                "Enter command: ";
+
+        assertEquals(expected, outputStream.toString());
+    }
+
+    @Test
     void checkDrawRectangleCommand() {
         // given
         Canvas source = new Canvas(20, 4);
