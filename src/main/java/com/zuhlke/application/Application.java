@@ -12,11 +12,13 @@ public class Application {
 
     private Canvas currentCanvas;
     private Stack<Canvas> canvasStack;
+    private Stack<Canvas> removedCanvas;
 
     private final HashMap<String, Command> commandLibrary = new HashMap<>();
 
     public Application() {
         canvasStack = new Stack<>();
+        removedCanvas = new Stack<>();
         commandLibrary.put("C", new CreateCanvasCommand());
         commandLibrary.put("L", new DrawLineCommand());
         commandLibrary.put("R", new DrawRectangleCommand());
@@ -49,23 +51,32 @@ public class Application {
                         System.out.println("Please try again");
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
-
                     }
                 } else if (cmd.equals("U")) {
-                    if (!canvasStack.empty()) {
-                        canvasStack.pop();
-                        currentCanvas = canvasStack.empty() ? null : canvasStack.peek();
+                    undo();
+                } else if (cmd.equals("REDO")) {
+                    if (removedCanvas.empty()) {
+                        System.out.println("\r\nLatest command reached");
+                    } else {
+                        currentCanvas = removedCanvas.pop();
+                        currentCanvas.print();
                     }
-                    if (currentCanvas == null) {
-                        final String linebreak = System.getProperty("line.separator");
-                        System.out.println(linebreak + "Unable to Undo");
-                    } else currentCanvas.print();
                 } else if (!cmd.equals("Q")) {
                     // print out if command is not found
                     System.out.println("Command not found. Please try again.");
                 }
             } while (!cmd.equals("Q"));
         }
+    }
+
+    private void undo() {
+        if (!canvasStack.empty()) {
+            removedCanvas.push(canvasStack.pop());
+            currentCanvas = canvasStack.empty() ? null : canvasStack.peek();
+        }
+        if (currentCanvas == null) {
+            System.out.println("\r\nUnable to Undo");
+        } else currentCanvas.print();
     }
 
 

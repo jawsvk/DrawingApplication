@@ -228,6 +228,89 @@ class ApplicationTest {
     }
 
     @Test
+    void redo_redoLineCommands_shouldReturnLinedCanvas() {
+        // given
+        Canvas source = new Canvas(20, 4);
+        String command = "L 1 2 6 2" +
+                br + "U" +
+                br + "REDO" +
+                br + "Q";
+        sendToInput(command);
+
+        // when
+        app.run(source);
+
+        // then
+        String expected = "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|xxxxxx              |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|xxxxxx              |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: ";
+
+        assertEquals(expected, outputStream.toString());
+    }
+
+    @Test
+    void redo_redoTwice_shouldReturnErrorMessage() {
+        // given
+        Canvas source = new Canvas(20, 4);
+        String command = "L 1 2 6 2" +
+                br + "U" +
+                br + "REDO" +
+                br + "REDO" +
+                br + "Q";
+        sendToInput(command);
+
+        // when
+        app.run(source);
+
+        // then
+        String expected = "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|xxxxxx              |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "----------------------" + br +
+                "|                    |" + br +
+                "|xxxxxx              |" + br +
+                "|                    |" + br +
+                "|                    |" + br +
+                "----------------------" + br +
+                "Enter command: " + br +
+                "Latest command reached" + br +
+                "Enter command: ";
+
+        assertEquals(expected, outputStream.toString());
+    }
+
+    @Test
     void checkDrawRectangleCommand() {
         // given
         Canvas source = new Canvas(20, 4);
