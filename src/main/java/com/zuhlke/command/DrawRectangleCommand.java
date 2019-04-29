@@ -31,7 +31,6 @@ public class DrawRectangleCommand extends DrawLineCommand {
 
 
     private Canvas drawSide(Coordinate start, Coordinate end, Canvas source) {
-
         Canvas canvas = new Canvas(source);
         Coordinate x1 = new Coordinate(start.getX(), start.getY());
         Coordinate x2 = new Coordinate(end.getX(), end.getY());

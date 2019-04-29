@@ -9,9 +9,6 @@ import com.zuhlke.model.Coordinate;
 
 public class DrawLineCommand extends Command {
 
-    private final static int INPUT_LENGTH = 5;
-
-
     @Override
     public Canvas execute(String[] input, Canvas source) throws InvalidInputException {
         if (source == null) throw new NoCanvasException();
@@ -36,6 +33,7 @@ public class DrawLineCommand extends Command {
 
     @Override
     public void validateInput(String[] input) throws InvalidInputException {
+        final int INPUT_LENGTH = 5;
 
         if (checkInputLength(input, INPUT_LENGTH))
             throw new InsufficientParametersException("Please input both start and end coordinates");

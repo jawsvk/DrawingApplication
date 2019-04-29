@@ -5,7 +5,6 @@ import com.zuhlke.exception.InvalidInputException;
 import com.zuhlke.model.Canvas;
 
 public class CreateCanvasCommand extends Command {
-    private final static int INPUT_LENGTH = 3;
 
     @Override
     public Canvas execute(String[] input, Canvas source) {
@@ -18,6 +17,7 @@ public class CreateCanvasCommand extends Command {
 
     @Override
     public void validateInput(String[] input) throws InvalidInputException {
+        final int INPUT_LENGTH = 3;
 
         if (checkInputLength(input, INPUT_LENGTH))
             throw new InsufficientParametersException("Please input both width and height");
