@@ -163,19 +163,6 @@ class ApplicationTest {
         assertTrue(outputStream.toString().contains("Command not found"));
     }
 
-    @Test
-    void expectExceptionForOutOfBoundParameters() {
-        // given
-        Canvas source = new Canvas(20, 4);
-        String command = "L 22 2 6 2" + br + "Q";
-        sendToInput(command);
-
-        // when
-        app.run(source);
-
-        // then
-        assertTrue(outputStream.toString().contains("Either Start Point or End Point (or both) are out of bounds"));
-    }
 
     void sendToInput(String command) {
         InputStream is = new ByteArrayInputStream(command.getBytes());

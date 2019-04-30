@@ -138,4 +138,59 @@ class CanvasTest {
         assertEquals(expected, outputStream.toString());
     }
 
+
+    @Test
+    void checkCanvasDrawHorizontalLineToOutOfBounds() {
+        // given
+        Canvas canvas = new Canvas(10, 4);
+        Coordinate start = new Coordinate(1, 2);
+        Coordinate end = new Coordinate(11, 2);
+
+        OutputStream outputStream = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(outputStream);
+        System.setOut(ps);
+
+        // when
+        canvas.drawLine(start, end);
+        canvas.print();
+
+        // then
+        String expected = br +
+                "------------" + br +
+                "|          |" + br +
+                "|xxxxxxxxxx|" + br +
+                "|          |" + br +
+                "|          |" + br +
+                "------------" + br;
+
+        assertEquals(expected, outputStream.toString());
+    }
+
+    @Test
+    void checkCanvasDrawVerticalLineToOutOfBounds() {
+        // given
+        Canvas canvas = new Canvas(10, 4);
+        Coordinate start = new Coordinate(2, 2);
+        Coordinate end = new Coordinate(2, 5);
+
+        OutputStream outputStream = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(outputStream);
+        System.setOut(ps);
+
+        // when
+        canvas.drawLine(start, end);
+        canvas.print();
+
+        // then
+        String expected = br +
+                "------------" + br +
+                "|          |" + br +
+                "| x        |" + br +
+                "| x        |" + br +
+                "| x        |" + br +
+                "------------" + br;
+
+        assertEquals(expected, outputStream.toString());
+    }
+
 }

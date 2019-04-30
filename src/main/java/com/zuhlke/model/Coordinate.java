@@ -13,11 +13,19 @@ public final class Coordinate {
         return y;
     }
 
-    public int addX(int i) {
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    void setY(int y) {
+        this.y = y;
+    }
+
+    int addX(int i) {
         return this.x = this.x + i;
     }
 
-    public int addY(int i) {
+    int addY(int i) {
         return this.y = this.y + i;
     }
 

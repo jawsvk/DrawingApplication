@@ -10,10 +10,10 @@ public class Canvas {
     public Canvas(Canvas canvas) {
         this.row = canvas.getRow();
         this.column = canvas.getColumn();
-        this.base = new Character[row][column];
+        this.base = new Character[row + 2][column + 2];
 
-        for (int i = 0; i < row; i++) {
-            System.arraycopy(canvas.getBase()[i], 0, base[i], 0, column);
+        for (int i = 0; i < row + 2; i++) {
+            System.arraycopy(canvas.getBase()[i], 0, base[i], 0, column + 2);
         }
     }
 
@@ -26,9 +26,9 @@ public class Canvas {
     }
 
     public Canvas(int x, int y) {
-        this.column = x + 2;
-        this.row = y + 2;
-        this.base = new Character[row][column];
+        this.column = x;
+        this.row = y;
+        this.base = new Character[row + 2][column + 2];
         makeOutline();
     }
 
@@ -70,11 +70,11 @@ public class Canvas {
 
     // check if a coordinate lies within canvas
     public boolean isValidPoint(Coordinate point) {
-        return (point.getX() >= 1 && point.getX() < column - 1 && point.getY() >= 1 && point.getY() < row - 1);
+        return (point.getX() >= 1 && point.getX() <= column && point.getY() >= 1 && point.getY() <= row);
     }
 
     public void print() {
-        for (int i = 0; i < row; i++) {
+        for (int i = 0; i < row + 2; i++) {
             System.out.println();
             for (Character c : base[i]) System.out.print(c);
         }
@@ -82,6 +82,9 @@ public class Canvas {
     }
 
     public void drawLine(Coordinate start, Coordinate end) {
+
+        setValidCoordinate(end);
+        setValidCoordinate(start);
         Coordinate diff = end.getDistance(start);
         Coordinate point;
 
@@ -100,5 +103,12 @@ public class Canvas {
             if (diff.getY() == 0) point.addX(1);
         }
 
+    }
+
+    private void setValidCoordinate(Coordinate point) {
+        point.setX(point.getX() < 1 ? 1 : point.getX());
+        point.setY(point.getY() < 1 ? 1 : point.getY());
+        point.setX(point.getX() > column ? column : point.getX());
+        point.setY(point.getY() > row ? row : point.getY());
     }
 }

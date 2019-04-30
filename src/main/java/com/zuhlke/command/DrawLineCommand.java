@@ -19,8 +19,6 @@ public class DrawLineCommand implements Command {
         Coordinate endPt = new Coordinate(Integer.parseInt((input[3])), Integer.parseInt((input[4])));
         Coordinate diff = endPt.getDistance(startPt);
 
-        // check that coordinates are valid
-        validateCoordinates(startPt, endPt, canvas);
 
         // check that end points form a vertical/horizontal line
         if (diff.getX() != 0 && diff.getY() != 0) {
@@ -44,14 +42,5 @@ public class DrawLineCommand implements Command {
         }
 
     }
-
-    void validateCoordinates(Coordinate start, Coordinate end, Canvas source) throws InvalidInputException {
-
-        // check that start point and end point is within the canvas
-        if (!source.isValidPoint(start) || !source.isValidPoint(end)) {
-            throw new InvalidInputException("Either Start Point or End Point (or both) are out of bounds");
-        }
-    }
-
 
 }

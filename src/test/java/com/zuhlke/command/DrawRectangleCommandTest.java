@@ -3,10 +3,7 @@ package com.zuhlke.command;
 import com.zuhlke.exception.InsufficientParametersException;
 import com.zuhlke.exception.InvalidInputException;
 import com.zuhlke.model.Canvas;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
@@ -48,6 +45,30 @@ class DrawRectangleCommandTest {
                 "|             x   x  |" + br +
                 "|             xxxxx  |" + br +
                 "|                    |" + br +
+                "----------------------" + br;
+
+        assertEquals(expected, outputStream.toString());
+
+    }
+
+    @Test
+    @Disabled
+    void drawRectangleToOutOfBoundImageTest() throws InvalidInputException {
+        // given
+        Canvas canvas = new Canvas(20, 4);
+        String command = "R 14 1 22 6";
+
+        // when
+        canvas = subject.execute(command.split("\\s"), canvas);
+        canvas.print();
+
+        // then
+        String expected = br +
+                "----------------------" + br +
+                "|             xxxxxxx|" + br +
+                "|             x      |" + br +
+                "|             x      |" + br +
+                "|             x      |" + br +
                 "----------------------" + br;
 
         assertEquals(expected, outputStream.toString());
